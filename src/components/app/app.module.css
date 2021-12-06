@@ -11,6 +11,6 @@
 .app__constructor {
     display: flex;
     flex-direction: row;
-    align-items: center;
+    align-items: start;
     justify-content: center;
 }
