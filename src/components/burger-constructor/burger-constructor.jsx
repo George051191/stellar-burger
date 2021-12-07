@@ -2,7 +2,7 @@ import consructorStyles from './burger-constructor.module.css';
 import { ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-components';
 import { ConstructorItem } from '../constructor-item/constructor-item';
 import { OrderRegistration } from '../order-registration/order-registration';
-
+import PropTypes from 'prop-types';
 
 export function BurgerConstructor(props) {
     return (
@@ -15,17 +15,21 @@ export function BurgerConstructor(props) {
                     </ConstructorItem>))}
             </ul>
             <ConstructorElement type="bottom" isLocked={true} text="Краторная булка N-200i (низ)" price={200} thumbnail={"https://code.s3.yandex.net/react/code/bun-02.png"} />
-            <OrderRegistration styles={`mt-10 ${consructorStyles.burgerconstructor__cost}`} cost={610}/>
-
-
-
-
-
-
+            <OrderRegistration styles={`mt-10 ${consructorStyles.burgerconstructor__cost}`} cost={610} />
         </div>
+    )
+}
 
 
 
+BurgerConstructor.propTypes={
+    staff: PropTypes.arrayOf(
+        PropTypes.shape({
+            _id: PropTypes.string,
+            name: PropTypes.string,
+            image_mobile: PropTypes.string,
+            price: PropTypes.number,
+        })
 
     )
 }
