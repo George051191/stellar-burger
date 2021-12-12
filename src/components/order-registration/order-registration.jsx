@@ -9,7 +9,7 @@ export function OrderRegistration(props) {
 
       <img src={image} alt='icon' />
       <div className='ml-10'>
-        <Button type="primary" size="large">Оформить заказ</Button>
+        <Button type="primary" size="large" onClick={props.clickHandler}>Оформить заказ</Button>
       </div>
     </div>
 

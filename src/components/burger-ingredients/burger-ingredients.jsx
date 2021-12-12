@@ -3,15 +3,15 @@ import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import ingredientsStyles from './burger-ingredients.module.css';
 import { IngredientType } from '../ingredient-type/ingredient-type';
 import PropTypes from 'prop-types';
-
-
+import { Modal } from "../modal/modal";
+import { IngredientDetails } from "../ingredient-details/ingredient-details";
 
 export function BurgerIngredients(props) {
   const [current, setCurrent] = React.useState('Булки')
   const bunsRef = React.useRef();
   const soucesRef = React.useRef();
   const fillingsRef = React.useRef();
-
+  console.log(props)
   ///вычисляем где сейчас находится скролл и подсвечиваем нужный Tab
   function determineElementPosition(e) {
     const scrollPosition = e.target.scrollTop;
@@ -49,17 +49,17 @@ export function BurgerIngredients(props) {
         </li>
       </ul>
       <div className={ingredientsStyles.burger__ingredients} onScroll={e => { determineElementPosition(e) }}>
-        <IngredientType ingredientName='Булки' data={props.data} ref={bunsRef} />
-        <IngredientType ingredientName='Соусы' data={props.souce} ref={soucesRef} />
-        <IngredientType ingredientName='Начинки' data={props.into} ref={fillingsRef} />
+        <IngredientType ingredientName='Булки' data={props.buns} ref={bunsRef} selectItem={props.selectItem} isClicked={props.isClicked} closeModal={props.closeModal} />
+        <IngredientType ingredientName='Соусы' data={props.souce} ref={soucesRef} selectItem={props.selectItem} isClicked={props.isClicked} closeModal={props.closeModal} />
+        <IngredientType ingredientName='Начинки' data={props.filling} ref={fillingsRef} selectItem={props.selectItem} isClicked={props.isClicked} closeModal={props.closeModal} />
       </div>
-
+      {props.isClicked && <Modal headerText={'Детали ингридиента'} modalStyles={`text text_type_main-large`} modalHeaderStyles={`${ingredientsStyles.modal__header} mt-10 mr-10 ml-10`} closeModal={props.closeModal}><IngredientDetails {...props.ingredients} /></Modal>}
     </div>
   )
 }
 
 BurgerIngredients.propTypes = {
-  data: PropTypes.arrayOf(
+  buns: PropTypes.arrayOf(
     PropTypes.shape({
       _id: PropTypes.string,
       name: PropTypes.string,
@@ -75,7 +75,7 @@ BurgerIngredients.propTypes = {
       price: PropTypes.number,
     })
   ),
-  into: PropTypes.arrayOf(
+  filling: PropTypes.arrayOf(
     PropTypes.shape({
       _id: PropTypes.string,
       name: PropTypes.string,
@@ -84,3 +84,12 @@ BurgerIngredients.propTypes = {
     })
   )
 }
+
+
+/**
+ * currentSelect
+ *
+ *Image={props.ingredients.image_mobile} fat={props.ingredients.fat} calories={props.ingredients.calories} carbohydrates={props.ingredients.carbohydrates} proteins={props.ingredients.proteins} key={props.ingredients._id} image={props.ingredients.image} description={props.ingredients.name} cost={props.ingredients.price} name={props.ingredients.name}
+ *
+ * largeImage={props.image_mobile} fat={props.fat} calories={props.calories} carbohydrates={props.carbohydrates} proteins={props.proteins} key={props._id} image={props.image} description={props.name} cost={props.price} name={props.name} />
+ */

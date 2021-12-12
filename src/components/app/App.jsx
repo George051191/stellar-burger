@@ -6,12 +6,38 @@ import { BurgerConstructor } from '../burger-constructor/burger-constructor';
 import { burgerIngredientsUrl } from '../utils';
 import { Modal } from '../modal/modal';
 import { ModalOverlay } from '../modal-overlay/modal-overlay';
+import { OrderDetails } from '../order-details/order-details';
 
 function App() {
   const [bunsData, setBunsData] = React.useState([]);
   const [souceData, setSouceData] = React.useState([]);
   const [fillingData, setFillingData] = React.useState([]);
   const [burgerIngredientData, setBurgerData] = React.useState([]);
+  const [currentSelect, setCurrentSelect] = React.useState([]);
+  const [isClicked, setButtonState] = React.useState(false);
+  const [isSelected, setSelect] = React.useState(false)
+  console.log(currentSelect)
+  ///открытие попапа с инфо об ингридиенте
+  function selectIngredient(e) {
+    setSelect(true);
+    const curentIngredientData = burgerIngredientData.filter(item => {
+      return item.name === e.currentTarget.id
+    })
+    setCurrentSelect(curentIngredientData);
+  }
+
+  function closeIngredientPopup() {
+    setSelect(false)
+  }
+
+  ///открытие и закрытие попапа с инфо заказа
+  function openPopup() {
+    setButtonState(true)
+  }
+
+  function closePopup() {
+    setButtonState(false)
+  }
 
 
   React.useEffect(() => {
@@ -39,11 +65,9 @@ function App() {
       <AppHeader />
       <main className={styles.app}>
         <section className={styles.app__constructor}>
-          <BurgerIngredients data={bunsData} souce={souceData} into={fillingData} />
-          <BurgerConstructor staff={burgerIngredientData} />
-
+          <BurgerIngredients ingredients={currentSelect[0]} buns={bunsData} souce={souceData} filling={fillingData} isClicked={isSelected} selectItem={selectIngredient} closeModal={closeIngredientPopup} />
+          <BurgerConstructor makeOrder={openPopup} isClicked={isClicked} staff={burgerIngredientData} closeByClick={closePopup} />
         </section>
-
       </main>
     </>
   )

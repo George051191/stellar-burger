@@ -1,9 +1,9 @@
 import overlayStyles from './modal-overlay.module.css';
+import React from 'react';
 
-export function ModalOverlay(props) {
+export const ModalOverlay = React.forwardRef((props, ref) => {
   return (
-    <div className={overlayStyles.overlay}>
-      {props.children}
+    <div ref={ref} className={overlayStyles.overlay}>
     </div>
   )
-}
+})
