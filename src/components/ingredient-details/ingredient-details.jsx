@@ -1,7 +1,8 @@
 import ingredientModalStyles from './ingredient-details.module.css';
+import PropTypes from 'prop-types'
 
 export function IngredientDetails(props) {
-  console.log(props)
+
   return (
     <div className={`${ingredientModalStyles.modal__conteiner} mb-15`}>
       <img src={props.image} alt={props.name} className={`${ingredientModalStyles.modal__image} mb-4`} />
@@ -28,3 +29,12 @@ export function IngredientDetails(props) {
 
   )
 }
+
+IngredientDetails.propTypes = PropTypes.shape({
+  name: PropTypes.string.isRequired,
+  image: PropTypes.string.isRequired,
+  proteins: PropTypes.number.isRequired,
+  fat: PropTypes.number.isRequired,
+  carbohydrates: PropTypes.number.isRequired,
+  calories: PropTypes.number.isRequired
+}).isRequired

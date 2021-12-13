@@ -3,7 +3,7 @@ import { AppHeader } from '../app-header/app-header';
 import styles from './app.module.css'
 import { BurgerIngredients } from '../burger-ingredients/burger-ingredients'
 import { BurgerConstructor } from '../burger-constructor/burger-constructor';
-import { burgerIngredientsUrl } from '../utils';
+import { burgerIngredientsUrl, checkResponse } from '../utils/utils';
 
 
 function App() {
@@ -11,16 +11,16 @@ function App() {
   const [souceData, setSouceData] = React.useState([]);
   const [fillingData, setFillingData] = React.useState([]);
   const [burgerIngredientData, setBurgerData] = React.useState([]);
+  const [fullBurgerData, setFullBurgerData] = React.useState([]);
   ///сохранаем здесь элемент ингридиента  по которому кликнули
   const [currentSelect, setCurrentSelect] = React.useState([]);
-
   const [isClicked, setButtonState] = React.useState(false);
   const [isSelected, setSelect] = React.useState(false)
 
   ///открытие попапа с инфо об ингридиенте
   function selectIngredient(e) {
     setSelect(true);
-    const curentIngredientData = burgerIngredientData.filter(item => {
+    const curentIngredientData = fullBurgerData.filter(item => {
       return item.name === e.currentTarget.id
     })
     setCurrentSelect(curentIngredientData);
@@ -43,11 +43,11 @@ function App() {
   React.useEffect(() => {
     function getBurgerData() {
       fetch(burgerIngredientsUrl)
+        .then(checkResponse)
         .then((res) => {
-          return res.json();
-        })
-        .then((res) => {
-          setBurgerData(res.data);
+          setFullBurgerData(res.data);
+          const filteredFromBunsIngredients = res.data.filter(item => { return item.type !== 'bun' });
+          setBurgerData(filteredFromBunsIngredients);
           const newBuns = res.data.filter(element => { return element.type === 'bun'; });
           setBunsData(newBuns);
           const newSouces = res.data.filter(element => { return element.type === 'sauce'; });

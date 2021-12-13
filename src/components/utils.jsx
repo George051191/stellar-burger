@@ -1,1 +1,0 @@
-export const burgerIngredientsUrl='https://norma.nomoreparties.space/api/ingredients';

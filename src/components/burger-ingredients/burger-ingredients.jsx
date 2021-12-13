@@ -2,17 +2,17 @@ import React from "react";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import ingredientsStyles from './burger-ingredients.module.css';
 import { IngredientType } from '../ingredient-type/ingredient-type';
-import PropTypes from 'prop-types';
 import { Modal } from "../modal/modal";
 import { IngredientDetails } from "../ingredient-details/ingredient-details";
+import { ingredientsPropTypes } from "../utils/type";
 
 export function BurgerIngredients(props) {
   const [current, setCurrent] = React.useState('Булки')
   const bunsRef = React.useRef();
   const soucesRef = React.useRef();
   const fillingsRef = React.useRef();
-  console.log(props)
-  ///вычисляем где сейчас находится скролл и подсвечиваем нужный Tab
+
+  ///вычисляем где сейчас находится скролл и подсвечиваем нужный Tabn
   function determineElementPosition(e) {
     const scrollPosition = e.target.scrollTop;
     const positionOfSouceContainer = soucesRef.current.offsetTop;
@@ -49,9 +49,9 @@ export function BurgerIngredients(props) {
         </li>
       </ul>
       <div className={ingredientsStyles.burger__ingredients} onScroll={e => { determineElementPosition(e) }}>
-        <IngredientType ingredientName='Булки' data={props.buns} ref={bunsRef} selectItem={props.selectItem} isClicked={props.isClicked} closeModal={props.closeModal} />
-        <IngredientType ingredientName='Соусы' data={props.souce} ref={soucesRef} selectItem={props.selectItem} isClicked={props.isClicked} closeModal={props.closeModal} />
-        <IngredientType ingredientName='Начинки' data={props.filling} ref={fillingsRef} selectItem={props.selectItem} isClicked={props.isClicked} closeModal={props.closeModal} />
+        <IngredientType ingredientName='Булки' data={props.buns} ref={bunsRef} selectItem={props.selectItem} />
+        <IngredientType ingredientName='Соусы' data={props.souce} ref={soucesRef} selectItem={props.selectItem} />
+        <IngredientType ingredientName='Начинки' data={props.filling} ref={fillingsRef} selectItem={props.selectItem} />
       </div>
       {props.isClicked && <Modal headerText={'Детали ингридиента'} modalStyles={`text text_type_main-large`} modalHeaderStyles={`${ingredientsStyles.modal__header} mt-10 mr-10 ml-10`} closeModal={props.closeModal}><IngredientDetails {...props.ingredients} /></Modal>}
     </div>
@@ -59,30 +59,9 @@ export function BurgerIngredients(props) {
 }
 
 BurgerIngredients.propTypes = {
-  buns: PropTypes.arrayOf(
-    PropTypes.shape({
-      _id: PropTypes.string,
-      name: PropTypes.string,
-      image_mobile: PropTypes.string,
-      price: PropTypes.number,
-    })
-  ),
-  souce: PropTypes.arrayOf(
-    PropTypes.shape({
-      _id: PropTypes.string,
-      name: PropTypes.string,
-      image_mobile: PropTypes.string,
-      price: PropTypes.number,
-    })
-  ),
-  filling: PropTypes.arrayOf(
-    PropTypes.shape({
-      _id: PropTypes.string,
-      name: PropTypes.string,
-      image_mobile: PropTypes.string,
-      price: PropTypes.number,
-    })
-  )
+  buns: ingredientsPropTypes.isRequired,
+  souce: ingredientsPropTypes.isRequired,
+  filling: ingredientsPropTypes.isRequired
 }
 
 
