@@ -4,7 +4,7 @@ import { ConstructorItem } from '../constructor-item/constructor-item';
 import { OrderRegistration } from '../order-registration/order-registration';
 import PropTypes from 'prop-types';
 import { Modal } from '../modal/modal';
-
+import { ingredientsPropTypes } from '../utils/type';
 import React from 'react';
 import { OrderDetails } from '../order-details/order-details';
 
@@ -31,13 +31,5 @@ export function BurgerConstructor(props) {
 
 
 BurgerConstructor.propTypes = {
-  staff: PropTypes.arrayOf(
-    PropTypes.shape({
-      _id: PropTypes.string,
-      name: PropTypes.string,
-      image_mobile: PropTypes.string,
-      price: PropTypes.number,
-    })
-
-  )
+  staff: ingredientsPropTypes.isRequired
 }
