@@ -1,14 +1,10 @@
 import orderDetailsStyles from './order-details.module.css';
 import orderDoneImage from '../../images/done.svg';
-import { CloseIcon } from '@ya.praktikum/react-developer-burger-ui-components';
-import { useEffect } from 'react';
+
 
 export function OrderDetails(props) {
-
-
   return (
     <div className={`${orderDetailsStyles.order__conteiner} mt-30 mb-30`}>
-
       <h3 className='mb-8 text text_type_digits-large'>034536</h3>
       <span className='text text_type_main-medium mb-15'>идентификатор заказа</span>
       <img src={orderDoneImage} alt='готово' />

@@ -4,13 +4,11 @@ import { ConstructorItem } from '../constructor-item/constructor-item';
 import { OrderRegistration } from '../order-registration/order-registration';
 import PropTypes from 'prop-types';
 import { Modal } from '../modal/modal';
-import { ModalOverlay } from '../modal-overlay/modal-overlay';
+
 import React from 'react';
 import { OrderDetails } from '../order-details/order-details';
 
 export function BurgerConstructor(props) {
-
-
 
   return (
     <div className={`pl-4   ml-10 pt-25 ${consructorStyles.burgerconstructor__conteiner}`}>

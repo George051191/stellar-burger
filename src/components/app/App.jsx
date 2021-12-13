@@ -4,19 +4,19 @@ import styles from './app.module.css'
 import { BurgerIngredients } from '../burger-ingredients/burger-ingredients'
 import { BurgerConstructor } from '../burger-constructor/burger-constructor';
 import { burgerIngredientsUrl } from '../utils';
-import { Modal } from '../modal/modal';
-import { ModalOverlay } from '../modal-overlay/modal-overlay';
-import { OrderDetails } from '../order-details/order-details';
+
 
 function App() {
   const [bunsData, setBunsData] = React.useState([]);
   const [souceData, setSouceData] = React.useState([]);
   const [fillingData, setFillingData] = React.useState([]);
   const [burgerIngredientData, setBurgerData] = React.useState([]);
+  ///сохранаем здесь элемент ингридиента  по которому кликнули
   const [currentSelect, setCurrentSelect] = React.useState([]);
+
   const [isClicked, setButtonState] = React.useState(false);
   const [isSelected, setSelect] = React.useState(false)
-  console.log(currentSelect)
+
   ///открытие попапа с инфо об ингридиенте
   function selectIngredient(e) {
     setSelect(true);

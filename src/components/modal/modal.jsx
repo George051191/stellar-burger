@@ -7,18 +7,17 @@ import { useEffect } from "react";
 
 export function Modal(props) {
   const modalRef = React.useRef();
-
   const modalRoot = document.getElementById('modal-root');
 
+  ///закрытие попапа по нажатию на Esc
   function closeByEsc(evt) {
     evt.key === 'Escape' && props.closeModal()
   }
+  ///закрытие попапа по нажатию на оверлей
   function closeByClickOverlay(evt) {
     evt.target === modalRef.current && props.closeModal()
 
   }
-
-
 
   useEffect(() => {
     document.addEventListener('keydown', closeByEsc)
@@ -28,9 +27,6 @@ export function Modal(props) {
 
     }
   })
-
-
-
 
   return ReactDOM.createPortal(
     (<div className={popupStyles.popup} onClick={(evt) => { closeByClickOverlay(evt) }} >

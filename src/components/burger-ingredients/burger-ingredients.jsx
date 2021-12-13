@@ -86,10 +86,3 @@ BurgerIngredients.propTypes = {
 }
 
 
-/**
- * currentSelect
- *
- *Image={props.ingredients.image_mobile} fat={props.ingredients.fat} calories={props.ingredients.calories} carbohydrates={props.ingredients.carbohydrates} proteins={props.ingredients.proteins} key={props.ingredients._id} image={props.ingredients.image} description={props.ingredients.name} cost={props.ingredients.price} name={props.ingredients.name}
- *
- * largeImage={props.image_mobile} fat={props.fat} calories={props.calories} carbohydrates={props.carbohydrates} proteins={props.proteins} key={props._id} image={props.image} description={props.name} cost={props.price} name={props.name} />
- */
