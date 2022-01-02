@@ -11,7 +11,7 @@ export const IngredientType = React.forwardRef((props, ref) => {
     <>
       <h2 ref={ref} className='text text_type_main-medium mb-6'>{props.ingredientName}</h2>
       <ul className={`pl-4 pr-4 mb-10 ${сolumnsStyle.column}`}>
-        {props.data.map(item => (
+        {props.data && props.data.map(item => (
           <Ingredient key={item._id} image={item.image} description={item.name} cost={item.price} name={item.name} select={props.selectItem} />
         ))
         }
@@ -20,8 +20,9 @@ export const IngredientType = React.forwardRef((props, ref) => {
   )
 })
 
-IngredientType.propTypes = {
+/*IngredientType.propTypes = {
   ingredientName: PropTypes.string.isRequired,
   selectItem: PropTypes.func.isRequired,
   data: ingredientsPropTypes.isRequired
 }
+*/

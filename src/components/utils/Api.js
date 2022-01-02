@@ -25,6 +25,14 @@ class Api {
         }).then(this._checkResponse)
     }
 
+    getOrderNumber(arrayOfId) {
+        return fetch(`${this._url}orders`, {
+            method: 'POST',
+            headers: this._headers,
+            body: JSON.stringify({ "ingredients": arrayOfId })
+        }).then(this._checkResponse);
+    }
+
 
 
 
