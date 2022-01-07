@@ -1,4 +1,4 @@
-import { BURGER_DATA_REQUEST, BURGER_DATA_SUCCESS, BURGER_DATA_ERROR } from "../actions/burger-ingredients";
+import { BURGER_DATA_REQUEST, BURGER_DATA_SUCCESS, BURGER_DATA_ERROR, CHANGE_POSITION } from "../actions/burger-ingredients";
 
 const initialState = {
     ingredients: [],
@@ -32,6 +32,7 @@ export const burgerDataReducer = (state = initialState, action) => {
                 dataRequest: false,
                 dataRequestFailed: true
             };
+
         default:
             return {...state };
     }

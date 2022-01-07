@@ -8,9 +8,10 @@ import { useSelector, useDispatch } from 'react-redux';
 import { CLICK_ON_CLOSE_BUTTON } from "../../services/actions/ingredient";
 
 
+
 export function BurgerIngredients() {
-  const { currentItem, itemIsClicked } = useSelector(store => store.currentSelect)
-  const { buns, souces, fillings } = useSelector(store => store.burgerData)
+  const { currentItem, itemIsClicked } = useSelector(store => store.currentSelect);
+  const { buns, souces, fillings } = useSelector(store => store.burgerData);
 
   const dispatch = useDispatch();
   const [current, setCurrent] = React.useState('Булки')
