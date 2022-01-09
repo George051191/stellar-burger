@@ -11,7 +11,7 @@ import { CLICK_ON_CLOSE_BUTTON } from "../../services/actions/ingredient";
 
 export function BurgerIngredients() {
   const { currentItem, itemIsClicked } = useSelector(store => store.currentSelect);
-  const { buns, souces, fillings } = useSelector(store => store.burgerData);
+  const { ingredients } = useSelector(store => store.burgerData);
 
   const dispatch = useDispatch();
   const [current, setCurrent] = React.useState('Булки')
@@ -56,9 +56,9 @@ export function BurgerIngredients() {
         </li>
       </ul>
       <div className={ingredientsStyles.burger__ingredients} onScroll={e => { determineElementPosition(e) }}>
-        <IngredientType ingredientName='Булки' data={buns} ref={bunsRef} />
-        <IngredientType ingredientName='Соусы' data={souces} ref={soucesRef} />
-        <IngredientType ingredientName='Начинки' data={fillings} ref={fillingsRef} />
+        <IngredientType ingredientName='Булки' data={ingredients.filter(item => item.type === 'bun')} ref={bunsRef} />
+        <IngredientType ingredientName='Соусы' data={ingredients.filter(item => item.type === 'sauce')} ref={soucesRef} />
+        <IngredientType ingredientName='Начинки' data={ingredients.filter(item => item.type === 'main')} ref={fillingsRef} />
       </div>
       {itemIsClicked && <Modal headerText={'Детали ингридиента'} modalStyles={`text text_type_main-large`} modalHeaderStyles={`${ingredientsStyles.modal__header} mt-10 mr-10 ml-10`} closeModal={() => { dispatch({ type: CLICK_ON_CLOSE_BUTTON }) }}><IngredientDetails {...currentItem} /></Modal>}
     </div>

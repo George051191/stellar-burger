@@ -1,4 +1,4 @@
-import { ADD_ITEM, DELETE_BUN, ADD_BUN, DELETE_INGREDIENT } from "../actions/burger-consructor";
+import { ADD_ITEM, DELETE_BUN, ADD_BUN, DELETE_INGREDIENT, SET_BUN_AMMOUNT, CHANGE_POSITION_1, CHANGE_POSITION_2 } from "../actions/burger-consructor";
 
 const constructorInitialState = {
     elements: [],
@@ -11,7 +11,7 @@ export const constructorReducer = (state = constructorInitialState, action) => {
         case ADD_BUN:
             return {
                 ...state,
-                bun: action.bunItem ? action.bunItem : state.bun
+                bun: action.bunItem ? {...action.bunItem, amount: 1 } : state.bun
             }
         case ADD_ITEM:
             return {
@@ -23,6 +23,18 @@ export const constructorReducer = (state = constructorInitialState, action) => {
                 ...state,
                 elements: [...state.elements].filter(item => { return item.uid !== action.id })
             }
+        case CHANGE_POSITION_1:
+            return {
+                ...state,
+                elements: [...state.elements].splice(action.dragIndex, 1)
+            }
+        case CHANGE_POSITION_2:
+            return {
+                ...state,
+                elements: [...state.elements].splice(action.hoverIndex, 1, action.item)
+            }
+
+
         default:
             return {...state }
 

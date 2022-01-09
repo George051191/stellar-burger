@@ -2,3 +2,6 @@ export const ADD_ITEM = 'ADD_ITEM';
 export const DELETE_BUN = 'DELETE_BUN';
 export const ADD_BUN = 'ADD_BUN';
 export const DELETE_INGREDIENT = 'DELETE_INGREDIENT';
+export const SET_BUN_AMMOUNT = 'SET_BUN_AMMOUNT';
+export const CHANGE_POSITION_1 = 'CHANGE_POSITION';
+export const CHANGE_POSITION_2 = 'CHANGE_POSITION_2';

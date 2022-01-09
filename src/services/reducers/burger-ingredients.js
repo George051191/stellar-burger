@@ -1,10 +1,7 @@
-import { BURGER_DATA_REQUEST, BURGER_DATA_SUCCESS, BURGER_DATA_ERROR, CHANGE_POSITION } from "../actions/burger-ingredients";
+import { BURGER_DATA_REQUEST, BURGER_DATA_SUCCESS, BURGER_DATA_ERROR, CHANGE_POSITION, ADD_AMMOUNT, DECREASE_AMOUNT, SET_BUN_AMMOUNT, DECREASE_BUN_AMMOUNT } from "../actions/burger-ingredients";
 
 const initialState = {
     ingredients: [],
-    buns: [],
-    souces: [],
-    fillings: [],
     dataRequest: false,
     dataRequestFailed: false
 }
@@ -20,10 +17,7 @@ export const burgerDataReducer = (state = initialState, action) => {
         case BURGER_DATA_SUCCESS:
             return {
                 ...state,
-                ingredients: action.data,
-                buns: action.buns,
-                souces: action.souces,
-                fillings: action.fillings,
+                ingredients: action.data.map(item => { return {...item, amount: 0 } }),
                 dataRequest: false
             };
         case BURGER_DATA_ERROR:
@@ -32,6 +26,22 @@ export const burgerDataReducer = (state = initialState, action) => {
                 dataRequest: false,
                 dataRequestFailed: true
             };
+        case ADD_AMMOUNT:
+            return {
+                ...state,
+                ingredients: [...state.ingredients].map(item => {
+                    return item._id === action.id && item.type !== 'bun' ? {...item, amount: item.amount + 1 } : item
+                })
+            }
+        case DECREASE_AMOUNT:
+            return {
+                ...state,
+                ingredients: [...state.ingredients].map(item => {
+                    return item._id === action.id ? {...item, amount: item.amount - 1 } : item
+                })
+            }
+
+
 
         default:
             return {...state };
