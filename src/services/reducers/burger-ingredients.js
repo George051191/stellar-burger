@@ -1,11 +1,10 @@
-import { BURGER_DATA_REQUEST, BURGER_DATA_SUCCESS, BURGER_DATA_ERROR, CHANGE_POSITION, ADD_AMMOUNT, DECREASE_AMOUNT, SET_BUN_AMMOUNT, DECREASE_BUN_AMMOUNT } from "../actions/burger-ingredients";
+import { BURGER_DATA_REQUEST, BURGER_DATA_SUCCESS, BURGER_DATA_ERROR, ADD_AMMOUNT, DECREASE_AMOUNT } from "../actions/burger-ingredients";
 
 const initialState = {
     ingredients: [],
     dataRequest: false,
     dataRequestFailed: false
 }
-
 
 export const burgerDataReducer = (state = initialState, action) => {
     switch (action.type) {
@@ -40,9 +39,6 @@ export const burgerDataReducer = (state = initialState, action) => {
                     return item._id === action.id ? {...item, amount: item.amount - 1 } : item
                 })
             }
-
-
-
         default:
             return {...state };
     }

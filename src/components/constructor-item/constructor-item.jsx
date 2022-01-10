@@ -2,70 +2,58 @@ import React from 'react';
 import { DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import itemStyles from './constructor-item.module.css';
 import { useDrag, useDrop } from 'react-dnd';
-import { CHANGE_POSITION_1, CHANGE_POSITION_2 } from '../../services/actions/burger-consructor';
+import { REORDER_INGREDIENTS } from '../../services/actions/burger-consructor';
 import { useDispatch, useSelector } from 'react-redux';
+import PropTypes from 'prop-types';
 
 
 export function ConstructorItem(props) {
-  const { elements } = useSelector(store => store.constructorState)
+  const { elements } = useSelector(store => store.constructorState);
   const ref = React.useRef();
   const dispatch = useDispatch();
 
-  const { id } = props;
-  const [{ isDrag }, drag] = useDrag({
+  function moveCard(dragIndex, hoverIndex) {
+    let newCards = [...elements];
+    let dragCard = newCards[dragIndex];
+    newCards.splice(dragIndex, 1);
+    newCards.splice(hoverIndex, 0, dragCard);
+    dispatch({ type: REORDER_INGREDIENTS, data: newCards });
+  }
+
+  const { id, index } = props;
+  const [{ opacity }, drag] = useDrag({
     type: 'element',
-    item: { id },
+    item: { id, index },
     collect: monitor => ({
-      isDrag: monitor.isDragging()
+      opacity: monitor.isDragging() ? 0.5 : 1
     })
   })
 
-  const [{ handlerId }, drop] = useDrop({
+  const [, drop] = useDrop({
     accept: 'element',
-    collect: monitor => ({ handlerId: monitor.getHandlerId(), }),
-    hover(itemId) {
+    hover(item) {
+      if (item.index === index) {
+        return;
+      }
       if (!ref.current) {
         return;
       }
-      const dragIndex = itemId.id;
-      const hoverIndex = id;
-
-      if (dragIndex === hoverIndex) {
-        return;
-      }
-
-      dispatch({ type: CHANGE_POSITION_1, dragIndex: dragIndex })
-      dispatch({ type: CHANGE_POSITION_2, hoverIndex: hoverIndex, item: elements[dragIndex] })
-
-      itemId.id = hoverIndex;
+      moveCard(item.index, index);
+      item.index = index
     }
-
   })
 
-  drag(drop(ref));
+  drag(drop(ref))
 
   return (
-
-    <li ref={ref} className={`mt-4 ${itemStyles.constructoritem__element}`}>
+    <li ref={ref} index={index} className={`mt-4 ${itemStyles.constructoritem__element}`} style={{ opacity }}>
       <DragIcon type='primary' />
       {props.children}
     </li>
   )
 }
 
-
-/**
- *  function moveIngredient() {
-
-        let currentDragItem = newIngredientArray[dragIndex];
-
-        newIngredientArray.splice(dragIndex, 1);
-
-        newIngredientArray.splice(hoverIndex, 0, currentDragItem);
-        dispatch({ type: CHANGE_POSITION, drag: newIngredientArray })
-      }
-      moveIngredient();
- *
- *
- *
- */
+ConstructorItem.propTypes = {
+  id: PropTypes.number.isRequired,
+  index: PropTypes.number.isRequired
+}
