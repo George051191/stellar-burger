@@ -3,7 +3,7 @@ import { ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-comp
 import { ConstructorItem } from '../constructor-item/constructor-item';
 import { OrderRegistration } from '../order-registration/order-registration';
 import { useDrop } from 'react-dnd';
-import { ADD_ITEM, ADD_BUN, DELETE_INGREDIENT, CLEAN_INGREDIENTSID } from '../../services/actions/burger-consructor';
+import { ADD_ITEM, ADD_BUN, DELETE_INGREDIENT, CLEAN_STATE } from '../../services/actions/burger-consructor';
 import { ADD_AMMOUNT, DECREASE_AMOUNT } from '../../services/actions/burger-ingredients';
 import { Modal } from '../modal/modal';
 import React from 'react';
@@ -17,11 +17,12 @@ import { calculateCost } from '../utils/utils';
 
 export function BurgerConstructor() {
   const dispatch = useDispatch();
-  const { orderButtonIsClicked, requestIsSuccessed, orderNumber } = useSelector(store => store.currentOrder);
-  const { ingredients } = useSelector(store => store.burgerData);
-  const { elements, bun, elementsIdArray } = useSelector(store => store.constructorState);
+  const { orderButtonIsClicked, requestIsSuccessed, orderNumber } = useSelector(state => state.currentOrder);
+  const { ingredients } = useSelector(state => state.burgerData);
+  const { orderRequest } = useSelector(state => state.currentOrder)
+  const { elements, bun } = useSelector(state => state.constructorState);
 
-
+  ///вычисляем значения для ключей
   const uid = React.useMemo(() => {
     return Date.now() * Math.random()
   }, [elements])
@@ -46,6 +47,25 @@ export function BurgerConstructor() {
     }
   });
 
+  ///удаляем ингредиент из конструктора и меняем значение счетчика
+  const itemRemove = React.useCallback((itemKey, itemId) => {
+    dispatch({ type: DELETE_INGREDIENT, id: itemKey });
+    dispatch({ type: DECREASE_AMOUNT, id: itemId });
+  }, [dispatch])
+
+  ///логика открытия попапа с номером заказа
+  const orderDetailsRequestSending = React.useCallback(() => {
+    const idArray = elements.map(item => { return item._id })
+    dispatch({ type: OPEN_ORDER_POPUP });
+    dispatch(getOrderNumber([...idArray, bun._id]));
+  }, [dispatch, elements, bun._id])
+
+  ///логика закрытия попапа
+  const orderPopupClose = React.useCallback(() => {
+    dispatch({ type: CLOSE_ORDER_POPUP });
+    dispatch({ type: CLEAN_STATE });
+  })
+
   const style = isDrag ? consructorStyles.burgerconstructor__dropconteiner : consructorStyles.burgerconstructor__conteiner
   const cartStyle = elements.length >= 6 ? consructorStyles.burgerconstructor__elementswithscroll : consructorStyles.burgerconstructor__elements
 
@@ -60,15 +80,13 @@ export function BurgerConstructor() {
       <ul className={`pr-4 mr-4 ${cartStyle}`}>
         {elements.filter(item => { return item.type !== 'bun' }).map((item, index) => (
           <ConstructorItem id={item.uid} index={index} key={item.uid}>
-            <ConstructorElement id={item.uid} text={item.name} thumbnail={item.image_mobile} price={item.price} handleClose={() => { dispatch({ type: DELETE_INGREDIENT, id: item.uid }); dispatch({ type: DECREASE_AMOUNT, id: item._id }) }} />
+            <ConstructorElement id={item.uid} text={item.name} thumbnail={item.image_mobile} price={item.price} handleClose={() => itemRemove(item.uid, item._id)} />
           </ConstructorItem>))}
       </ul>
       {bun && Array.of(bun).map(item => (
         <ConstructorElement key={uid} type="bottom" isLocked={true} text={item.name} price={item.price} thumbnail={item.image_mobile} />))}
-      <OrderRegistration clickHandler={() => {
-        dispatch({ type: OPEN_ORDER_POPUP }); dispatch(getOrderNumber([...elementsIdArray, bun._id]));
-      }} styles={`mt-10 ${consructorStyles.burgerconstructor__cost}`} cost={calculateCost(elements, bun.price)} />
-      {orderButtonIsClicked && requestIsSuccessed && <Modal closeModal={() => { dispatch({ type: CLOSE_ORDER_POPUP }); dispatch({ type: CLEAN_INGREDIENTSID }) }} modalHeaderStyles={consructorStyles.burgerconstructor__modalheader}><OrderDetails number={orderNumber} /></Modal>}
+      <OrderRegistration clickHandler={orderDetailsRequestSending} styles={`mt-10 ${consructorStyles.burgerconstructor__cost}`} cost={calculateCost(elements, bun.price)} />
+      {orderButtonIsClicked && requestIsSuccessed && <Modal closeModal={orderPopupClose} modalHeaderStyles={consructorStyles.burgerconstructor__modalheader}><OrderDetails number={orderNumber} /></Modal>}
     </div >
 
 

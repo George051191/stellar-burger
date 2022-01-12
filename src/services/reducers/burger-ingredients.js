@@ -22,8 +22,10 @@ export const burgerDataReducer = (state = initialState, action) => {
         case BURGER_DATA_ERROR:
             return {
                 ...state,
+                ingredients: [],
                 dataRequest: false,
-                dataRequestFailed: true
+                dataRequestFailed: true,
+
             };
         case ADD_AMMOUNT:
             return {

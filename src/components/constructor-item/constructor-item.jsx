@@ -8,10 +8,12 @@ import PropTypes from 'prop-types';
 
 
 export function ConstructorItem(props) {
-  const { elements } = useSelector(store => store.constructorState);
+  const { elements } = useSelector(state => state.constructorState);
   const ref = React.useRef();
   const dispatch = useDispatch();
+  const { id, index } = props;
 
+  ///заменяем массив с новым порядком в стейте
   function moveCard(dragIndex, hoverIndex) {
     let newCards = [...elements];
     let dragCard = newCards[dragIndex];
@@ -20,7 +22,7 @@ export function ConstructorItem(props) {
     dispatch({ type: REORDER_INGREDIENTS, data: newCards });
   }
 
-  const { id, index } = props;
+
   const [{ opacity }, drag] = useDrag({
     type: 'element',
     item: { id, index },

@@ -35,12 +35,14 @@ export const orderReducer = (state = orderInitialState, action) => {
                 orderRequest: false,
                 orderNumber: action.data,
                 wholeOrder: action.orderData,
-                requestIsSuccessed: action.result
+                requestIsSuccessed: action.result,
+
             }
         case GET_ORDER_ERROR:
             return {
                 ...state,
-                orderFailure: true
+                orderFailure: true,
+                orderNumber: null,
             }
         default:
             return { state }

@@ -10,8 +10,8 @@ import { CLICK_ON_CLOSE_BUTTON } from "../../services/actions/ingredient";
 
 
 export function BurgerIngredients() {
-  const { currentItem, itemIsClicked } = useSelector(store => store.currentSelect);
-  const { ingredients } = useSelector(store => store.burgerData);
+  const { currentItem, itemIsClicked } = useSelector(state => state.currentSelect);
+  const { ingredients } = useSelector(state => state.burgerData);
 
   const dispatch = useDispatch();
   const [current, setCurrent] = React.useState('Булки')

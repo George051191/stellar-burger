@@ -14,7 +14,7 @@ function App() {
 
   React.useEffect(() => {
     dispatch(getBurgerData());
-  }, [])
+  }, [dispatch])
 
   return (
     <>

@@ -1,9 +1,8 @@
-import { ADD_ITEM, ADD_BUN, DELETE_INGREDIENT, CLEAN_INGREDIENTSID, REORDER_INGREDIENTS } from "../actions/burger-consructor";
+import { ADD_ITEM, ADD_BUN, DELETE_INGREDIENT, CLEAN_STATE, REORDER_INGREDIENTS } from "../actions/burger-consructor";
 
 const constructorInitialState = {
     elements: [],
-    bun: '',
-    elementsIdArray: []
+    bun: ''
 }
 
 export const constructorReducer = (state = constructorInitialState, action) => {
@@ -16,8 +15,7 @@ export const constructorReducer = (state = constructorInitialState, action) => {
         case ADD_ITEM:
             return {
                 ...state,
-                elements: [...state.elements, ...action.data],
-                elementsIdArray: [...state.elementsIdArray, ...[...action.data].map(item => { return item._id })]
+                elements: [...state.elements, ...action.data]
             }
         case DELETE_INGREDIENT:
             return {
@@ -30,11 +28,10 @@ export const constructorReducer = (state = constructorInitialState, action) => {
                 ...state,
                 elements: action.data
             }
-        case CLEAN_INGREDIENTSID:
+        case CLEAN_STATE:
             return {
                 ...state,
                 elements: [],
-                elementsIdArray: [],
                 bun: ''
             }
         default:
