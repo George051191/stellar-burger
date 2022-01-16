@@ -25,3 +25,4 @@ OrderRegistration.propTypes = {
   cost: PropTypes.number.isRequired,
   clickHandler: PropTypes.func.isRequired
 }
+
