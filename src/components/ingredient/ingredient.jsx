@@ -8,7 +8,7 @@ import { CLICK_ON_INGREDIENT } from "../../services/actions/ingredient";
 import { useDrag } from "react-dnd";
 
 
-export function Ingredient(props) {
+function Ingredient(props) {
   const { id } = props
   const { bun, elements } = useSelector(state => state.constructorState)
 
@@ -47,3 +47,6 @@ Ingredient.propTypes = {
   id: PropTypes.string.isRequired,
   type: PropTypes.string.isRequired
 }
+
+
+export default React.memo(Ingredient)
