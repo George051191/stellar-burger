@@ -9,11 +9,11 @@ import { useDrag } from "react-dnd";
 
 
 function Ingredient(props) {
-  const { id } = props
-  const { bun, elements } = useSelector(state => state.constructorState)
+  const { id, elements, bun, ingredients } = props
+
 
   const dispatch = useDispatch();
-  const { ingredients } = useSelector(state => state.burgerData);
+
 
   const [, dragRef] = useDrag({
     type: 'item',
