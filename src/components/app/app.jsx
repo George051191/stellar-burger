@@ -7,29 +7,33 @@ import { useDispatch } from 'react-redux';
 import { getBurgerData } from '../../services/actions/burger-ingredients';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
+import { Preloader } from '../preloader/preloader';
+import { useSelector } from 'react-redux';
 
 
 function App() {
   const dispatch = useDispatch();
-
+  const { dataRequest } = useSelector(store => store.burgerData)
   React.useEffect(() => {
     dispatch(getBurgerData());
   }, [dispatch])
 
   return (
-    <>
-      <AppHeader />
-      <main className={styles.app}>
-        <section className={styles.app__constructor}>
-          <DndProvider backend={HTML5Backend}>
-            <BurgerIngredients />
-            <BurgerConstructor />
-          </DndProvider>
-        </section>
-      </main>
-    </>
+    dataRequest ?
+      (<Preloader />)
+      :
+      (<>
+        <AppHeader />
+        <main className={styles.app}>
+          <section className={styles.app__constructor}>
+            <DndProvider backend={HTML5Backend}>
+              <BurgerIngredients />
+              <BurgerConstructor />
+            </DndProvider>
+          </section>
+        </main>
+      </>)
   )
 }
-
 
 export default App;

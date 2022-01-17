@@ -2,7 +2,7 @@ import { BURGER_DATA_REQUEST, BURGER_DATA_SUCCESS, BURGER_DATA_ERROR, ADD_AMMOUN
 
 const initialState = {
     ingredients: [],
-    dataRequest: false,
+    dataRequest: true,
     dataRequestFailed: false
 }
 
@@ -11,7 +11,7 @@ export const burgerDataReducer = (state = initialState, action) => {
         case BURGER_DATA_REQUEST:
             return {
                 ...state,
-                dataRequest: true
+
             };
         case BURGER_DATA_SUCCESS:
             return {
