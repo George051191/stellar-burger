@@ -6,7 +6,7 @@ import { Modal } from "../modal/modal";
 import { IngredientDetails } from "../ingredient-details/ingredient-details";
 import { useSelector, useDispatch } from 'react-redux';
 import { CLICK_ON_CLOSE_BUTTON } from "../../services/actions/ingredient";
-
+import { BURGER_DATA_REQUEST } from "../../services/actions/burger-ingredients";
 
 
 export function BurgerIngredients() {
@@ -18,6 +18,8 @@ export function BurgerIngredients() {
   const bunsRef = React.useRef();
   const soucesRef = React.useRef();
   const fillingsRef = React.useRef();
+
+
 
   ///вычисляем где сейчас находится скролл и подсвечиваем нужный Tabn
   function determineElementPosition(e) {

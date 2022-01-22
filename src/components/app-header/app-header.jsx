@@ -3,8 +3,12 @@ import { Logo } from "@ya.praktikum/react-developer-burger-ui-components";
 import headerStyles from './app-header.module.css';
 import { BurgerIcon, ListIcon, ProfileIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import { MenuItem } from "../menu-item/menu-item";
+import { useSelector } from "react-redux";
+import ingredient from "../ingredient/ingredient";
 
-export function AppHeader() {
+function AppHeader() {
+
+
   return (
     <header className={headerStyles.header}>
       <nav className={headerStyles.header__navigation}>
@@ -27,3 +31,5 @@ export function AppHeader() {
 
   )
 }
+
+export default React.memo(AppHeader)

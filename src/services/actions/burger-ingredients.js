@@ -11,7 +11,7 @@ export const CLEAN_INGREDIENTS_AMOUNTS = 'CLEAN_INGREDIENTS_AMOUNTS'
 
 
 
-export function getBurgerData() {
+/* export function getBurgerData() {
     return function(dispatch) {
         dispatch({ type: BURGER_DATA_REQUEST })
         Api.getBurgerIngredientsData()
@@ -24,3 +24,4 @@ export function getBurgerData() {
             .catch(err => { dispatch({ type: BURGER_DATA_ERROR }) })
     }
 }
+ */

@@ -8,7 +8,11 @@ import { compose, createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
 import { rootReducer } from './services/reducers/index';
 import thunk from 'redux-thunk';
+import createSagaMiddleware from 'redux-saga';
+import { getIngredientWatcher } from './sagas/sagas';
 
+
+const sagaMiddleWare = createSagaMiddleware();
 
 
 const composeEnhancers =
@@ -16,10 +20,13 @@ const composeEnhancers =
     ? (window && (window as any)).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({})
     : compose;
 
-const enhancer = composeEnhancers(applyMiddleware(thunk));
-
-
+const enhancer = composeEnhancers(applyMiddleware(sagaMiddleWare, thunk));
 const state = createStore(rootReducer,enhancer);
+
+sagaMiddleWare.run(getIngredientWatcher);
+
+
+
 
 ReactDOM.render(
   <React.StrictMode>

@@ -19,7 +19,7 @@ export function BurgerConstructor() {
   const dispatch = useDispatch();
   const { orderButtonIsClicked, requestIsSuccessed, orderNumber } = useSelector(state => state.currentOrder);
   const { ingredients } = useSelector(state => state.burgerData);
-  const { orderRequest } = useSelector(state => state.currentOrder)
+
   const { elements, bun } = useSelector(state => state.constructorState);
 
   ///вычисляем значения для ключей
