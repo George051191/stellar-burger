@@ -4,7 +4,7 @@ import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components
 import { Counter } from "@ya.praktikum/react-developer-burger-ui-components";
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
-import { CLICK_ON_INGREDIENT } from "../../services/actions/ingredient";
+import { CLICK_ON_INGREDIENT } from "../../services/constants/index";
 import { useDrag } from "react-dnd";
 
 

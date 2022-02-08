@@ -4,7 +4,7 @@ import './index.css';
 import App from './components/app/app.jsx';
 import reportWebVitals from './reportWebVitals';
 import './index.css';
-import { compose, createStore, applyMiddleware } from 'redux';
+import { compose, createStore, applyMiddleware, AnyAction } from 'redux';
 import { Provider } from 'react-redux';
 import { rootReducer } from './services/reducers/index';
 import thunk from 'redux-thunk';
@@ -34,3 +34,5 @@ ReactDOM.render(
 // to log results (for example: reportWebVitals(console.log))
 // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
 reportWebVitals();
+
+
