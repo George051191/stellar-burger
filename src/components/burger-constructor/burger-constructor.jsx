@@ -3,13 +3,13 @@ import { ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-comp
 import { ConstructorItem } from '../constructor-item/constructor-item';
 import { OrderRegistration } from '../order-registration/order-registration';
 import { useDrop } from 'react-dnd';
-import { ADD_ITEM, ADD_BUN, DELETE_INGREDIENT, CLEAN_STATE } from '../../services/actions/burger-consructor';
-import { ADD_AMMOUNT, DECREASE_AMOUNT, CLEAN_INGREDIENTS_AMOUNTS } from '../../services/actions/burger-ingredients';
+import { ADD_ITEM, ADD_BUN, DELETE_INGREDIENT, CLEAN_STATE } from '../../services/constants/index';
+import { ADD_AMMOUNT, DECREASE_AMOUNT, CLEAN_INGREDIENTS_AMOUNTS } from '../../services/constants/index';
 import { Modal } from '../modal/modal';
 import React from 'react';
 import { OrderDetails } from '../order-details/order-details';
 import { useSelector, useDispatch } from 'react-redux';
-import { OPEN_ORDER_POPUP, CLOSE_ORDER_POPUP } from '../../services/actions/order-details';
+import { OPEN_ORDER_POPUP, CLOSE_ORDER_POPUP } from '../../services/constants/index';
 import { getOrderNumber } from '../../services/actions/order-details';
 import { calculateCost } from '../../utils/utils';
 
@@ -21,7 +21,7 @@ export function BurgerConstructor() {
   const { ingredients } = useSelector(state => state.burgerData);
   const { orderRequest } = useSelector(state => state.currentOrder)
   const { elements, bun } = useSelector(state => state.constructorState);
-
+  console.log(elements)
   ///вычисляем значения для ключей
   function uid() {
     return Date.now() * Math.random()
