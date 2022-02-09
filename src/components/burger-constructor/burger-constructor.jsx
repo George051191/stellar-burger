@@ -21,7 +21,7 @@ export function BurgerConstructor() {
   const { ingredients } = useSelector(state => state.burgerData);
   const { orderRequest } = useSelector(state => state.currentOrder)
   const { elements, bun } = useSelector(state => state.constructorState);
-  console.log(elements)
+
   ///вычисляем значения для ключей
   function uid() {
     return Date.now() * Math.random()
