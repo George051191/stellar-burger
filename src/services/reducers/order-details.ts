@@ -7,7 +7,7 @@ type TOrderState = {
   requestIsSuccessed: boolean,
   orderFailure: boolean,
   orderNumber: number | null,
-  wholeOrder: TOrder | object,
+  wholeOrder: TOrder | {},
   orderButtonIsClicked: boolean,
   buttonState: boolean;
 }

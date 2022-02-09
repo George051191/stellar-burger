@@ -4,7 +4,7 @@ import { TIngredient } from '../types/data';
 
 type TCurrentChoice = {
   itemIsClicked: boolean;
-  currentItem: TIngredient | object;
+  currentItem: TIngredient | {};
 }
 
 const currentChoiceInitialState: TCurrentChoice = {
