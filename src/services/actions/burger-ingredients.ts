@@ -1,6 +1,7 @@
 import Api from "../../utils/Api";
 import { BURGER_DATA_REQUEST, BURGER_DATA_SUCCESS, BURGER_DATA_ERROR, ADD_AMMOUNT, DECREASE_AMOUNT, CLEAN_INGREDIENTS_AMOUNTS } from "../constants";
 import { TIngredient } from "../types/data";
+import { AppThunk, TAppDispatch } from "../types";
 
 export interface IBurgerDataRequest {
   readonly type: typeof BURGER_DATA_REQUEST;
@@ -31,19 +32,14 @@ export interface ICleanIngredientsAmount {
 
 export type TBurgerIngredientsActions = IBurgerDataRequest | IBurgerDataSuccessAction | IBurgerDataErrorAction | IAddAmountAction | IDecreaseAmountAction | ICleanIngredientsAmount;
 
-/* export const BURGER_DATA_REQUEST = 'BURGER_DATA_REQUEST';
-export const BURGER_DATA_SUCCESS = 'BURGER_DATA_SUCCESS';
-export const BURGER_DATA_ERROR = 'BURGER_DATA_ERROR';
-export const ADD_AMMOUNT = 'ADD_AMOUNT';
-export const DECREASE_AMOUNT = 'DECREASE_AMOUNT';
-export const CLEAN_INGREDIENTS_AMOUNTS = 'CLEAN_INGREDIENTS_AMOUNTS' */
 
 
 
 
 
-/* export function getBurgerData() {
-    return function(dispatch) {
+
+ export const getBurgerData: AppThunk = () =>  {
+    return function(dispatch: TAppDispatch) {
         dispatch({ type: BURGER_DATA_REQUEST })
         Api.getBurgerIngredientsData()
             .then(res => {
@@ -55,4 +51,4 @@ export const CLEAN_INGREDIENTS_AMOUNTS = 'CLEAN_INGREDIENTS_AMOUNTS' */
             .catch(err => { dispatch({ type: BURGER_DATA_ERROR }) })
     }
 }
- */
+

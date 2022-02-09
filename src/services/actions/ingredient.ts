@@ -13,5 +13,3 @@ export interface IClickOnCloseButtonAction {
 export type TIngredientActions = IClickOnIngredientAction | IClickOnCloseButtonAction;
 
 
-  /* export const CLICK_ON_INGREDIENT = 'CLICK_ON_INGREDIENT';
-export const CLICK_ON_CLOSE_BUTTON = 'CLICK_ON_CLOSE_BUTTON'; */
