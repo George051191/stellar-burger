@@ -6,8 +6,8 @@ import { orderReducer } from './order-details';
 import { constructorReducer } from './burger-constructor';
 
 export const rootReducer = combineReducers({
-    burgerData: burgerDataReducer,
-    currentSelect: ingredientReducer,
-    currentOrder: orderReducer,
-    constructorState: constructorReducer
+  burgerData: burgerDataReducer,
+  currentSelect: ingredientReducer,
+  currentOrder: orderReducer,
+  constructorState: constructorReducer
 })

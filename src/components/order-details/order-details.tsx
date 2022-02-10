@@ -1,8 +1,9 @@
 import orderDetailsStyles from './order-details.module.css';
 import orderDoneImage from '../../images/done.svg';
-import PropTypes from 'prop-types';
+import { FunctionComponent } from 'react';
+import { IOrderDetails } from '../../utils/interfaces';
 
-export function OrderDetails(props) {
+export const OrderDetails: FunctionComponent<IOrderDetails> = (props) => {
 
   return (
     <div className={`${orderDetailsStyles.order__conteiner} mt-30 mb-30`}>
@@ -16,6 +17,4 @@ export function OrderDetails(props) {
   )
 }
 
-OrderDetails.propTypes = {
-  number: PropTypes.number.isRequired
-}
+

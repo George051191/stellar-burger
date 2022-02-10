@@ -3,8 +3,9 @@ import { Logo } from "@ya.praktikum/react-developer-burger-ui-components";
 import headerStyles from './app-header.module.css';
 import { BurgerIcon, ListIcon, ProfileIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import { MenuItem } from "../menu-item/menu-item";
+import { FunctionComponent } from "react";
 
-export function AppHeader() {
+export const AppHeader: FunctionComponent = () => {
   return (
     <header className={headerStyles.header}>
       <nav className={headerStyles.header__navigation}>
