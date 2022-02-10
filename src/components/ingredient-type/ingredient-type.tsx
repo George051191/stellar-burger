@@ -10,7 +10,7 @@ import { useSelector } from "../../services/types/hooks";
 export const IngredientType = React.forwardRef<HTMLHeadingElement, IIngredientType >((props, ref) => {
 
   const { bun, elements } = useSelector(state => state.constructorState);
-  const { ingredients } = useSelector(state => state.burgerData);
+
 
   return (
     <>

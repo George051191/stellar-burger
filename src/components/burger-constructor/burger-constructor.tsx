@@ -81,7 +81,7 @@ export const BurgerConstructor: FunctionComponent = () => {
       <ul className={`pr-4 mr-4 ${cartStyle}`}>
         {elements.filter(item => { return item.type !== 'bun' }).map((item, index) => (
           <ConstructorItem id={item.uid} index={index} key={item.uid}>
-            <ConstructorElement  text={item.name} thumbnail={item.image_mobile} price={item.price} handleClose={() => itemRemove(item.uid, item._id)} />
+            <ConstructorElement text={item.name} thumbnail={item.image_mobile} price={item.price} handleClose={() => itemRemove(item.uid, item._id)} />
           </ConstructorItem>))}
       </ul>
       {bun && bun._id && Array.of(bun).map((item, index) => (

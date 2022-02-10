@@ -42,10 +42,18 @@ export interface IIngredient {
   id: string;
   elements: Array<TIngredient>;
   bun: TIngredient | { [key in any]: never };
-
   type: string;
   image: string;
   name: string;
   price: number;
   amount: number;
 }
+
+export interface IOrderRegistration {
+  styles: string;
+  cost: number;
+  clickHandler: () => void
+}
+
+
+

@@ -33,7 +33,7 @@ export const ConstructorItem: FunctionComponent<IConstructorItem> = (props) => {
   const [{ isHover }, drop] = useDrop({
     accept: 'element',
     collect: monitor => ({ isHover: monitor.isOver() }),
-    hover(item: {id:number, index: number}) {
+    hover(item: { id: number, index: number }) {
       if (item.index === index) {
         return;
       }
@@ -51,7 +51,7 @@ export const ConstructorItem: FunctionComponent<IConstructorItem> = (props) => {
   drag(drop(ref))
 
   return (
-    <li ref={ref}  className={`mt-4 ${itemStyle}`} style={{ opacity }}>
+    <li ref={ref} className={`mt-4 ${itemStyle}`} style={{ opacity }}>
       <DragIcon type='primary' />
       {props.children}
     </li>

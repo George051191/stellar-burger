@@ -1,7 +1,8 @@
+import { FunctionComponent } from 'react';
 import ingredientModalStyles from './ingredient-details.module.css';
-import PropTypes from 'prop-types'
+import { TIngredient } from '../../services/types/data';
 
-export function IngredientDetails(props) {
+export const IngredientDetails: FunctionComponent<TIngredient | {[key in any]: never}> = (props) => {
 
   return (
     <div className={`${ingredientModalStyles.modal__conteiner} mb-15`}>
@@ -30,11 +31,4 @@ export function IngredientDetails(props) {
   )
 }
 
-IngredientDetails.propTypes = PropTypes.shape({
-  name: PropTypes.string.isRequired,
-  image: PropTypes.string.isRequired,
-  proteins: PropTypes.number.isRequired,
-  fat: PropTypes.number.isRequired,
-  carbohydrates: PropTypes.number.isRequired,
-  calories: PropTypes.number.isRequired
-}).isRequired
+

@@ -56,7 +56,7 @@ export const BurgerIngredients: FunctionComponent = () => {
           </Tab>
         </li>
       </ul>
-      <div className={ingredientsStyles.burger__ingredients} onScroll={(e:any) => { determineElementPosition(e) }}>
+      <div className={ingredientsStyles.burger__ingredients} onScroll={(e: any) => { determineElementPosition(e) }}>
         <IngredientType ingredientName='Булки' data={ingredients.filter(item => item.type === 'bun')} ref={bunsRef} />
         <IngredientType ingredientName='Соусы' data={ingredients.filter(item => item.type === 'sauce')} ref={soucesRef} />
         <IngredientType ingredientName='Начинки' data={ingredients.filter(item => item.type === 'main')} ref={fillingsRef} />

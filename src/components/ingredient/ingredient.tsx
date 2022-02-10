@@ -1,4 +1,4 @@
-import React, {FunctionComponent} from "react";
+import React, { FunctionComponent } from "react";
 import cardStyles from './ingredient.module.css';
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import { Counter } from "@ya.praktikum/react-developer-burger-ui-components";
@@ -6,11 +6,11 @@ import { IIngredient } from "../../utils/interfaces";
 import { useDispatch, useSelector } from '../../services/types/hooks';
 import { CLICK_ON_INGREDIENT } from "../../services/constants/index";
 import { useDrag } from "react-dnd";
-import { TIngredient } from "../../services/types/data";
+
 
 const Ingredient: FunctionComponent<IIngredient> = (props) => {
   const { id, elements, bun } = props
-    const {ingredients} = useSelector(state=> state.burgerData)
+  const { ingredients } = useSelector(state => state.burgerData)
 
   const dispatch = useDispatch();
 
