@@ -1,9 +1,8 @@
 import overlayStyles from './modal-overlay.module.css';
 import React from 'react';
-import PropTypes from 'prop-types';
+import { IModalOverlay } from '../../utils/interfaces';
 
-export const ModalOverlay = React.forwardRef((props, ref) => {
-
+export const ModalOverlay = React.forwardRef<HTMLDivElement, IModalOverlay>((props, ref) => {
 
   return (
     <div ref={ref} className={overlayStyles.overlay} onClick={props.closeFunction}>
@@ -11,6 +10,4 @@ export const ModalOverlay = React.forwardRef((props, ref) => {
   )
 })
 
-ModalOverlay.propTypes = {
-  closeFunction: PropTypes.func.isRequired
-}
+
