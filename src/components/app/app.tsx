@@ -1,4 +1,4 @@
-import React, {FunctionComponent} from 'react';
+import React, { FunctionComponent } from 'react';
 import { AppHeader } from '../app-header/app-header';
 import styles from './app.module.css'
 import { BurgerIngredients } from '../burger-ingredients/burger-ingredients'
@@ -11,7 +11,7 @@ import { Preloader } from '../preloader/preloader';
 import { useSelector } from '../../services/types/hooks';
 
 
-const  App: FunctionComponent = () => {
+const App: FunctionComponent = () => {
   const dispatch = useDispatch();
   const { dataRequest } = useSelector(store => store.burgerData)
   React.useEffect(() => {

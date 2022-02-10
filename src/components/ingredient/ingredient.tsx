@@ -1,16 +1,16 @@
-import React from "react";
+import React, { FunctionComponent } from "react";
 import cardStyles from './ingredient.module.css';
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import { Counter } from "@ya.praktikum/react-developer-burger-ui-components";
-import PropTypes from 'prop-types';
-import { useDispatch, useSelector } from 'react-redux';
+import { IIngredient } from "../../utils/interfaces";
+import { useDispatch, useSelector } from '../../services/types/hooks';
 import { CLICK_ON_INGREDIENT } from "../../services/constants/index";
 import { useDrag } from "react-dnd";
 
 
-function Ingredient(props) {
-  const { id, elements, bun, ingredients } = props
-
+const Ingredient: FunctionComponent<IIngredient> = (props) => {
+  const { id, elements, bun } = props
+  const { ingredients } = useSelector(state => state.burgerData)
 
   const dispatch = useDispatch();
 
@@ -20,7 +20,7 @@ function Ingredient(props) {
     item: { id }
   })
   ////находим ингредиент который выбрали
-  function selectIngredient(evt, data) {
+  function selectIngredient(evt: React.MouseEvent, data: typeof ingredients) {
     return data.filter(item => {
       return item._id === evt.currentTarget.id
     })
@@ -41,12 +41,6 @@ function Ingredient(props) {
   )
 }
 
-Ingredient.propTypes = {
-  name: PropTypes.string.isRequired,
-  image: PropTypes.string.isRequired,
-  id: PropTypes.string.isRequired,
-  type: PropTypes.string.isRequired
-}
 
 
 export default React.memo(Ingredient)

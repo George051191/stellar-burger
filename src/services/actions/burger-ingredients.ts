@@ -38,17 +38,17 @@ export type TBurgerIngredientsActions = IBurgerDataRequest | IBurgerDataSuccessA
 
 
 
- export const getBurgerData: AppThunk = () =>  {
-    return function(dispatch: TAppDispatch) {
-        dispatch({ type: BURGER_DATA_REQUEST })
-        Api.getBurgerIngredientsData()
-            .then(res => {
-                dispatch({
-                    type: BURGER_DATA_SUCCESS,
-                    data: res.data,
-                })
-            })
-            .catch(err => { dispatch({ type: BURGER_DATA_ERROR }) })
-    }
+export const getBurgerData: AppThunk = () => {
+  return function (dispatch: TAppDispatch) {
+    dispatch({ type: BURGER_DATA_REQUEST })
+    Api.getBurgerIngredientsData()
+      .then(res => {
+        dispatch({
+          type: BURGER_DATA_SUCCESS,
+          data: res.data,
+        })
+      })
+      .catch(err => { dispatch({ type: BURGER_DATA_ERROR }) })
+  }
 }
 
