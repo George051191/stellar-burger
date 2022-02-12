@@ -7,10 +7,3 @@
     background-color: #131316;
     margin: 0 auto;
 }
-
-.app__constructor {
-    display: flex;
-    flex-direction: row;
-    align-items: start;
-    justify-content: center;
-}

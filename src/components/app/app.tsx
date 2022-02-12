@@ -1,12 +1,11 @@
 import React, { FunctionComponent } from 'react';
 import { AppHeader } from '../app-header/app-header';
 import styles from './app.module.css'
-import { BurgerIngredients } from '../burger-ingredients/burger-ingredients'
-import { BurgerConstructor } from '../burger-constructor/burger-constructor';
+import { Switch, Route } from 'react-router-dom';
 import { useDispatch } from '../../services/types/hooks';
 import { getBurgerData } from '../../services/actions/burger-ingredients';
-import { DndProvider } from 'react-dnd';
-import { HTML5Backend } from 'react-dnd-html5-backend';
+import { Constructor } from '../../pages/burger-constructor-page';
+import { LoginPage } from '../../pages/login-page';
 import { Preloader } from '../preloader/preloader';
 import { useSelector } from '../../services/types/hooks';
 
@@ -18,6 +17,7 @@ const App: FunctionComponent = () => {
     dispatch(getBurgerData());
   }, [dispatch])
 
+
   return (
     dataRequest ?
       (<Preloader />)
@@ -25,12 +25,20 @@ const App: FunctionComponent = () => {
       (<>
         <AppHeader />
         <main className={styles.app}>
-          <section className={styles.app__constructor}>
-            <DndProvider backend={HTML5Backend}>
-              <BurgerIngredients />
-              <BurgerConstructor />
-            </DndProvider>
-          </section>
+          <Switch>
+            <Route path='/' exact={true}>
+              <Constructor />
+            </Route>
+            <Route path='/login' exact={true}>
+              <LoginPage />
+            </Route>
+            <Route>
+              <div>
+                <h1>Empty Page</h1>
+              </div>
+            </Route>
+          </Switch>
+
         </main>
       </>)
   )
