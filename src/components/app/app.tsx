@@ -7,6 +7,7 @@ import { getBurgerData } from '../../services/actions/burger-ingredients';
 import { Constructor } from '../../pages/burger-constructor-page';
 import { LoginPage } from '../../pages/login-page';
 import { RegistrationPage } from '../../pages/registration';
+import { RecoveryPage } from '../../pages/recovery';
 import { Preloader } from '../preloader/preloader';
 import { useSelector } from '../../services/types/hooks';
 
@@ -36,6 +37,9 @@ const App: FunctionComponent = () => {
             <Route path='/register' exact={true}>
               <RegistrationPage />
             </Route>
+            <Route path='/forgot-password' exact={true}>
+              <RecoveryPage />
+            </Route>
             <Route>
               <div>
                 <h1>Empty Page</h1>
@@ -49,3 +53,4 @@ const App: FunctionComponent = () => {
 }
 
 export default App;
+
