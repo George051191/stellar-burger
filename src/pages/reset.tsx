@@ -42,7 +42,7 @@ export const ResetPage: FunctionComponent = () => {
         <Button type="primary" size="medium" >Сохранить</Button>
         <div className={`${styles.redirectmenu}  mt-20`}>
           <p className={`${styles.password} text text_type_main-default text_color_inactive `}>Вспомнили пароль?</p>
-          <Link className={`${styles.link} text text_type_main-default`} to='/forgot-password'>Войти</Link>
+          <Link className={`${styles.link} text text_type_main-default`} to='/login'>Войти</Link>
         </div>
       </form>
 
