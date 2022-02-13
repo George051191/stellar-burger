@@ -6,6 +6,7 @@ import { useDispatch } from '../../services/types/hooks';
 import { getBurgerData } from '../../services/actions/burger-ingredients';
 import { Constructor } from '../../pages/burger-constructor-page';
 import { LoginPage } from '../../pages/login-page';
+import { RegistrationPage } from '../../pages/registration';
 import { Preloader } from '../preloader/preloader';
 import { useSelector } from '../../services/types/hooks';
 
@@ -31,6 +32,9 @@ const App: FunctionComponent = () => {
             </Route>
             <Route path='/login' exact={true}>
               <LoginPage />
+            </Route>
+            <Route path='/register' exact={true}>
+              <RegistrationPage />
             </Route>
             <Route>
               <div>
