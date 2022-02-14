@@ -22,3 +22,13 @@ export type TOrder = {
   readonly order: { number: number };
   readonly success: boolean;
 }
+
+export type TUser = {
+  success: boolean,
+  user: {
+    email: string,
+    name: string
+  },
+  accessToken: string,
+  refreshToken: string
+}

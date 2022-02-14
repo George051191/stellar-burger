@@ -2,13 +2,21 @@ import React, { FunctionComponent } from "react";
 import { Button, Input } from "@ya.praktikum/react-developer-burger-ui-components";
 import { Link } from "react-router-dom";
 import styles from './reset.module.css';
-
+import { useDispatch, useSelector } from "../services/types/hooks";
+import { setNewPassword } from "../services/actions/user-data";
 
 export const ResetPage: FunctionComponent = () => {
-  const [value, setValue] = React.useState('')
+  const dispatch = useDispatch();
+  const { isPasswordChanged } = useSelector(store => store.userState)
+  const [passwordInputValue, setPasswordInputValue] = React.useState('');
+  const [tokenInputValue, setTokenInputValue] = React.useState('');
   const [error, setError] = React.useState(false);
-  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setValue(e.target.value)
+  const onPasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setPasswordInputValue(e.target.value)
+  }
+
+  const onTokenChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setTokenInputValue(e.target.value)
   }
   const [visible, setVisible] = React.useState(false);
   const inputRef = React.useRef<HTMLInputElement>(null);
@@ -30,16 +38,20 @@ export const ResetPage: FunctionComponent = () => {
     setVisible(false);
   };
 
+  const resetUserPassword = (evt: React.FormEvent<HTMLFormElement>, password: string, token: string) => {
+    evt.preventDefault();
+    dispatch(setNewPassword(password, token))
+  }
 
   return (
     <div className={styles.pagestyle}>
-      <form className={styles.form}>
+      <form className={styles.form} onSubmit={evt => resetUserPassword(evt, passwordInputValue, tokenInputValue)}>
         <fieldset className={styles.inputsfield}>
           <h2 className={`text text_type_main-medium ${styles.header}`}>Восстановление пароля</h2>
-          <Input errorText={'Некорректный пароль'} error={error} ref={inputRef} icon={visible ? 'HideIcon' : 'ShowIcon'} type={visible ? 'text' : 'password'} onChange={onChange} onBlur={onBlur} onIconClick={onIconClick} value={value} name={'password'} placeholder='Введите новый пароль' />
-          <Input onChange={onChange} value={value} name={'password'} placeholder='Введите код из письма' />
+          <Input errorText={'Некорректный пароль'} error={error} ref={inputRef} icon={visible ? 'HideIcon' : 'ShowIcon'} type={visible ? 'text' : 'password'} onChange={onPasswordChange} onBlur={onBlur} onIconClick={onIconClick} value={passwordInputValue} name={'password'} placeholder='Введите новый пароль' />
+          <Input onChange={onTokenChange} value={tokenInputValue} name={'password'} placeholder='Введите код из письма' />
         </fieldset>
-        <Button type="primary" size="medium" >Сохранить</Button>
+        <Button type="primary" size="medium" >{isPasswordChanged ? 'Пароль изменен' : 'Сохранить'}</Button>
         <div className={`${styles.redirectmenu}  mt-20`}>
           <p className={`${styles.password} text text_type_main-default text_color_inactive `}>Вспомнили пароль?</p>
           <Link className={`${styles.link} text text_type_main-default`} to='/login'>Войти</Link>

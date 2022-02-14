@@ -39,8 +39,36 @@ class Api {
     }).then(this.checkResponse);
   }
 
+  setPasswordReset(email: string) {
+    return fetch(`${this.url}password-reset`, {
+      method: 'POST',
+      headers: this.headers,
+      body: JSON.stringify({ "email": email })
+    }).then(this.checkResponse);
+  }
 
+  setNewPassword(password: string, token: string) {
+    return fetch(`${this.url}password-reset/reset`, {
+      method: 'POST',
+      headers: this.headers,
+      body: JSON.stringify({
+        "password": password,
+        "token": token
+      })
+    }).then(this.checkResponse);
+  }
 
+  createNewUser(email: string, password:string, name: string) {
+    return fetch(`${this.url}auth/register`, {
+      method: 'POST',
+      headers: this.headers,
+      body: JSON.stringify({
+        "email": email,
+        "password": password,
+        "name": name
+      })
+    }).then(this.checkResponse);
+  }
 
 
 }
