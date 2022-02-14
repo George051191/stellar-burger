@@ -11,11 +11,14 @@ import { RecoveryPage } from '../../pages/recovery';
 import { ResetPage } from '../../pages/reset';
 import { Preloader } from '../preloader/preloader';
 import { useSelector } from '../../services/types/hooks';
+import { ProtectedRoute } from '../protected-route/protected-route';
 
 
 const App: FunctionComponent = () => {
   const dispatch = useDispatch();
   const { dataRequest } = useSelector(store => store.burgerData)
+  const { resetAnswer } = useSelector(store => store.userState)
+  console.log(resetAnswer)
   React.useEffect(() => {
     dispatch(getBurgerData());
   }, [dispatch])
@@ -41,9 +44,9 @@ const App: FunctionComponent = () => {
             <Route path='/forgot-password' exact={true}>
               <RecoveryPage />
             </Route>
-            <Route path='/reset-password' exact={true}>
+            <ProtectedRoute path='/reset-password' redirectPath='/login' currentUserStatus={resetAnswer} >
               <ResetPage />
-            </Route>
+            </ProtectedRoute>
             <Route>
               <div>
                 <h1>Empty Page</h1>
