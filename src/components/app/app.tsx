@@ -9,6 +9,7 @@ import { LoginPage } from '../../pages/login-page';
 import { RegistrationPage } from '../../pages/registration';
 import { RecoveryPage } from '../../pages/recovery';
 import { ResetPage } from '../../pages/reset';
+import { ProfilePage } from '../../pages/profile';
 import { Preloader } from '../preloader/preloader';
 import { useSelector } from '../../services/types/hooks';
 import { ProtectedRoute } from '../protected-route/protected-route';
@@ -47,6 +48,9 @@ const App: FunctionComponent = () => {
             <ProtectedRoute path='/reset-password' redirectPath='/login' currentUserStatus={resetAnswer} >
               <ResetPage />
             </ProtectedRoute>
+            <Route path='/profile' exact={true}>
+              <ProfilePage />
+            </Route>
             <Route>
               <div>
                 <h1>Empty Page</h1>
