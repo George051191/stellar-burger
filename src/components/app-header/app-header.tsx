@@ -33,7 +33,7 @@ export const AppHeader: FunctionComponent = () => {
           <MenuItem styles={headerStyles.header__logo}>
             <Logo />
           </MenuItem>
-          <NavLink to='/jjj' className={(() => isActivePage('/jjj') ? `${headerStyles.activenavlink} text text_type_main-default` : `text text_type_main-default text_color_inactive ${headerStyles.navlink}`)}>
+          <NavLink to='/profile' className={(() => isActivePage('/profile') ? `${headerStyles.activenavlink} text text_type_main-default` : `text text_type_main-default text_color_inactive ${headerStyles.navlink}`)}>
             <MenuItem text='Личный кабинет' textStyles={' ml-2'} styles={`${headerStyles.header__item} pl-5 pr-5`}>
               <ProfileIcon type='secondary' />
             </MenuItem>
