@@ -2,21 +2,29 @@ import React, { FunctionComponent } from "react";
 import { PasswordInput, EmailInput, Button } from "@ya.praktikum/react-developer-burger-ui-components";
 import { Link } from "react-router-dom";
 import styles from './login-page.module.css';
+import { loginUser } from "../services/actions/user-data";
+import { useDispatch, useSelector } from "../services/types/hooks";
 
 
 export const LoginPage: FunctionComponent = () => {
-  const [value, setValue] = React.useState('bob@example.com')
-  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setValue(e.target.value)
+  const dispatch = useDispatch();
+  const [emailInputValue, setEmailValue] = React.useState('');
+  const [passwordInputValue, setPasswordValue] = React.useState('')
+  const onEmailInputValueChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setEmailValue(e.target.value)
   }
+  const onPasswordInputValue = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setPasswordValue(e.target.value)
+  }
+
 
   return (
     <div className={styles.pagestyle}>
-      <form className={styles.form}>
+      <form className={styles.form} onSubmit={(e: React.FormEvent<HTMLFormElement>) => { e.preventDefault(); dispatch(loginUser(emailInputValue, passwordInputValue)) }}>
         <fieldset className={styles.inputsfield}>
           <h2 className={`text text_type_main-medium ${styles.header}`}>Вход</h2>
-          <EmailInput onChange={onChange} value={value} name={'email'} />
-          <PasswordInput onChange={onChange} value={value} name={'password'} />
+          <EmailInput onChange={onEmailInputValueChange} value={emailInputValue} name={'email'} />
+          <PasswordInput onChange={onPasswordInputValue} value={passwordInputValue} name={'password'} />
         </fieldset>
         <Button type="primary" size="medium" >Войти</Button>
         <div className={`${styles.redirectmenu} mb-4 mt-20`}>

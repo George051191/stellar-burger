@@ -58,7 +58,7 @@ class Api {
     }).then(this.checkResponse);
   }
 
-  createNewUser(email: string, password:string, name: string) {
+  createNewUser(email: string, password: string, name: string) {
     return fetch(`${this.url}auth/register`, {
       method: 'POST',
       headers: this.headers,
@@ -69,6 +69,18 @@ class Api {
       })
     }).then(this.checkResponse);
   }
+
+  loginRequest(email: string, password: string) {
+    return fetch(`${this.url}auth/login`, {
+      method: 'POST',
+      headers: this.headers,
+      body: JSON.stringify({
+        "email": email,
+        "password": password,
+      })
+    }).then(this.checkResponse);
+  }
+
 
 
 }

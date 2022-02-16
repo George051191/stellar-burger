@@ -7,7 +7,7 @@ import { useSelector, useDispatch } from "../services/types/hooks";
 
 export const RegistrationPage: FunctionComponent = () => {
   const dispatch = useDispatch();
-  const { userEmail } = useSelector(state => state.userState)
+  const { userEmail, isUserSent } = useSelector(state => state.userState)
   console.log(userEmail)
   const [nameInputValue, setNameInput] = React.useState('');
   const [emailInputValue, setEmailInput] = React.useState('');
@@ -39,7 +39,7 @@ export const RegistrationPage: FunctionComponent = () => {
           <EmailInput onChange={onEmailChange} value={emailInputValue} name={'email'} />
           <PasswordInput onChange={onPasswordChange} value={passwordInputValue} name={'password'} />
         </fieldset>
-        <Button type="primary" size="medium" >Зарегистрироваться</Button>
+        <Button type="primary" size="medium" >{isUserSent ? 'Запрос отправлен' : 'Зарегистрироваться'}</Button>
         <div className={`${styles.redirectmenu}  mt-20`}>
           <p className={`${styles.registration} text text_type_main-default text_color_inactive `}>Уже зарегистрированы?</p>
           <Link className={`${styles.link} text text_type_main-default`} to='/login'>Войти</Link>

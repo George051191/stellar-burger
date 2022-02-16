@@ -1,7 +1,23 @@
-import { RESET_ERROR, RESET_SUCCESS, RESET_REQUEST, SET_PASSWORD_ERROR, SET_PASSWORD_REQUEST,SET_PASSWORD_SUCCESS, CREATE_USER_ERROR, CREATE_USER_REQUEST, CREATE_USER_SUCCESS} from "../constants";
+import { RESET_ERROR, RESET_SUCCESS, RESET_REQUEST, SET_PASSWORD_ERROR, SET_PASSWORD_REQUEST, SET_PASSWORD_SUCCESS, CREATE_USER_ERROR, CREATE_USER_REQUEST, CREATE_USER_SUCCESS, LOGIN_ERROR, LOGIN_REQUEST, LOGIN_SUCCESS } from "../constants";
 import { AppThunk, TAppDispatch } from "../types";
 import Api from "../../utils/Api";
 import { TUser } from "../types/data";
+import { setCookie } from "../../utils/utils";
+
+export interface ILoginRequest {
+  readonly type: typeof LOGIN_REQUEST
+}
+
+export interface ILoginSuccess {
+  readonly type: typeof LOGIN_SUCCESS;
+  readonly email: string;
+  readonly name: string
+}
+
+export interface ILoginError {
+  readonly type: typeof LOGIN_ERROR;
+}
+
 
 export interface IResetError {
   readonly type: typeof RESET_ERROR;
@@ -42,7 +58,7 @@ export interface ICreateUserError {
   readonly type: typeof CREATE_USER_ERROR
 }
 
-export type TUserRequestActions = IResetError | IResetSuccess | IResetRequest| ISetPasswordError| ISetPasswordRequest|  ISetPasswordSuccess |  ICreateUserRequest | ICreateUserSuccess | ICreateUserError;
+export type TUserRequestActions = IResetError | IResetSuccess | IResetRequest | ISetPasswordError | ISetPasswordRequest | ISetPasswordSuccess | ICreateUserRequest | ICreateUserSuccess | ICreateUserError | ILoginError | ILoginRequest | ILoginSuccess;
 
 
 export const getPasswordReset: AppThunk = (email: string) => {
@@ -59,7 +75,7 @@ export const setNewPassword: AppThunk = (password: string, token: string) => {
     dispatch({ type: SET_PASSWORD_REQUEST })
     Api.setNewPassword(password, token)
       .then(res => dispatch({ type: SET_PASSWORD_SUCCESS, success: res.success }))
-    .catch(err=> dispatch({type: SET_PASSWORD_ERROR }))
+      .catch(err => dispatch({ type: SET_PASSWORD_ERROR }))
   }
 }
 
@@ -67,7 +83,24 @@ export const createUser: AppThunk = (email: string, password: string, name: stri
   return function (dispatch: TAppDispatch) {
     dispatch({ type: CREATE_USER_REQUEST })
     Api.createNewUser(email, password, name)
-      .then(res => dispatch({ type: CREATE_USER_SUCCESS, payload: res }))
-    .catch(err => dispatch({type: CREATE_USER_ERROR}))
+      .then(res => {
+        setCookie('token', res.accessToken.split('Bearer ')[1], {expires: 1});
+        setCookie('refreshToken', res.refreshToken);
+        dispatch({ type: CREATE_USER_SUCCESS, payload: res })
+      })
+      .catch(err => dispatch({ type: CREATE_USER_ERROR }))
+  }
+}
+
+export const loginUser: AppThunk = (email: string, password: string) => {
+  return function (dispatch: TAppDispatch) {
+    dispatch({ type: LOGIN_REQUEST });
+    Api.loginRequest(email, password)
+      .then(res => {
+        setCookie('token', res.accessToken.split('Bearer ')[1]);
+        setCookie('refreshToken', res.refreshToken);
+        dispatch({ type: LOGIN_REQUEST, email: res.user.email, name: res.user.name })
+      })
+      .catch(err => dispatch({ type: LOGIN_ERROR }))
   }
 }

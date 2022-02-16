@@ -1,10 +1,10 @@
-import React from "react";
-import { FormlElement } from "../components/form-element/form-element";
+import React,{FunctionComponent} from "react";
+import { FormElement } from "../components/form-element/form-element";
 import styles from './profile.module.css';
 import { Link } from "react-router-dom";
 
-export const ProfilePage = () => {
-
+export const ProfilePage: FunctionComponent = () => {
+console.log(document.cookie)
   return (
     <div className={styles.profileConteiner}>
       <div className={styles.navconteiner}>
@@ -24,7 +24,7 @@ export const ProfilePage = () => {
         <p className={`${styles.blockquote} text text_type_main-default text_color_inactive mt-20`}>В этом разделе вы можете&nbsp;  изменить свои персональные данные</p>
 
       </div>
-      <FormlElement name='fgg' login='ddfd' password='df' onSubmit={() => console.log(1)} />
+      <FormElement name='fgg' login='ddfd' password='df' onSubmit={() => console.log(1)} />
 
     </div>
 

@@ -2,7 +2,7 @@ import React, { FunctionComponent } from "react";
 import { Input, Button } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from './form-element.module.css';
 
-export const FormlElement: FunctionComponent<{ name: string, login: string, password: string, onSubmit: () => any }> = (props) => {
+export const FormElement: FunctionComponent<{ name: string, login: string, password: string, onSubmit: () => any }> = (props) => {
   const [nameInputValue, setNameInputValue] = React.useState(props.name);
   const [loginInputValue, setLoginInputValue] = React.useState(props.login);
   const [passwordInputValue, setPasswordInputValue] = React.useState(props.password);
