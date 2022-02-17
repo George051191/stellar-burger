@@ -10,6 +10,7 @@ type TUserState = {
   userEmail: string;
   isUserSent: boolean;
   userPassword: string;
+  loginStatus: boolean;
 }
 
 
@@ -21,7 +22,8 @@ const userInitialState: TUserState = {
   userEmail: '',
   userName: '',
   isUserSent: false,
-  userPassword: ''
+  userPassword: '',
+  loginStatus: false
 }
 
 
@@ -32,6 +34,7 @@ export const userDataReducer = (state = userInitialState, action: TUserRequestAc
         ...state,
         userName: action.name,
         userEmail: action.email,
+        loginStatus: action.status
       }
     case CREATE_USER_REQUEST:
       return {

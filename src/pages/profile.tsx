@@ -2,9 +2,13 @@ import React,{FunctionComponent} from "react";
 import { FormElement } from "../components/form-element/form-element";
 import styles from './profile.module.css';
 import { Link } from "react-router-dom";
+import { useSelector } from "../services/types/hooks";
+import Api from "../utils/Api";
+import { getCookie, deleteCookie} from "../utils/utils";
 
 export const ProfilePage: FunctionComponent = () => {
-console.log(document.cookie)
+  const { userEmail, isUserSent } = useSelector(state => state.userState)
+  console.log(document.cookie)
   return (
     <div className={styles.profileConteiner}>
       <div className={styles.navconteiner}>
@@ -16,7 +20,7 @@ console.log(document.cookie)
             <li className={styles.listelement}>
               <Link className={`${styles.linktext} text text_type_main-medium`} to='/login'>История заказов</Link>
             </li>
-            <li className={styles.listelement}>
+            <li className={styles.listelement} onClick={() => { const match = getCookie('refreshToken'); match && Api.logoutRequest(match); deleteCookie('token'); deleteCookie('refreshToken')}}>
               <Link className={`${styles.linktext} text text_type_main-medium`} to='/profile'>Выход</Link>
             </li>
           </ul>

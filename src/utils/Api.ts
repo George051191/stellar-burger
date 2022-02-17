@@ -1,4 +1,4 @@
-
+import { getCookie } from "./utils";
 
 const BASEURL = 'https://norma.nomoreparties.space/api/';
 
@@ -11,7 +11,8 @@ class Api {
   constructor({ url }: baseUrl) {
     this.url = url;
     this.headers = {
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + getCookie('token')
     }
   }
 
@@ -27,7 +28,7 @@ class Api {
   getBurgerIngredientsData() {
     return fetch(`${this.url}ingredients`, {
       method: 'GET',
-      headers: this.headers
+      headers: { 'Content-Type': 'application/json'}
     }).then(this.checkResponse)
   }
 
@@ -81,6 +82,21 @@ class Api {
     }).then(this.checkResponse);
   }
 
+  refreshToken(token: string ) {
+    return fetch(`${this.url}auth/token`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ "token": token  })
+    }).then(this.checkResponse);
+  }
+
+  logoutRequest(token: string) {
+    return fetch(`${this.url}auth/logout`, {
+      method: 'POST',
+      headers: this.headers,
+      body: JSON.stringify({ "token": token  })
+    } ).then(this.checkResponse);
+  }
 
 
 }

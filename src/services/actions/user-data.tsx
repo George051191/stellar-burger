@@ -11,7 +11,8 @@ export interface ILoginRequest {
 export interface ILoginSuccess {
   readonly type: typeof LOGIN_SUCCESS;
   readonly email: string;
-  readonly name: string
+  readonly name: string;
+  readonly status: boolean
 }
 
 export interface ILoginError {
@@ -84,7 +85,7 @@ export const createUser: AppThunk = (email: string, password: string, name: stri
     dispatch({ type: CREATE_USER_REQUEST })
     Api.createNewUser(email, password, name)
       .then(res => {
-        setCookie('token', res.accessToken.split('Bearer ')[1], {expires: 1});
+        setCookie('token', res.accessToken.split('Bearer ')[1], {expires: 12000000});
         setCookie('refreshToken', res.refreshToken);
         dispatch({ type: CREATE_USER_SUCCESS, payload: res })
       })
@@ -97,9 +98,9 @@ export const loginUser: AppThunk = (email: string, password: string) => {
     dispatch({ type: LOGIN_REQUEST });
     Api.loginRequest(email, password)
       .then(res => {
-        setCookie('token', res.accessToken.split('Bearer ')[1]);
+        setCookie('token', res.accessToken.split('Bearer ')[1], {expires: 12000000});
         setCookie('refreshToken', res.refreshToken);
-        dispatch({ type: LOGIN_REQUEST, email: res.user.email, name: res.user.name })
+        dispatch({ type: LOGIN_SUCCESS, email: res.user.email, name: res.user.name , status: res.success})
       })
       .catch(err => dispatch({ type: LOGIN_ERROR }))
   }

@@ -19,7 +19,7 @@ const App: FunctionComponent = () => {
   const dispatch = useDispatch();
   const { dataRequest } = useSelector(store => store.burgerData)
   const { resetAnswer } = useSelector(store => store.userState)
-  console.log(resetAnswer)
+
   React.useEffect(() => {
     dispatch(getBurgerData());
   }, [dispatch])
