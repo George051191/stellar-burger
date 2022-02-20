@@ -25,7 +25,7 @@ export const AppHeader: FunctionComponent = () => {
               <BurgerIcon type='primary' />
             </MenuItem>
           </NavLink>
-          <NavLink to='/login' className={(() => isActivePage('/login') ? `${headerStyles.activenavlink} text text_type_main-default` : `text text_type_main-default text_color_inactive ${headerStyles.navlink}`)}>
+          <NavLink to='/log' className={(() => isActivePage('/log') ? `${headerStyles.activenavlink} text text_type_main-default` : `text text_type_main-default text_color_inactive ${headerStyles.navlink}`)}>
             <MenuItem text='Лента заказов' textStyles={' ml-2'} styles={`${headerStyles.header__item} pl-5 pr-5`}>
               <ListIcon type='secondary' />
             </MenuItem>

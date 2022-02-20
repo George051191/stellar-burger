@@ -66,8 +66,8 @@ export interface ILocation {
 export interface IResetPageProps {
   children: ReactNode,
   path: string,
-  redirectPath: string,
-  currentUserStatus: boolean
+  redirectPath: string
+  check?: boolean
 }
 
 

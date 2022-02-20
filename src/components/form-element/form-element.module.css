@@ -29,3 +29,9 @@
     margin: 0;
     margin-bottom: 24px;
 }
+
+.buttonconteiner {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+}

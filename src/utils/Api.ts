@@ -1,4 +1,4 @@
-import { getCookie } from "./utils";
+
 
 const BASEURL = 'https://norma.nomoreparties.space/api/';
 
@@ -12,7 +12,6 @@ class Api {
     this.url = url;
     this.headers = {
       'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + getCookie('token')
     }
   }
 
@@ -28,22 +27,28 @@ class Api {
   getBurgerIngredientsData() {
     return fetch(`${this.url}ingredients`, {
       method: 'GET',
-      headers: { 'Content-Type': 'application/json'}
+      headers: { 'Content-Type': 'application/json' }
     }).then(this.checkResponse)
   }
 
-  getOrderNumber(arrayOfId: Array<string>) {
+  getOrderNumber(arrayOfId: Array<string>, token: string) {
     return fetch(`${this.url}orders`, {
       method: 'POST',
-      headers: this.headers,
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer '  + token
+      },
       body: JSON.stringify({ "ingredients": arrayOfId })
     }).then(this.checkResponse);
   }
 
-  setPasswordReset(email: string) {
+  setPasswordReset(email: string, token: string) {
     return fetch(`${this.url}password-reset`, {
       method: 'POST',
-      headers: this.headers,
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + token
+      },
       body: JSON.stringify({ "email": email })
     }).then(this.checkResponse);
   }
@@ -51,7 +56,10 @@ class Api {
   setNewPassword(password: string, token: string) {
     return fetch(`${this.url}password-reset/reset`, {
       method: 'POST',
-      headers: this.headers,
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer '  + token
+      },
       body: JSON.stringify({
         "password": password,
         "token": token
@@ -59,10 +67,13 @@ class Api {
     }).then(this.checkResponse);
   }
 
-  createNewUser(email: string, password: string, name: string) {
+  createNewUser(email: string, password: string, name: string, token: string) {
     return fetch(`${this.url}auth/register`, {
       method: 'POST',
-      headers: this.headers,
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer '  + token
+      },
       body: JSON.stringify({
         "email": email,
         "password": password,
@@ -71,10 +82,13 @@ class Api {
     }).then(this.checkResponse);
   }
 
-  loginRequest(email: string, password: string) {
+  loginRequest(email: string, password: string, token: string) {
     return fetch(`${this.url}auth/login`, {
       method: 'POST',
-      headers: this.headers,
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer '  + token
+      },
       body: JSON.stringify({
         "email": email,
         "password": password,
@@ -82,22 +96,51 @@ class Api {
     }).then(this.checkResponse);
   }
 
-  refreshToken(token: string ) {
+  refreshToken(token: string) {
     return fetch(`${this.url}auth/token`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ "token": token  })
+      body: JSON.stringify({ "token": token })
     }).then(this.checkResponse);
   }
 
-  logoutRequest(token: string) {
+  logoutRequest( match: string) {
     return fetch(`${this.url}auth/logout`, {
       method: 'POST',
-      headers: this.headers,
-      body: JSON.stringify({ "token": token  })
-    } ).then(this.checkResponse);
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer '  + match
+      },
+      body: JSON.stringify({ "token": match })
+    }).then(this.checkResponse);
   }
 
+  getUser(token: string) {
+    return fetch(`${this.url}auth/user`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer '  + token
+      },
+    }).then(this.checkResponse);
+  }
+
+  refreshUser(email: string, password: string, name: string, token: string) {
+    return fetch(`${this.url}auth/user`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' +  token
+      },
+      body: JSON.stringify({
+        "email": email,
+        "password": password,
+        "name": name
+      })
+    }).then(this.checkResponse);
+
+
+  }
 
 }
 

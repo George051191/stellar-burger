@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from "react";
-import { useDispatch } from "../services/types/hooks";
+import { useDispatch, useSelector } from "../services/types/hooks";
 import { getBurgerData } from "../services/actions/burger-ingredients";
 import style from './burger-page.module.css'
 import { DndProvider } from 'react-dnd';
@@ -8,15 +8,22 @@ import { BurgerConstructor } from "../components/burger-constructor/burger-const
 import { BurgerIngredients } from "../components/burger-ingredients/burger-ingredients";
 import Api from "../utils/Api";
 import { getCookie, setCookie } from "../utils/utils";
+import { refreshToken } from "../utils/utils";
+
+
 
 export const Constructor: FunctionComponent = () => {
-
+  const { loginStatus } = useSelector(state=> state.userState)
   React.useEffect(() => {
-    if (!getCookie('token')) {
-      const match = getCookie('refreshToken')
-      match && Api.refreshToken(match).then(res => { console.log('jhjh'); setCookie('token', res.accessToken.split('Bearer ')[1], { expires: 12000000 });  setCookie('refreshToken', res.refreshToken) })
+    refreshToken();
+
+    const interval = setInterval(refreshToken, 100000);
+
+    return () => {
+      clearInterval(interval)
+
     }
-  })
+},[])
 
 
   return (

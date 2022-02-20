@@ -1,26 +1,46 @@
-import React,{FunctionComponent} from "react";
+import React, { FunctionComponent } from "react";
 import { FormElement } from "../components/form-element/form-element";
 import styles from './profile.module.css';
-import { Link } from "react-router-dom";
-import { useSelector } from "../services/types/hooks";
+import { Link, useLocation} from "react-router-dom";
+import { useSelector, useDispatch } from "../services/types/hooks";
 import Api from "../utils/Api";
-import { getCookie, deleteCookie} from "../utils/utils";
+import { getCookie, deleteCookie, setCookie } from "../utils/utils";
+import { getUserData } from "../services/actions/user-data";
+import { refreshToken } from "../utils/utils";
+import { USER_LOGOUT } from "../services/constants";
+
 
 export const ProfilePage: FunctionComponent = () => {
-  const { userEmail, isUserSent } = useSelector(state => state.userState)
-  console.log(document.cookie)
+  const { userEmail, userName, loginStatus } = useSelector(state => state.userState)
+  const location = useLocation();
+  console.log(location)
+  const dispatch = useDispatch();
+
+  const token = getCookie('token')
+
+  React.useEffect(() => {
+    if (getCookie('token') !== undefined) {
+       dispatch(getUserData(getCookie('token')))
+    } else { getCookie('refreshToken') !== undefined &&  refreshToken().then(() =>  dispatch(getUserData(token)))}
+    const interval = setInterval(refreshToken, 100000);
+    return () => {
+      clearInterval(interval)
+    }
+  },[])
+
+
   return (
-    <div className={styles.profileConteiner}>
+    <div className={styles.profileconteiner}>
       <div className={styles.navconteiner}>
         <nav className={`${styles.navmenu} mr-15`}>
           <ul className={styles.list}>
             <li className={styles.listelement}>
-              <Link className={`${styles.currentlinktext} text text_type_main-medium`} to='/profile' >Профиль</Link>
+              <Link className={ location.pathname === '/profile' ? `${styles.currentlinktext} text text_type_main-medium`: `${styles.linktext} text text_type_main-medium`} to='/profile' >Профиль</Link>
             </li>
             <li className={styles.listelement}>
-              <Link className={`${styles.linktext} text text_type_main-medium`} to='/login'>История заказов</Link>
+              <Link className={location.pathname === '/profile/orders' ? `${styles.currentlinktext} text text_type_main-medium`: `${styles.linktext} text text_type_main-medium`} to='/login'>История заказов</Link>
             </li>
-            <li className={styles.listelement} onClick={() => { const match = getCookie('refreshToken'); match && Api.logoutRequest(match); deleteCookie('token'); deleteCookie('refreshToken')}}>
+            <li className={styles.listelement} onClick={() => { const match = getCookie('refreshToken'); match && Api.logoutRequest(match); deleteCookie('token'); deleteCookie('refreshToken'); dispatch({type:USER_LOGOUT}) }}>
               <Link className={`${styles.linktext} text text_type_main-medium`} to='/profile'>Выход</Link>
             </li>
           </ul>
@@ -28,12 +48,10 @@ export const ProfilePage: FunctionComponent = () => {
         <p className={`${styles.blockquote} text text_type_main-default text_color_inactive mt-20`}>В этом разделе вы можете&nbsp;  изменить свои персональные данные</p>
 
       </div>
-      <FormElement name='fgg' login='ddfd' password='df' onSubmit={() => console.log(1)} />
+      <FormElement />
 
     </div>
 
   )
-
-
 
 }

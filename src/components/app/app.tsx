@@ -13,17 +13,26 @@ import { ProfilePage } from '../../pages/profile';
 import { Preloader } from '../preloader/preloader';
 import { useSelector } from '../../services/types/hooks';
 import { ProtectedRoute } from '../protected-route/protected-route';
+import { getUserData } from '../../services/actions/user-data';
+import { getCookie } from '../../utils/utils';
 
 
 const App: FunctionComponent = () => {
   const dispatch = useDispatch();
   const { dataRequest } = useSelector(store => store.burgerData)
-  const { resetAnswer } = useSelector(store => store.userState)
+  const { resetAnswer, userName } = useSelector(store => store.userState)
+  console.log(document.cookie)
+
+  const token = getCookie('token')
 
   React.useEffect(() => {
     dispatch(getBurgerData());
+
   }, [dispatch])
 
+  React.useEffect(() => {
+   getCookie('refreshToken') !== undefined && dispatch(getUserData(token));
+  },[])
 
   return (
     dataRequest ?
@@ -45,12 +54,12 @@ const App: FunctionComponent = () => {
             <Route path='/forgot-password' exact={true}>
               <RecoveryPage />
             </Route>
-            <ProtectedRoute path='/reset-password' redirectPath='/login' currentUserStatus={resetAnswer} >
+            <Route path='/reset-password'  exact={true}>
               <ResetPage />
-            </ProtectedRoute>
-            <Route path='/profile' exact={true}>
-              <ProfilePage />
             </Route>
+            <ProtectedRoute path='/profile' redirectPath='/login' check={userName}>
+              <ProfilePage />
+            </ProtectedRoute>
             <Route>
               <div>
                 <h1>Empty Page</h1>

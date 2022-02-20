@@ -1,13 +1,14 @@
 import React, { FunctionComponent } from "react";
 import { Button, Input } from "@ya.praktikum/react-developer-burger-ui-components";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import styles from './reset.module.css';
 import { useDispatch, useSelector } from "../services/types/hooks";
 import { setNewPassword } from "../services/actions/user-data";
+import { getCookie } from "../utils/utils";
 
 export const ResetPage: FunctionComponent = () => {
   const dispatch = useDispatch();
-  const { isPasswordChanged } = useSelector(store => store.userState)
+  const { isPasswordChanged, resetAnswer } = useSelector(store => store.userState)
   const [passwordInputValue, setPasswordInputValue] = React.useState('');
   const [tokenInputValue, setTokenInputValue] = React.useState('');
   const [error, setError] = React.useState(false);
@@ -41,6 +42,12 @@ export const ResetPage: FunctionComponent = () => {
   const resetUserPassword = (evt: React.FormEvent<HTMLFormElement>, password: string, token: string) => {
     evt.preventDefault();
     dispatch(setNewPassword(password, token))
+  }
+
+  if (!resetAnswer) {
+    return (
+      <Redirect to='/login' />
+    )
   }
 
   return (

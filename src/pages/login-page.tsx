@@ -1,18 +1,23 @@
 import React, { FunctionComponent } from "react";
 import { PasswordInput, EmailInput, Button } from "@ya.praktikum/react-developer-burger-ui-components";
-
+import { getCookie } from "../utils/utils";
 import styles from './login-page.module.css';
 import { loginUser } from "../services/actions/user-data";
 import { useDispatch, useSelector } from "../services/types/hooks";
-import { Redirect, Link } from "react-router-dom";
+import { Redirect, Link, useLocation } from "react-router-dom";
 
 
 export const LoginPage: FunctionComponent = () => {
-  console.log(document.cookie)
+  const location = useLocation<{ from: string }>()
+  console.log({location})
+  //console.log(document.cookie)
   const dispatch = useDispatch();
-  const { loginStatus } = useSelector(state => state.userState)
+  const { loginStatus, userName } = useSelector(state => state.userState)
   const [emailInputValue, setEmailValue] = React.useState('');
   const [passwordInputValue, setPasswordValue] = React.useState('')
+
+const token = getCookie('token')
+
   const onEmailInputValueChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setEmailValue(e.target.value)
   }
@@ -20,12 +25,19 @@ export const LoginPage: FunctionComponent = () => {
     setPasswordValue(e.target.value)
   }
 
+  if (userName) {
+    return (
+      <Redirect to={location.state?.from } />
+    )
+  }
+
 
   return (
     <>
-      {loginStatus && <Redirect to='/' />}
+
+
       <div className={styles.pagestyle}>
-        <form className={styles.form} onSubmit={(e: React.FormEvent<HTMLFormElement>) => { e.preventDefault(); dispatch(loginUser(emailInputValue, passwordInputValue)) }}>
+        <form className={styles.form} onSubmit={(e: React.FormEvent<HTMLFormElement>) => { e.preventDefault(); dispatch(loginUser(emailInputValue, passwordInputValue,token)) }}>
           <fieldset className={styles.inputsfield}>
             <h2 className={`text text_type_main-medium ${styles.header}`}>Вход</h2>
             <EmailInput onChange={onEmailInputValueChange} value={emailInputValue} name={'email'} />

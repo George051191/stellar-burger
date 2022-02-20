@@ -5,10 +5,11 @@ import styles from './recovery.module.css';
 import { useSelector, useDispatch } from "../services/types/hooks";
 import { getPasswordReset } from "../services/actions/user-data";
 import { Redirect } from "react-router-dom";
+import { getCookie } from "../utils/utils";
 
 export const RecoveryPage: FunctionComponent = () => {
   const { resetAnswer, resetPending } = useSelector(state => state.userState);
-
+  const token = getCookie('token')
   const dispatch = useDispatch()
   const [value, setValue] = React.useState('')
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -16,8 +17,10 @@ export const RecoveryPage: FunctionComponent = () => {
   }
   const sendResetPasswordRequest = (value: string, event:React.FormEvent<HTMLFormElement>) => {
     event?.preventDefault()
-    dispatch(getPasswordReset(value))
+    dispatch(getPasswordReset(value,token))
   }
+
+
   console.log(resetAnswer)
   return (
     <>
