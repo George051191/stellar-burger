@@ -15,13 +15,16 @@ import { useSelector } from '../../services/types/hooks';
 import { ProtectedRoute } from '../protected-route/protected-route';
 import { getUserData } from '../../services/actions/user-data';
 import { getCookie } from '../../utils/utils';
+import { IngredientPage } from '../../pages/ingredient-page';
 
 
 const App: FunctionComponent = () => {
+
   const dispatch = useDispatch();
   const { dataRequest } = useSelector(store => store.burgerData)
   const { resetAnswer, userName } = useSelector(store => store.userState)
   console.log(document.cookie)
+
 
   const token = getCookie('token')
 
@@ -31,8 +34,8 @@ const App: FunctionComponent = () => {
   }, [dispatch])
 
   React.useEffect(() => {
-   getCookie('refreshToken') !== undefined && dispatch(getUserData(token));
-  },[])
+    getCookie('refreshToken') !== undefined && dispatch(getUserData(token));
+  }, [])
 
   return (
     dataRequest ?
@@ -54,12 +57,15 @@ const App: FunctionComponent = () => {
             <Route path='/forgot-password' exact={true}>
               <RecoveryPage />
             </Route>
-            <Route path='/reset-password'  exact={true}>
+            <Route path='/reset-password' exact={true}>
               <ResetPage />
             </Route>
             <ProtectedRoute path='/profile' redirectPath='/login' check={userName}>
               <ProfilePage />
-            </ProtectedRoute>
+         </ProtectedRoute>
+            <Route path='/ingredients/:id' >
+              <IngredientPage/>
+            </Route>
             <Route>
               <div>
                 <h1>Empty Page</h1>

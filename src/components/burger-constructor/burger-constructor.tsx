@@ -23,7 +23,8 @@ export const BurgerConstructor: FunctionComponent = () => {
   const { orderButtonIsClicked, requestIsSuccessed, orderNumber } = useSelector(state => state.currentOrder);
   const { ingredients } = useSelector(state => state.burgerData);
   const { elements, bun } = useSelector(state => state.constructorState);
-  console.log(document.cookie)
+
+
 
 const token = getCookie('token')
 

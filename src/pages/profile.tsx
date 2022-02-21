@@ -13,7 +13,7 @@ import { USER_LOGOUT } from "../services/constants";
 export const ProfilePage: FunctionComponent = () => {
   const { userEmail, userName, loginStatus } = useSelector(state => state.userState)
   const location = useLocation();
-  console.log(location)
+
   const dispatch = useDispatch();
 
   const token = getCookie('token')

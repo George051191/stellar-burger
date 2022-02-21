@@ -9,8 +9,8 @@ import { Redirect, Link, useLocation } from "react-router-dom";
 
 export const LoginPage: FunctionComponent = () => {
   const location = useLocation<{ from: string }>()
-  console.log({location})
-  //console.log(document.cookie)
+
+
   const dispatch = useDispatch();
   const { loginStatus, userName } = useSelector(state => state.userState)
   const [emailInputValue, setEmailValue] = React.useState('');
