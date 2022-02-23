@@ -70,4 +70,7 @@ export interface IResetPageProps {
   check?: boolean
 }
 
+export interface IStateLocation {
+
+}
 

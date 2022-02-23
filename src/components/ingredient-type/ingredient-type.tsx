@@ -4,11 +4,12 @@ import сolumnsStyle from './ingredient-type.module.css';
 import { IIngredientType } from "../../utils/interfaces";
 import { useSelector } from "../../services/types/hooks";
 import { Link } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 
 ///компонент контейнер для отрисовки определенного типа ингридиентов
 export const IngredientType = React.forwardRef<HTMLHeadingElement, IIngredientType >((props, ref) => {
-
+  const location = useLocation()
   const { bun, elements } = useSelector(state => state.constructorState);
 
 
@@ -17,9 +18,9 @@ export const IngredientType = React.forwardRef<HTMLHeadingElement, IIngredientTy
       <h2 ref={ref} className='text text_type_main-medium mb-6'>{props.ingredientName}</h2>
       <ul className={`pl-4 pr-4 mb-10 ${сolumnsStyle.column}`}>
         {props.data && props.data.map(item => (
-          <Link id={item._id} to={`/ingredients/${item._id}`} >
+
             <Ingredient id={item._id} key={item._id} {...item} bun={bun} elements={elements} />
-            </Link>
+
         ))
         }
       </ul>

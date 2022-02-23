@@ -8,10 +8,11 @@ import { getBurgerData } from "../services/actions/burger-ingredients";
 
 export const IngredientPage = () => {
   const { currentItem } = useSelector(state => state.currentSelect);
-  const {ingredients} = useSelector(state=> state.burgerData)
+  const { ingredients } = useSelector(state => state.burgerData)
   const [state, setState] = React.useState(currentItem)
 
   const location = useLocation();
+
   const dispatch = useDispatch()
   const a = Array.from(location.pathname).splice(13).join('')
   async function findCurrent() {
@@ -22,7 +23,9 @@ export const IngredientPage = () => {
 
 
 
-  console.log(state)
+
+
+
 
   React.useEffect(() => {
 

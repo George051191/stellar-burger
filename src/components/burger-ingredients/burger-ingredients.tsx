@@ -6,6 +6,7 @@ import { Modal } from "../modal/modal";
 import { IngredientDetails } from "../ingredient-details/ingredient-details";
 import { useSelector, useDispatch } from '../../services/types/hooks';
 import { CLICK_ON_CLOSE_BUTTON } from "../../services/constants/index"
+import { useHistory, Route} from "react-router-dom";
 
 
 
@@ -13,13 +14,13 @@ import { CLICK_ON_CLOSE_BUTTON } from "../../services/constants/index"
 export const BurgerIngredients: FunctionComponent = () => {
   const { currentItem, itemIsClicked } = useSelector(state => state.currentSelect);
   const { ingredients } = useSelector(state => state.burgerData);
-
+  const history = useHistory()
   const dispatch = useDispatch();
   const [current, setCurrent] = React.useState('Булки')
   const bunsRef = React.useRef<HTMLDivElement>(null);
   const soucesRef = React.useRef<HTMLDivElement>(null);
   const fillingsRef = React.useRef<HTMLDivElement>(null);
-
+  const isPush = history.action === 'PUSH'
   ///вычисляем где сейчас находится скролл и подсвечиваем нужный Tab
   function determineElementPosition(e: React.ChangeEvent<HTMLDivElement>) {
     const scrollPosition = e.target.scrollTop;
@@ -61,7 +62,7 @@ export const BurgerIngredients: FunctionComponent = () => {
         <IngredientType ingredientName='Соусы' data={ingredients.filter(item => item.type === 'sauce')} ref={soucesRef} />
         <IngredientType ingredientName='Начинки' data={ingredients.filter(item => item.type === 'main')} ref={fillingsRef} />
       </div>
-      {itemIsClicked && <Modal headerText={'Детали ингридиента'} modalStyles={`text text_type_main-large`} modalHeaderStyles={`${ingredientsStyles.modal__header} mt-10 mr-10 ml-10`} closeModal={() => { dispatch({ type: CLICK_ON_CLOSE_BUTTON }) }}><IngredientDetails {...currentItem} /></Modal>}
+
     </div>
   )
 }
