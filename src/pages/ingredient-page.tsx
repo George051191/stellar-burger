@@ -2,12 +2,12 @@ import React from "react";
 import ingredientModalStyles from './ingredient-page.module.css';
 import { useSelector, useDispatch } from "../services/types/hooks";
 import { useLocation } from "react-router-dom";
-import Api from '../utils/Api'
+import { IIngredient } from "../utils/interfaces";
 
 
 export const IngredientPage = () => {
   const { currentItem } = useSelector(state => state.currentSelect);
-
+  const { ingredients } = useSelector(state => state.burgerData)
   const [state, setState] = React.useState(currentItem)
 
   const location = useLocation();
@@ -16,9 +16,8 @@ export const IngredientPage = () => {
 
 
   async function findCurrent() {
-    const response = await Api.getBurgerIngredientsData();
-    const current = await response.data.find((item: typeof currentItem) => { return item._id === a });
-    setState(current)
+    const current = ingredients.find((item: typeof currentItem) => { return item._id === a });
+    current && setState(current)
   }
 
 

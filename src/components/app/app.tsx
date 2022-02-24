@@ -19,7 +19,7 @@ import { IngredientPage } from '../../pages/ingredient-page';
 import { Modal } from '../modal/modal';
 import { IngredientDetails } from '../ingredient-details/ingredient-details';
 import { CLICK_ON_CLOSE_BUTTON } from '../../services/constants';
-
+import { refreshToken, deleteCookie } from '../../utils/utils';
 
 
 const App: FunctionComponent = () => {
@@ -27,8 +27,7 @@ const App: FunctionComponent = () => {
   const location = useLocation<{ [key in any]: any }>();
   const isPush = history.action === 'PUSH';
 
-
-  let background = isPush && location.state && location.state.background;
+  const background = isPush && location.state && location.state.background;
 
 
   const dispatch = useDispatch();
@@ -36,16 +35,17 @@ const App: FunctionComponent = () => {
   const { userName } = useSelector(store => store.userState)
   const { currentItem } = useSelector(state => state.currentSelect)
 
-
+  console.log(document.cookie)
 
   const token = getCookie('token')
-
-
+  const refresh = getCookie('refreshToken')
 
   React.useEffect(() => {
     dispatch(getBurgerData());
-    dispatch(getUserData(token));
-  }, [])
+    refresh && dispatch(getUserData(token, refresh))
+
+  },[dispatch, token, refresh])
+
 
 
   return (

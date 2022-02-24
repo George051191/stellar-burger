@@ -3,7 +3,7 @@ import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import ingredientsStyles from './burger-ingredients.module.css';
 import { IngredientType } from '../ingredient-type/ingredient-type';
 import { useSelector, useDispatch } from '../../services/types/hooks';
-import { useHistory, Route } from "react-router-dom";
+
 
 
 
