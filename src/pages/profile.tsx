@@ -13,20 +13,21 @@ import { USER_LOGOUT } from "../services/constants";
 export const ProfilePage: FunctionComponent = () => {
 
   const location = useLocation();
-
-  const dispatch = useDispatch();
-
   const token = getCookie('token')
+  const tokenForRefresh = getCookie('refreshToken')
+  const dispatch = useDispatch();
 
   React.useEffect(() => {
     if (token !== undefined) {
        dispatch(getUserData(token))
-    } else { getCookie('refreshToken') !== undefined &&  refreshToken().then(() =>  dispatch(getUserData(token)))}
+    } else { tokenForRefresh  !== undefined &&  refreshToken(tokenForRefresh).then(() =>  dispatch(getUserData(token)))}
     const interval = setInterval(refreshToken, 100000);
     return () => {
       clearInterval(interval)
     }
-  },[token, dispatch])
+  }, [token, dispatch, tokenForRefresh])
+
+
 
 
   return (

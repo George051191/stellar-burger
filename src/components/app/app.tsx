@@ -19,7 +19,7 @@ import { IngredientPage } from '../../pages/ingredient-page';
 import { Modal } from '../modal/modal';
 import { IngredientDetails } from '../ingredient-details/ingredient-details';
 import { CLICK_ON_CLOSE_BUTTON } from '../../services/constants';
-
+import { refreshToken } from '../../utils/utils';
 
 
 const App: FunctionComponent = () => {
@@ -28,8 +28,8 @@ const App: FunctionComponent = () => {
   const isPush = history.action === 'PUSH';
 
 
-  let background = isPush && location.state && location.state.background;
-
+  const background = isPush && location.state && location.state.background;
+  console.log(document.cookie)
 
   const dispatch = useDispatch();
   const { dataRequest } = useSelector(store => store.burgerData)
@@ -44,8 +44,9 @@ const App: FunctionComponent = () => {
 
   React.useEffect(() => {
     dispatch(getBurgerData());
-    dispatch(getUserData(token));
+   token && dispatch(getUserData(token))
   }, [])
+
 
 
   return (

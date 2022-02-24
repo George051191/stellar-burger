@@ -5,7 +5,9 @@ import styles from './login-page.module.css';
 import { loginUser } from "../services/actions/user-data";
 import { useDispatch, useSelector } from "../services/types/hooks";
 import { Redirect, Link, useLocation } from "react-router-dom";
-import { ILocation } from "../utils/interfaces";
+import { getUserData } from "../services/actions/user-data";
+import { refreshToken } from "../utils/utils";
+
 
 export const LoginPage: FunctionComponent = () => {
   const location = useLocation<{[key in any] : any}>()
@@ -17,7 +19,7 @@ export const LoginPage: FunctionComponent = () => {
   const [passwordInputValue, setPasswordValue] = React.useState('')
 
   const token = getCookie('token')
-
+  const tokenForRefresh = getCookie('refreshToken')
 
   const onEmailInputValueChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setEmailValue(e.target.value)
@@ -27,6 +29,9 @@ export const LoginPage: FunctionComponent = () => {
   }
 
 
+  React.useEffect(() => {
+   dispatch(getUserData(token))
+}, [])
 
 
  if (userName) {
