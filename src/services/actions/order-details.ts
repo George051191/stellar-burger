@@ -34,12 +34,11 @@ export type TOrderDetailsActions = IOpenOrderPopupAction | IGetOrderRequestActio
 
 
 
-export const getOrderNumber: AppThunk = (idData: string[]) => {
+export const getOrderNumber: AppThunk = (idData: string[],token: string) => {
   return function (dispatch: TAppDispatch) {
     dispatch({ type: GET_ORDER_REQUEST })
-    Api.getOrderNumber(idData)
+    Api.getOrderNumber(idData,  token)
       .then(res => {
-
         dispatch({ type: GET_ORDER_SUCCESS, data: res.order.number, orderData: res, result: res.success })
       })
       .catch(err => { dispatch({ type: GET_ORDER_ERROR }) })

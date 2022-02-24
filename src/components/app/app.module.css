@@ -7,3 +7,9 @@
     background-color: #131316;
     margin: 0 auto;
 }
+
+.modal__header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}

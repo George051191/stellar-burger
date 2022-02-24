@@ -1,15 +1,28 @@
 import React, { FunctionComponent } from "react";
-import { useDispatch } from "../services/types/hooks";
-import { getBurgerData } from "../services/actions/burger-ingredients";
+import { useDispatch, useSelector } from "../services/types/hooks";
 import style from './burger-page.module.css'
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { BurgerConstructor } from "../components/burger-constructor/burger-constructor";
 import { BurgerIngredients } from "../components/burger-ingredients/burger-ingredients";
+import { refreshToken, getCookie } from "../utils/utils";
+
+
 
 export const Constructor: FunctionComponent = () => {
 
+  const token = getCookie('token')
 
+  React.useEffect(() => {
+   !token && refreshToken();
+
+    const interval = setInterval(refreshToken, 100000);
+
+    return () => {
+      clearInterval(interval)
+
+    }
+  }, [])
 
 
   return (

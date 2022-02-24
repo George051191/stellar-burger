@@ -60,14 +60,17 @@ export interface ILocation {
   hash: string;
   pathname: string;
   search: string;
-  state: object | null;
+  state: object | null
 }
+
+
 
 export interface IResetPageProps {
   children: ReactNode,
   path: string,
-  redirectPath: string,
-  currentUserStatus: boolean
+  redirectPath: string
+  check?: boolean
 }
+
 
 

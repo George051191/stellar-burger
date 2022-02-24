@@ -6,12 +6,17 @@
     margin: 0 auto;
 }
 
-.navlink {
+.link {
     text-decoration: none;
 }
 
 .navlink svg {
     fill: #8585AD
+}
+
+.navlink {
+    text-decoration: none;
+    color: rgba(133, 133, 173, 1)
 }
 
 .activenavlink {
