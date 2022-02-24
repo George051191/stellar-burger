@@ -51,7 +51,7 @@ export function deleteCookie(name: string) {
 export async function refreshToken(tokenForRefresh: string) {
 
   const match = tokenForRefresh;
-  match !== undefined &&  Api.refreshToken(match).then(res => { setCookie('token', res.accessToken.split('Bearer ')[1], { expires: 1200000 }); setCookie('refreshToken', res.refreshToken) })
+  match !== undefined &&  Api.refreshToken(match).then(res => { setCookie('token', res.accessToken.split('Bearer ')[1]); setCookie('refreshToken', res.refreshToken) })
 }
 
 

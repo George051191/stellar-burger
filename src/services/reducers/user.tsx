@@ -55,7 +55,9 @@ export const userDataReducer = (state = userInitialState, action: TUserRequestAc
       return {
         userEmail: '',
         userName: '',
-        userPassword: ''
+        userPassword: '',
+        formName: '',
+        formEmail: ''
       }
     case USER_DATA_REQUEST:
       return {
@@ -74,6 +76,8 @@ export const userDataReducer = (state = userInitialState, action: TUserRequestAc
         ...state,
         userName: action.name,
         userEmail: action.email,
+        formName: action.name,
+        formEmail: action.email,
         loginStatus: action.status
       }
     case CREATE_USER_REQUEST:

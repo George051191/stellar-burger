@@ -11,19 +11,6 @@ import { refreshToken, getCookie } from "../utils/utils";
 
 export const Constructor: FunctionComponent = () => {
 
-  const token = getCookie('token')
-  const tokenForRefresh = getCookie('refreshToken')
-
-  React.useEffect(() => {
-   !token && tokenForRefresh && refreshToken(tokenForRefresh);
-
-    const interval = setInterval(refreshToken, 100000);
-
-    return () => {
-      clearInterval(interval)
-
-    }
-  }, [])
 
 
   return (
@@ -37,3 +24,5 @@ export const Constructor: FunctionComponent = () => {
 
   )
 }
+
+

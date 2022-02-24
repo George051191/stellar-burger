@@ -41,7 +41,7 @@ export const ResetPage: FunctionComponent = () => {
 
   const resetUserPassword = (evt: React.FormEvent<HTMLFormElement>, password: string, token: string) => {
     evt.preventDefault();
-    dispatch(setNewPassword(password, token))
+    dispatch(setNewPassword(password, token, getCookie('refreshToken')))
   }
 
   if (!resetAnswer) {

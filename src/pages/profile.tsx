@@ -13,11 +13,11 @@ import { USER_LOGOUT } from "../services/constants";
 export const ProfilePage: FunctionComponent = () => {
 
   const location = useLocation();
-  const token = getCookie('token')
-  const tokenForRefresh = getCookie('refreshToken')
+ /*  const token = getCookie('token')
+  const tokenForRefresh = getCookie('refreshToken') */
   const dispatch = useDispatch();
 
-  React.useEffect(() => {
+ /*  React.useEffect(() => {
     if (token !== undefined) {
        dispatch(getUserData(token))
     } else { tokenForRefresh  !== undefined &&  refreshToken(tokenForRefresh).then(() =>  dispatch(getUserData(token)))}
@@ -25,7 +25,7 @@ export const ProfilePage: FunctionComponent = () => {
     return () => {
       clearInterval(interval)
     }
-  }, [token, dispatch, tokenForRefresh])
+  }, [token, dispatch, tokenForRefresh]) */
 
 
 
@@ -56,3 +56,11 @@ export const ProfilePage: FunctionComponent = () => {
   )
 
 }
+
+
+
+//eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyMGViN2JjMjViOWE0MDAxYjZkZmVjNCIsImlhdCI6MTY0NTczMjY4MSwiZXhwIjoxNjQ1NzMzODgxfQ.0EboyKERJhso_foLIEVIf-CPrZTR6_fhXt5so2wwQGg;
+//eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyMGViN2JjMjViOWE0MDAxYjZkZmVjNCIsImlhdCI6MTY0NTQ3MDA5NSwiZXhwIjoxNjQ1NDcxMjk1fQ.Ro2w6hmhwiLGhOXwaJgE9LIH1_fThvh7fA074SLw5pE
+
+//d0474664067f387b521bc84b75fbaf7d206c5395c5a1a33f2f14164cff6292046f681a25cc907d2e
+//ac3224fb7dc6c004a2ffcb59f9971965eb2ee27cfa316883f22733cbc77688bb5f47d78fbd20ad32

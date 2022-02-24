@@ -29,9 +29,6 @@ export const LoginPage: FunctionComponent = () => {
   }
 
 
-  React.useEffect(() => {
-   dispatch(getUserData(token))
-}, [])
 
 
  if (userName) {

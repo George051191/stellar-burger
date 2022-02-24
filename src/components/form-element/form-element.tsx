@@ -9,8 +9,7 @@ import { getCookie } from "../../utils/utils";
 
 export const FormElement: FunctionComponent = () => {
   const { formName, formEmail, formPassword, userName, userEmail} = useSelector(state => state.userState)
-  console.log(formName, formEmail, formPassword)
-  console.log(userName, userEmail)
+
   const dispatch = useDispatch()
 
   const nameInputRef = React.useRef<HTMLInputElement>(null);
@@ -31,7 +30,7 @@ export const FormElement: FunctionComponent = () => {
 
   return (
     <div className={styles.formelement}>
-      <form className={styles.form} onSubmit={(e) => { e.preventDefault(); dispatch(refreshUser(formEmail, formPassword, formName,getCookie('token'))) }}>
+      <form className={styles.form} onSubmit={(e) => { e.preventDefault(); dispatch(refreshUser(formEmail, formPassword, formName,getCookie('token'), getCookie('refreshToken'))) }}>
         <fieldset className={styles.fieldset}>
           <Input onIconClick={onNameClick} ref={nameInputRef} type={'text'} placeholder={'Имя'} onChange={(e) => dispatch({ type: CHANGE_NAME, name: e.target.value })} icon={'EditIcon'} value={formName} />
           <Input onIconClick={onLoginClick} ref={loginInputRef} type={'text'} placeholder={'Логин'} onChange={e => dispatch({ type: CHANGE_EMAIL, email: e.target.value })} icon={'EditIcon'} value={formEmail} />

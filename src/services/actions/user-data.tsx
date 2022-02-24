@@ -97,47 +97,120 @@ export interface ICreateUserError {
 export type TUserRequestActions = ILogout | IChangeName | IChangeEmail | IChangePassword | IUserDataRequest | IUserDataError | IUserDataSuccess | IResetError | IResetSuccess | IResetRequest | ISetPasswordError | ISetPasswordRequest | ISetPasswordSuccess | ICreateUserRequest | ICreateUserSuccess | ICreateUserError | ILoginError | ILoginRequest | ILoginSuccess;
 
 
-export const refreshUser: AppThunk = (email: string, password: string, name: string, token: string) => {
+export const refreshUser: AppThunk = (email: string, password: string, name: string, token: string, refresh: string) => {
   return function (dispatch: TAppDispatch) {
     Api.refreshUser(email, password, name, token)
       .then(res => dispatch({ type: CREATE_USER_SUCCESS, payload: res }))
+      .catch(err => {
+        if (err === 'Ошибка: 403') {
+          Api.refreshToken(refresh).then(res => { setCookie('token', res.accessToken.split('Bearer ')[1]); setCookie('refreshToken', res.refreshToken); return res.accessToken.split('Bearer ')[1] })
+            .then((res) => {
+              Api.refreshUser(email, password, name, res)
+                .then(res => dispatch({ type: CREATE_USER_SUCCESS, payload: res }))
+            })
+
+        }
+      })
+
+
+
+
   }
 }
 
-export const getUserData: AppThunk = (token: string ) => {
+export const getUserData: AppThunk = (token: string, refresh: string) => {
   return function (dispatch: TAppDispatch) {
     dispatch({ type: USER_DATA_REQUEST });
     Api.getUser(token)
       .then(res => dispatch({ type: USER_DATA_SUCCESS, email: res.user.email, name: res.user.name }))
-      .catch(err => dispatch({ type: USER_DATA_ERROR }))
+      .catch(err => {
+        if (err === 'Ошибка: 403') {
+          Api.refreshToken(refresh).then(res => { setCookie('token', res.accessToken.split('Bearer ')[1]); setCookie('refreshToken', res.refreshToken); return res.accessToken.split('Bearer ')[1] })
+            .then((res) => {
+              Api.getUser(res)
+                .then(res => dispatch({ type: USER_DATA_SUCCESS, email: res.user.email, name: res.user.name }))
+            })
+
+        }
+      }
+
+
+      )
   }
 }
 
 
-export const getPasswordReset: AppThunk = (email: string, token:string) => {
+
+/* export const getUserData: AppThunk = (token: string) => {
+  return function (dispatch: TAppDispatch) {
+    dispatch({ type: USER_DATA_REQUEST });
+    try {
+      Api.getUser(token)
+        .then(res => dispatch({ type: USER_DATA_SUCCESS, email: res.user.email, name: res.user.name }))
+        .catch(err => dispatch({ type: USER_DATA_ERROR }))
+    } catch (error: any) {
+      console.log(error)
+    }
+
+dispatch({ type: USER_DATA_ERROR })
+  }
+} */
+
+
+export const getPasswordReset: AppThunk = (email: string, token: string, refresh: string) => {
   return function (dispatch: TAppDispatch) {
     dispatch({ type: RESET_REQUEST });
     Api.setPasswordReset(email, token)
       .then(res => dispatch({ type: RESET_SUCCESS, success: res.success }))
-      .catch(err => dispatch({ type: RESET_ERROR }))
+
+      .catch(err => {
+        dispatch({ type: RESET_ERROR });
+        if (err === 'Ошибка: 403') {
+          Api.refreshToken(refresh).then(res => { setCookie('token', res.accessToken.split('Bearer ')[1]); setCookie('refreshToken', res.refreshToken); return res.accessToken.split('Bearer ')[1] })
+            .then((res) => {
+              Api.setPasswordReset(email, res)
+                .then(res => dispatch({ type: RESET_SUCCESS, success: res.success }))
+
+            })
+
+        }
+      })
   }
 }
 
-export const setNewPassword: AppThunk = (password: string, token: string) => {
+
+
+export const setNewPassword: AppThunk = (password: string, token: string, refresh: string) => {
   return function (dispatch: TAppDispatch) {
     dispatch({ type: SET_PASSWORD_REQUEST })
     Api.setNewPassword(password, token)
       .then(res => dispatch({ type: SET_PASSWORD_SUCCESS, success: res.success }))
-      .catch(err => dispatch({ type: SET_PASSWORD_ERROR }))
+
+      .catch(err => {
+        dispatch({ type: SET_PASSWORD_ERROR });
+        dispatch({ type: RESET_ERROR });
+        if (err === 'Ошибка: 403') {
+          Api.refreshToken(refresh).then(res => { setCookie('token', res.accessToken.split('Bearer ')[1]); setCookie('refreshToken', res.refreshToken); return res.accessToken.split('Bearer ')[1] })
+            .then((res) => {
+              Api.setNewPassword(password, res)
+                .then(res => dispatch({ type: SET_PASSWORD_SUCCESS, success: res.success }))
+
+            })
+
+        }
+      })
   }
 }
 
-export const createUser: AppThunk = (email: string, password: string, name: string,token:string) => {
+
+
+export const createUser: AppThunk = (email: string, password: string, name: string, token: string) => {
   return function (dispatch: TAppDispatch) {
     dispatch({ type: CREATE_USER_REQUEST })
     Api.createNewUser(email, password, name, token)
       .then(res => {
-        setCookie('token', res.accessToken.split('Bearer ')[1], { expires: 1200000 });
+
+        setCookie('token', res.accessToken.split('Bearer ')[1]);
         setCookie('refreshToken', res.refreshToken);
         dispatch({ type: CREATE_USER_SUCCESS, payload: res })
       })
@@ -145,12 +218,12 @@ export const createUser: AppThunk = (email: string, password: string, name: stri
   }
 }
 
-export const loginUser: AppThunk = (email: string, password: string, token:string) => {
+export const loginUser: AppThunk = (email: string, password: string, token: string) => {
   return function (dispatch: TAppDispatch) {
     dispatch({ type: LOGIN_REQUEST });
     Api.loginRequest(email, password, token)
       .then(res => {
-        setCookie('token', res.accessToken.split('Bearer ')[1], { expires: 1200000 });
+        setCookie('token', res.accessToken.split('Bearer ')[1]);
         setCookie('refreshToken', res.refreshToken);
         dispatch({ type: LOGIN_SUCCESS, email: res.user.email, name: res.user.name, status: res.success })
       })
