@@ -8,7 +8,7 @@ import { getCookie } from "../utils/utils";
 
 export const ResetPage: FunctionComponent = () => {
   const dispatch = useDispatch();
-  const { isPasswordChanged, resetAnswer } = useSelector(store => store.userState)
+  const { isPasswordChanged, resetAnswer, userName } = useSelector(store => store.userState)
   const [passwordInputValue, setPasswordInputValue] = React.useState('');
   const [tokenInputValue, setTokenInputValue] = React.useState('');
   const [error, setError] = React.useState(false);
@@ -47,6 +47,12 @@ export const ResetPage: FunctionComponent = () => {
   if (!resetAnswer) {
     return (
       <Redirect to='/login' />
+    )
+  }
+
+  if (userName) {
+    return (
+      <Redirect to='/' />
     )
   }
 

@@ -26,7 +26,7 @@ export const BurgerConstructor: FunctionComponent = () => {
 
 
 
-const token = getCookie('token')
+  const token = getCookie('token')
 
   ///вычисляем значения для ключей
   function uid(): number {
@@ -67,14 +67,14 @@ const token = getCookie('token')
         .then(() => {
           const idArray = elements.map(item => { return item._id })
           dispatch({ type: OPEN_ORDER_POPUP });
-          dispatch(getOrderNumber([...idArray, bun._id],  token));
+          dispatch(getOrderNumber([...idArray, bun._id], token));
         })
     } else {
 
-        const idArray = elements.map(item => { return item._id })
-        dispatch({ type: OPEN_ORDER_POPUP });
-        dispatch(getOrderNumber([...idArray, bun._id], getCookie('token')));
-      }
+      const idArray = elements.map(item => { return item._id })
+      dispatch({ type: OPEN_ORDER_POPUP });
+      dispatch(getOrderNumber([...idArray, bun._id], getCookie('token')));
+    }
 
 
   }

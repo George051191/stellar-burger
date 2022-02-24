@@ -5,18 +5,19 @@ import styles from './login-page.module.css';
 import { loginUser } from "../services/actions/user-data";
 import { useDispatch, useSelector } from "../services/types/hooks";
 import { Redirect, Link, useLocation } from "react-router-dom";
-
+import { ILocation } from "../utils/interfaces";
 
 export const LoginPage: FunctionComponent = () => {
-  const location = useLocation<{ from: string }>()
+  const location = useLocation<{[key in any] : any}>()
 
 
   const dispatch = useDispatch();
-  const { loginStatus, userName } = useSelector(state => state.userState)
+  const { userName } = useSelector(state => state.userState)
   const [emailInputValue, setEmailValue] = React.useState('');
   const [passwordInputValue, setPasswordValue] = React.useState('')
 
-const token = getCookie('token')
+  const token = getCookie('token')
+
 
   const onEmailInputValueChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setEmailValue(e.target.value)
@@ -25,19 +26,22 @@ const token = getCookie('token')
     setPasswordValue(e.target.value)
   }
 
-  if (userName) {
+
+
+
+ if (userName) {
     return (
-      <Redirect to={location.state?.from } />
+      <Redirect to={ location.state?.from || '/'} />
     )
   }
+
 
 
   return (
     <>
 
-
       <div className={styles.pagestyle}>
-        <form className={styles.form} onSubmit={(e: React.FormEvent<HTMLFormElement>) => { e.preventDefault(); dispatch(loginUser(emailInputValue, passwordInputValue,token)) }}>
+        <form className={styles.form} onSubmit={(e: React.FormEvent<HTMLFormElement>) => { e.preventDefault(); dispatch(loginUser(emailInputValue, passwordInputValue, token)) }}>
           <fieldset className={styles.inputsfield}>
             <h2 className={`text text_type_main-medium ${styles.header}`}>Вход</h2>
             <EmailInput onChange={onEmailInputValueChange} value={emailInputValue} name={'email'} />

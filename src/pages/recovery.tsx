@@ -8,20 +8,26 @@ import { Redirect } from "react-router-dom";
 import { getCookie } from "../utils/utils";
 
 export const RecoveryPage: FunctionComponent = () => {
-  const { resetAnswer, resetPending } = useSelector(state => state.userState);
+  const { resetAnswer, resetPending, userName } = useSelector(state => state.userState);
   const token = getCookie('token')
   const dispatch = useDispatch()
   const [value, setValue] = React.useState('')
+
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setValue(e.target.value)
   }
+
   const sendResetPasswordRequest = (value: string, event:React.FormEvent<HTMLFormElement>) => {
     event?.preventDefault()
     dispatch(getPasswordReset(value,token))
   }
 
+  if (userName) {
+    return (
+      <Redirect to='/' />
+    )
+  }
 
-  console.log(resetAnswer)
   return (
     <>
       {resetAnswer && <Redirect to='/reset-password'/>}

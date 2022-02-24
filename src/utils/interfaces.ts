@@ -60,8 +60,10 @@ export interface ILocation {
   hash: string;
   pathname: string;
   search: string;
-  state: object | null;
+  state: object | null
 }
+
+
 
 export interface IResetPageProps {
   children: ReactNode,
@@ -70,7 +72,5 @@ export interface IResetPageProps {
   check?: boolean
 }
 
-export interface IStateLocation {
 
-}
 

@@ -25,28 +25,28 @@ import { CLICK_ON_CLOSE_BUTTON } from '../../services/constants';
 const App: FunctionComponent = () => {
   const history = useHistory()
   const location = useLocation<{ [key in any]: any }>();
-  //const isPush = history.action === 'PUSH';
-  //const isPull = history.action === 'POP'
-  let background =  location.state && location.state.background;
+  const isPush = history.action === 'PUSH';
+
+
+  let background = isPush && location.state && location.state.background;
 
 
   const dispatch = useDispatch();
   const { dataRequest } = useSelector(store => store.burgerData)
-  const { resetAnswer, userName } = useSelector(store => store.userState)
+  const { userName } = useSelector(store => store.userState)
   const { currentItem } = useSelector(state => state.currentSelect)
-  console.log(!!background)
+
 
 
   const token = getCookie('token')
 
+
+
   React.useEffect(() => {
     dispatch(getBurgerData());
-
-  }, [dispatch])
-
-  React.useEffect(() => {
-   dispatch(getUserData(token));
+    dispatch(getUserData(token));
   }, [])
+
 
   return (
     dataRequest ?
@@ -55,43 +55,40 @@ const App: FunctionComponent = () => {
       (<>
         <AppHeader />
 
-          <main className={styles.app}>
-            <Switch location={location || background } >
-              <Route path='/' exact={true}>
-                <Constructor />
-              </Route>
-              <Route path='/login' exact={true}>
-                <LoginPage />
-              </Route>
-              <Route path='/register' exact={true}>
-                <RegistrationPage />
-              </Route>
-              <Route path='/forgot-password' exact={true}>
-                <RecoveryPage />
-              </Route>
-              <Route path='/reset-password' exact={true}>
-                <ResetPage />
-              </Route>
-              <ProtectedRoute path='/profile' redirectPath='/login' check={userName}>
-                <ProfilePage />
-              </ProtectedRoute>
-            <Route path='/ingredients/:id' >
-            <IngredientPage/>
-              </Route>
-              <Route>
-                <div>
-                  <h1>Empty Page</h1>
-                </div>
+        <main className={styles.app}>
+          <Switch location={background || location} >
+            <Route path='/' exact={true}>
+              <Constructor />
             </Route>
-            </Switch>
+            <Route path='/login' exact={true}>
+              <LoginPage />
+            </Route>
+            <Route path='/register' exact={true}>
+              <RegistrationPage />
+            </Route>
+            <Route path='/forgot-password' exact={true}>
+              <RecoveryPage />
+            </Route>
+            <Route path='/reset-password' exact={true}>
+              <ResetPage />
+            </Route>
+            <ProtectedRoute path='/profile' redirectPath='/login' check={userName}>
+              <ProfilePage />
+            </ProtectedRoute>
+            <Route path='/ingredients/:id' exact={true} >
+              <IngredientPage />
+            </Route>
+            <Route  >
+              <div>
+                <h1>Empty Page</h1>
+              </div>
+            </Route>
+          </Switch>
 
-          {!background && <Route path='/ingredients/:id' >
-
-            <Modal headerText={'Детали ингридиента'} modalStyles={`text text_type_main-large`} modalHeaderStyles={`${styles.modal__header} mt-10 mr-10 ml-10`} closeModal={() => { dispatch({ type: CLICK_ON_CLOSE_BUTTON }) }}><IngredientDetails {...currentItem} /></Modal>
-
-
+          {background && <Route path='/ingredients/:id' >
+            <Modal headerText={'Детали ингридиента'} modalStyles={`text text_type_main-large`} modalHeaderStyles={`${styles.modal__header} mt-10 mr-10 ml-10`} closeModal={() => { history.goBack(); dispatch({ type: CLICK_ON_CLOSE_BUTTON }) }}><IngredientDetails {...currentItem} /></Modal>
           </Route>}
-            </main>
+        </main>
 
       </>)
   )

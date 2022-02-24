@@ -2,25 +2,22 @@ import React, { FunctionComponent } from "react";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import ingredientsStyles from './burger-ingredients.module.css';
 import { IngredientType } from '../ingredient-type/ingredient-type';
-import { Modal } from "../modal/modal";
-import { IngredientDetails } from "../ingredient-details/ingredient-details";
 import { useSelector, useDispatch } from '../../services/types/hooks';
-import { CLICK_ON_CLOSE_BUTTON } from "../../services/constants/index"
-import { useHistory, Route} from "react-router-dom";
+import { useHistory, Route } from "react-router-dom";
 
 
 
 
 export const BurgerIngredients: FunctionComponent = () => {
-  const { currentItem, itemIsClicked } = useSelector(state => state.currentSelect);
+
   const { ingredients } = useSelector(state => state.burgerData);
-  const history = useHistory()
-  const dispatch = useDispatch();
+
+
   const [current, setCurrent] = React.useState('Булки')
   const bunsRef = React.useRef<HTMLDivElement>(null);
   const soucesRef = React.useRef<HTMLDivElement>(null);
   const fillingsRef = React.useRef<HTMLDivElement>(null);
-  const isPush = history.action === 'PUSH'
+
   ///вычисляем где сейчас находится скролл и подсвечиваем нужный Tab
   function determineElementPosition(e: React.ChangeEvent<HTMLDivElement>) {
     const scrollPosition = e.target.scrollTop;

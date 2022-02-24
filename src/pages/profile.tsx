@@ -11,7 +11,7 @@ import { USER_LOGOUT } from "../services/constants";
 
 
 export const ProfilePage: FunctionComponent = () => {
-  const { userEmail, userName, loginStatus } = useSelector(state => state.userState)
+
   const location = useLocation();
 
   const dispatch = useDispatch();
@@ -19,14 +19,14 @@ export const ProfilePage: FunctionComponent = () => {
   const token = getCookie('token')
 
   React.useEffect(() => {
-    if (getCookie('token') !== undefined) {
-       dispatch(getUserData(getCookie('token')))
+    if (token !== undefined) {
+       dispatch(getUserData(token))
     } else { getCookie('refreshToken') !== undefined &&  refreshToken().then(() =>  dispatch(getUserData(token)))}
     const interval = setInterval(refreshToken, 100000);
     return () => {
       clearInterval(interval)
     }
-  },[])
+  },[token, dispatch])
 
 
   return (
@@ -38,7 +38,7 @@ export const ProfilePage: FunctionComponent = () => {
               <Link className={ location.pathname === '/profile' ? `${styles.currentlinktext} text text_type_main-medium`: `${styles.linktext} text text_type_main-medium`} to='/profile' >Профиль</Link>
             </li>
             <li className={styles.listelement}>
-              <Link className={location.pathname === '/profile/orders' ? `${styles.currentlinktext} text text_type_main-medium`: `${styles.linktext} text text_type_main-medium`} to='/login'>История заказов</Link>
+              <Link className={location.pathname === '/profile/orders' ? `${styles.currentlinktext} text text_type_main-medium`: `${styles.linktext} text text_type_main-medium`} to='/profile/orders'>История заказов</Link>
             </li>
             <li className={styles.listelement} onClick={() => { const match = getCookie('refreshToken'); match && Api.logoutRequest(match); deleteCookie('token'); deleteCookie('refreshToken'); dispatch({type:USER_LOGOUT}) }}>
               <Link className={`${styles.linktext} text text_type_main-medium`} to='/profile'>Выход</Link>

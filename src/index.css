@@ -8,8 +8,9 @@
     height: 60px;
 }
 
-a:-webkit-any-link {
+
+/* a:-webkit-any-link {
     color: inherit;
     cursor: pointer;
     text-decoration: none;
-}
+} */
