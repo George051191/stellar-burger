@@ -108,7 +108,7 @@ export const refreshUser: AppThunk = (email: string, password: string, name: str
 export const getUserData: AppThunk = (token: string, refresh: string, getCookie: ()=> void ) => {
   return function (dispatch: TAppDispatch) {
     dispatch({ type: USER_DATA_REQUEST });
-    Api.getUser(token, refresh, getCookie)
+    Api.getUser(token)
       .then(res => dispatch({ type: USER_DATA_SUCCESS, email: res.user.email, name: res.user.name }))
       .catch(err =>  dispatch({ type: USER_DATA_ERROR }) )
   }

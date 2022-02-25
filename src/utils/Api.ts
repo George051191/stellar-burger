@@ -114,28 +114,14 @@ class Api {
     }).then(this.checkResponse);
   }
 
-  getUser(token: string, refresh: string, setCookie: (key1: string, key2: string) => void) {
+  getUser(token: string) {
     return fetch(`${this.url}auth/user`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
         'Authorization': 'Bearer ' + token
       },
-    }).then(this.checkResponse).catch(err => {
-      if (!err.success) {
-        this.refreshToken(refresh)
-          .then(res => {
-            setCookie('token', res.accessToken.split('Bearer ')[1]); setCookie('refreshToken', res.refreshToken)
-            fetch(`${this.url}auth/user`, {
-              method: 'GET',
-              headers: {
-                'Content-Type': 'application/json',
-                'Authorization': 'Bearer ' + res.accessToken.split('Bearer ')[1]
-              }
-            })//.then(this.checkResponse)
-          })
-      } else { return Promise.reject(err) };
-    })
+    }).then(this.checkResponse)
   }
 
   refreshUser(email: string, password: string, name: string, token: string) {
