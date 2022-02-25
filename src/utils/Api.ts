@@ -1,3 +1,4 @@
+import { getCookie } from "./utils";
 
 
 const BASEURL = 'https://norma.nomoreparties.space/api/';
@@ -16,11 +17,9 @@ class Api {
   }
 
   private checkResponse(res: Response) {
-    if (res.ok) {
-      return res.json();
-    }
-    // если ошибка, отклоняем промис
-    return Promise.reject(`Ошибка: ${res.status}`);
+
+    if (res.ok) { return res.json() } res.json().then(res => Promise.reject(res))
+
   }
 
 
@@ -36,7 +35,7 @@ class Api {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': 'Bearer '  + token
+        'Authorization': 'Bearer ' + token
       },
       body: JSON.stringify({ "ingredients": arrayOfId })
     }).then(this.checkResponse);
@@ -58,7 +57,7 @@ class Api {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': 'Bearer '  + token
+        'Authorization': 'Bearer ' + token
       },
       body: JSON.stringify({
         "password": password,
@@ -72,7 +71,7 @@ class Api {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': 'Bearer '  + token
+        'Authorization': 'Bearer ' + token
       },
       body: JSON.stringify({
         "email": email,
@@ -87,7 +86,7 @@ class Api {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': 'Bearer '  + token
+        'Authorization': 'Bearer ' + token
       },
       body: JSON.stringify({
         "email": email,
@@ -104,25 +103,39 @@ class Api {
     }).then(this.checkResponse);
   }
 
-  logoutRequest( match: string) {
+  logoutRequest(match: string) {
     return fetch(`${this.url}auth/logout`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': 'Bearer '  + match
+        'Authorization': 'Bearer ' + match
       },
       body: JSON.stringify({ "token": match })
     }).then(this.checkResponse);
   }
 
-  getUser(token: string) {
+  getUser(token: string, refresh: string, setCookie: (key1: string, key2: string) => void) {
     return fetch(`${this.url}auth/user`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': 'Bearer '  + token
+        'Authorization': 'Bearer ' + token
       },
-    }).then(this.checkResponse);
+    }).then(this.checkResponse).catch(err => {
+      if (!err.success) {
+        this.refreshToken(refresh)
+          .then(res => {
+            setCookie('token', res.accessToken.split('Bearer ')[1]); setCookie('refreshToken', res.refreshToken)
+            fetch(`${this.url}auth/user`, {
+              method: 'GET',
+              headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + res.accessToken.split('Bearer ')[1]
+              }
+            })//.then(this.checkResponse)
+          })
+      } else { return Promise.reject(err) };
+    })
   }
 
   refreshUser(email: string, password: string, name: string, token: string) {
@@ -130,7 +143,7 @@ class Api {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': 'Bearer ' +  token
+        'Authorization': 'Bearer ' + token
       },
       body: JSON.stringify({
         "email": email,
@@ -147,3 +160,5 @@ class Api {
 export default new Api({
   url: BASEURL
 })
+
+

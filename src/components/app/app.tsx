@@ -14,7 +14,7 @@ import { Preloader } from '../preloader/preloader';
 import { useSelector } from '../../services/types/hooks';
 import { ProtectedRoute } from '../protected-route/protected-route';
 import { getUserData } from '../../services/actions/user-data';
-import { getCookie } from '../../utils/utils';
+import { deleteCookie, getCookie, setCookie } from '../../utils/utils';
 import { IngredientPage } from '../../pages/ingredient-page';
 import { Modal } from '../modal/modal';
 import { IngredientDetails } from '../ingredient-details/ingredient-details';
@@ -27,7 +27,7 @@ const App: FunctionComponent = () => {
   const location = useLocation<{ [key in any]: any }>();
   const isPush = history.action === 'PUSH';
 
-
+console.log(document.cookie)
   let background = isPush && location.state && location.state.background;
 
 
@@ -39,12 +39,12 @@ const App: FunctionComponent = () => {
 
 
   const token = getCookie('token')
-
+  const refresh = getCookie('refreshToken')
 
 
   React.useEffect(() => {
     dispatch(getBurgerData());
-    dispatch(getUserData(token));
+    dispatch(getUserData(token, refresh, setCookie));
   }, [])
 
 
