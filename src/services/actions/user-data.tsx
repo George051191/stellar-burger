@@ -2,7 +2,8 @@ import { USER_LOGOUT, CHANGE_EMAIL, CHANGE_NAME, CHANGE_PASSWORD, USER_DATA_SUCC
 import { AppThunk, TAppDispatch } from "../types";
 import Api from "../../utils/Api";
 import { TUser } from "../types/data";
-import { setCookie } from "../../utils/utils";
+import { getCookie, setCookie } from "../../utils/utils";
+import { Token } from "typescript";
 
 export interface ILogout {
   readonly type: typeof USER_LOGOUT;
@@ -104,12 +105,12 @@ export const refreshUser: AppThunk = (email: string, password: string, name: str
   }
 }
 
-export const getUserData: AppThunk = (token: string ) => {
+export const getUserData: AppThunk = (token: string, refresh: string, getCookie: ()=> void ) => {
   return function (dispatch: TAppDispatch) {
     dispatch({ type: USER_DATA_REQUEST });
     Api.getUser(token)
       .then(res => dispatch({ type: USER_DATA_SUCCESS, email: res.user.email, name: res.user.name }))
-      .catch(err => dispatch({ type: USER_DATA_ERROR }))
+      .catch(err =>  dispatch({ type: USER_DATA_ERROR }) )
   }
 }
 
@@ -119,7 +120,7 @@ export const getPasswordReset: AppThunk = (email: string, token:string) => {
     dispatch({ type: RESET_REQUEST });
     Api.setPasswordReset(email, token)
       .then(res => dispatch({ type: RESET_SUCCESS, success: res.success }))
-      .catch(err => dispatch({ type: RESET_ERROR }))
+      .catch(err =>  dispatch({ type: RESET_ERROR }) )
   }
 }
 

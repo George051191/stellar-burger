@@ -6,7 +6,7 @@ import { useSelector, useDispatch } from "../services/types/hooks";
 import Api from "../utils/Api";
 import { getCookie, deleteCookie, setCookie } from "../utils/utils";
 import { getUserData } from "../services/actions/user-data";
-import { refreshToken } from "../utils/utils";
+import { refreshMainToken } from "../utils/utils";
 import { USER_LOGOUT } from "../services/constants";
 
 
@@ -16,17 +16,14 @@ export const ProfilePage: FunctionComponent = () => {
 
   const dispatch = useDispatch();
 
-  const token = getCookie('token')
+
 
   React.useEffect(() => {
-    if (token !== undefined) {
-       dispatch(getUserData(token))
-    } else { getCookie('refreshToken') !== undefined &&  refreshToken().then(() =>  dispatch(getUserData(token)))}
-    const interval = setInterval(refreshToken, 100000);
+    const interval = setInterval(refreshMainToken, 100000)
     return () => {
       clearInterval(interval)
     }
-  },[token, dispatch])
+  },[])
 
 
   return (

@@ -14,11 +14,12 @@ import { Preloader } from '../preloader/preloader';
 import { useSelector } from '../../services/types/hooks';
 import { ProtectedRoute } from '../protected-route/protected-route';
 import { getUserData } from '../../services/actions/user-data';
-import { getCookie } from '../../utils/utils';
+import { deleteCookie, getCookie, setCookie, refreshMainToken } from '../../utils/utils';
 import { IngredientPage } from '../../pages/ingredient-page';
 import { Modal } from '../modal/modal';
 import { IngredientDetails } from '../ingredient-details/ingredient-details';
 import { CLICK_ON_CLOSE_BUTTON } from '../../services/constants';
+import Api from '../../utils/Api';
 
 
 
@@ -28,8 +29,7 @@ const App: FunctionComponent = () => {
   const isPush = history.action === 'PUSH';
 
 
-  let background = isPush && location.state && location.state.background;
-
+  const background = isPush && location.state && location.state.background;
 
   const dispatch = useDispatch();
   const { dataRequest } = useSelector(store => store.burgerData)
@@ -38,13 +38,21 @@ const App: FunctionComponent = () => {
 
 
 
+  const refresh = getCookie('refreshToken')
   const token = getCookie('token')
 
 
 
   React.useEffect(() => {
     dispatch(getBurgerData());
-    dispatch(getUserData(token));
+    refresh && Api.refreshToken(refresh).then(res => { console.log(res); setCookie('token', res.accessToken.split('Bearer ')[1]); setCookie('refreshToken', res.refreshToken) })
+      .then(() => {
+        dispatch(getUserData(token))
+      })
+      const interval = setInterval(refreshMainToken, 100000)
+      return () => {
+        clearInterval(interval)
+      }
   }, [])
 
 

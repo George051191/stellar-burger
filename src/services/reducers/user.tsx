@@ -74,7 +74,9 @@ export const userDataReducer = (state = userInitialState, action: TUserRequestAc
         ...state,
         userName: action.name,
         userEmail: action.email,
-        loginStatus: action.status
+        loginStatus: action.status,
+        formName: action.name,
+        formEmail: action.email
       }
     case CREATE_USER_REQUEST:
       return {
