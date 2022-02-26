@@ -45,7 +45,7 @@ const App: FunctionComponent = () => {
 
   React.useEffect(() => {
     dispatch(getBurgerData());
-    refresh && Api.refreshToken(refresh).then(res => { console.log(res); setCookie('token', res.accessToken.split('Bearer ')[1]); setCookie('refreshToken', res.refreshToken) })
+    refresh && Api.refreshToken(refresh).then(res => { setCookie('token', res.accessToken.split('Bearer ')[1]); setCookie('refreshToken', res.refreshToken) })
       .then(() => {
         dispatch(getUserData(token))
       })
