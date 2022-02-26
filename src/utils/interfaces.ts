@@ -56,4 +56,21 @@ export interface IOrderRegistration {
 }
 
 
+export interface ILocation {
+  hash: string;
+  pathname: string;
+  search: string;
+  state: object | null
+}
+
+
+
+export interface IResetPageProps {
+  children: ReactNode,
+  path: string,
+  redirectPath: string
+  check?: boolean
+}
+
+
 

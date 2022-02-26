@@ -12,14 +12,21 @@ import { useSelector, useDispatch } from '../../services/types/hooks';
 import { OPEN_ORDER_POPUP, CLOSE_ORDER_POPUP } from '../../services/constants/index';
 import { getOrderNumber } from '../../services/actions/order-details';
 import { calculateCost } from '../../utils/utils';
-
+import { getCookie, setCookie, refreshMainToken } from '../../utils/utils';
+import Api from '../../utils/Api';
+import { Redirect, useHistory } from 'react-router-dom';
 
 
 export const BurgerConstructor: FunctionComponent = () => {
+  const history = useHistory();
   const dispatch = useDispatch();
   const { orderButtonIsClicked, requestIsSuccessed, orderNumber } = useSelector(state => state.currentOrder);
   const { ingredients } = useSelector(state => state.burgerData);
   const { elements, bun } = useSelector(state => state.constructorState);
+
+
+
+  const token = getCookie('token')
 
   ///вычисляем значения для ключей
   function uid(): number {
@@ -53,12 +60,21 @@ export const BurgerConstructor: FunctionComponent = () => {
   }, [dispatch])
 
   ///логика открытия попапа с номером заказа
-  const orderDetailsRequestSending = React.useCallback(() => {
+  const orderDetailsRequestSending = () => {
 
-    const idArray = elements.map(item => { return item._id })
-    dispatch({ type: OPEN_ORDER_POPUP });
-    dispatch(getOrderNumber([...idArray, bun._id]));
-  }, [dispatch, elements, bun._id])
+      const match = getCookie('refreshToken');
+      match && Api.refreshToken(match).then(res => { setCookie('token', res.accessToken.split('Bearer ')[1]); setCookie('refreshToken', res.refreshToken) })
+        .then(() => {
+          const idArray = elements.map(item => { return item._id })
+          dispatch({ type: OPEN_ORDER_POPUP });
+          dispatch(getOrderNumber([...idArray, bun._id], token));
+        })
+
+    }
+
+
+
+
 
   ///логика закрытия попапа
   const orderPopupClose = React.useCallback(() => {
@@ -86,7 +102,9 @@ export const BurgerConstructor: FunctionComponent = () => {
       </ul>
       {bun && bun._id && Array.of(bun).map((item, index) => (
         <ConstructorElement key={index} type="bottom" isLocked={true} text={`${item.name} (низ)`} price={item.price} thumbnail={item.image_mobile} />))}
-      <OrderRegistration clickHandler={orderDetailsRequestSending} styles={`mt-10 ${consructorStyles.burgerconstructor__cost}`} cost={calculateCost(elements, bun.price)} />
+      <OrderRegistration clickHandler={() => {
+        getCookie('refreshToken') === undefined ? history.replace({ pathname: '/login' }) : orderDetailsRequestSending()
+      }} styles={`mt-10 ${consructorStyles.burgerconstructor__cost}`} cost={calculateCost(elements, bun.price)} />
       {orderButtonIsClicked && requestIsSuccessed && <Modal closeModal={orderPopupClose} modalHeaderStyles={consructorStyles.burgerconstructor__modalheader}><OrderDetails number={orderNumber} /></Modal>}
     </div >
 

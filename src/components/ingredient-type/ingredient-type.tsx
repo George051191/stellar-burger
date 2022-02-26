@@ -6,8 +6,9 @@ import { useSelector } from "../../services/types/hooks";
 
 
 
+
 ///компонент контейнер для отрисовки определенного типа ингридиентов
-export const IngredientType = React.forwardRef<HTMLHeadingElement, IIngredientType >((props, ref) => {
+export const IngredientType = React.forwardRef<HTMLHeadingElement, IIngredientType>((props, ref) => {
 
   const { bun, elements } = useSelector(state => state.constructorState);
 
@@ -17,7 +18,7 @@ export const IngredientType = React.forwardRef<HTMLHeadingElement, IIngredientTy
       <h2 ref={ref} className='text text_type_main-medium mb-6'>{props.ingredientName}</h2>
       <ul className={`pl-4 pr-4 mb-10 ${сolumnsStyle.column}`}>
         {props.data && props.data.map(item => (
-          <Ingredient id={item._id} key={item._id} {...item} bun={bun} elements={elements}  />
+          <Ingredient id={item._id} key={item._id} {...item} bun={bun} elements={elements} />
         ))
         }
       </ul>

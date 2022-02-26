@@ -3,7 +3,7 @@ import { TIngredient } from '../types/data';
 import { TBurgerIngredientsActions } from '../actions/burger-ingredients';
 
 type TBurgerIngredientsState = {
-  ingredients: ReadonlyArray<TIngredient>;
+  ingredients: Array<TIngredient>;
   dataRequest: boolean;
   dataRequestFailed: boolean;
 }
