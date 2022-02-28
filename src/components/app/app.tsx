@@ -20,7 +20,7 @@ import { Modal } from '../modal/modal';
 import { IngredientDetails } from '../ingredient-details/ingredient-details';
 import { CLICK_ON_CLOSE_BUTTON } from '../../services/constants';
 import Api from '../../utils/Api';
-
+import { OrderFeedElement } from '../order-feed-element/order-feed-element';
 
 
 const App: FunctionComponent = () => {
@@ -85,6 +85,9 @@ const App: FunctionComponent = () => {
             </ProtectedRoute>
             <Route path='/ingredients/:id' exact={true} >
               <IngredientPage />
+            </Route>
+            <Route path='/order'>
+              <OrderFeedElement/>
             </Route>
             <Route  >
               <div>
