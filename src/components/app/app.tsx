@@ -20,13 +20,15 @@ import { Modal } from '../modal/modal';
 import { IngredientDetails } from '../ingredient-details/ingredient-details';
 import { CLICK_ON_CLOSE_BUTTON } from '../../services/constants';
 import Api from '../../utils/Api';
-import { OrderPage } from '../../pages/orders-page';
+import { OrderStuff } from '../order-stuff/order-stuff';
+
 
 
 const App: FunctionComponent = () => {
   const history = useHistory()
   const location = useLocation<{ [key in any]: any }>();
   const isPush = history.action === 'PUSH';
+
 
 
   const background = isPush && location.state && location.state.background;
@@ -86,8 +88,11 @@ const App: FunctionComponent = () => {
             <Route path='/ingredients/:id' exact={true} >
               <IngredientPage />
             </Route>
-            <Route path='/feed'>
-              <OrderPage/>
+            <Route path='/order'>
+              <OrderStuff/>
+            </Route>
+            <Route path='/feed' exact={true}>
+            <Modal headerText={'#656565'} modalStyles={`text text_type_digits-default`} modalHeaderStyles={`${styles.modal__header} mt-10 mr-10 ml-10`} closeModal={() => { history.goBack(); dispatch({ type: CLICK_ON_CLOSE_BUTTON }) }}>  <OrderStuff/></Modal>
             </Route>
             <Route  >
               <div>
