@@ -7,7 +7,7 @@ export const ProtectedRoute: FunctionComponent<IResetPageProps> = ({ path, child
 
 
   return (
-    <Route path={path} exact={true} render={({ location }) => check ? (children) : (<Redirect to={{
+    <Route exact={true} path={path}  render={({ location }) => check ? (children) : (<Redirect to={{
       pathname: redirectPath, state: { from: location }
     }
     } />)} />

@@ -9,12 +9,12 @@ export const OrderFeed = () => {
     <div className={styles.ordersconteiner}>
       <h3 className='text text_type_main-large mb-5' >Лента заказов</h3>
       <div className={styles.feed} >
-        <OrderFeedElement />
-        <OrderFeedElement/>
-        <OrderFeedElement />
-        <OrderFeedElement />
-        <OrderFeedElement />
-        <OrderFeedElement/>
+        <OrderFeedElement styles={styles.element} path='/feed/id'/>
+        <OrderFeedElement styles={styles.element} path='/feed/id' />
+        <OrderFeedElement styles={styles.element} path='/feed/id' />
+        <OrderFeedElement styles={styles.element} path='/feed/id'/>
+        <OrderFeedElement styles={styles.element} path='/feed/id' />
+        <OrderFeedElement styles={styles.element} path='/feed/id'/>
 
       </div>
 

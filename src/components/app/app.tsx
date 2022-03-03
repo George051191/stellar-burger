@@ -20,7 +20,10 @@ import { Modal } from '../modal/modal';
 import { IngredientDetails } from '../ingredient-details/ingredient-details';
 import { CLICK_ON_CLOSE_BUTTON } from '../../services/constants';
 import Api from '../../utils/Api';
+import { FeedPage } from '../../pages/feed-page';
 import { OrderStuff } from '../order-stuff/order-stuff';
+import { OrderStuffPage } from '../../pages/order-stuff-page';
+import { ProfileOrdersPage } from '../../pages/profile-orders';
 
 
 
@@ -29,7 +32,7 @@ const App: FunctionComponent = () => {
   const location = useLocation<{ [key in any]: any }>();
   const isPush = history.action === 'PUSH';
 
-
+  console.log(location)
 
   const background = isPush && location.state && location.state.background;
 
@@ -37,7 +40,6 @@ const App: FunctionComponent = () => {
   const { dataRequest } = useSelector(store => store.burgerData)
   const { userName } = useSelector(store => store.userState)
   const { currentItem } = useSelector(state => state.currentSelect)
-
 
 
   const refresh = getCookie('refreshToken')
@@ -51,10 +53,10 @@ const App: FunctionComponent = () => {
       .then(() => {
         dispatch(getUserData(token))
       })
-      const interval = setInterval(refreshMainToken, 100000)
-      return () => {
-        clearInterval(interval)
-      }
+    const interval = setInterval(refreshMainToken, 100000)
+    return () => {
+      clearInterval(interval)
+    }
   }, [])
 
 
@@ -82,18 +84,28 @@ const App: FunctionComponent = () => {
             <Route path='/reset-password' exact={true}>
               <ResetPage />
             </Route>
-            <ProtectedRoute path='/profile' redirectPath='/login' check={userName}>
+            <ProtectedRoute path='/profile/orders/id' redirectPath='/login' check={userName}>
+              <OrderStuffPage />
+            </ProtectedRoute >
+            <ProtectedRoute path='/profile/orders' redirectPath='/login' check={userName}>
+              <ProfileOrdersPage />
+            </ProtectedRoute >
+            <ProtectedRoute path='/profile' redirectPath='/login' check={userName} >
               <ProfilePage />
             </ProtectedRoute>
+
             <Route path='/ingredients/:id' exact={true} >
               <IngredientPage />
             </Route>
-            <Route path='/order'>
-              <OrderStuff/>
-            </Route>
+
+
             <Route path='/feed' exact={true}>
-            <Modal headerText={'#656565'} modalStyles={`text text_type_digits-default`} modalHeaderStyles={`${styles.modal__header} mt-10 mr-10 ml-10`} closeModal={() => { history.goBack(); dispatch({ type: CLICK_ON_CLOSE_BUTTON }) }}>  <OrderStuff/></Modal>
+              <FeedPage />
             </Route>
+            <Route path='/feed/id' exact={true}>
+              <OrderStuffPage />
+            </Route>
+
             <Route  >
               <div>
                 <h1>Empty Page</h1>
@@ -101,9 +113,16 @@ const App: FunctionComponent = () => {
             </Route>
           </Switch>
 
+
+          {background && <Route path='/feed/id' >
+            <Modal headerText={'#656565'} modalStyles={`text text_type_digits-default`} modalHeaderStyles={`${styles.modal__header} mt-10 mr-10 ml-10`} closeModal={() => { history.goBack(); dispatch({ type: CLICK_ON_CLOSE_BUTTON }) }}>  <OrderStuff /></Modal>
+          </Route>}
           {background && <Route path='/ingredients/:id' >
             <Modal headerText={'Детали ингридиента'} modalStyles={`text text_type_main-large`} modalHeaderStyles={`${styles.modal__header} mt-10 mr-10 ml-10`} closeModal={() => { history.goBack(); dispatch({ type: CLICK_ON_CLOSE_BUTTON }) }}><IngredientDetails {...currentItem} /></Modal>
           </Route>}
+          {background && <ProtectedRoute redirectPath='/login' check={userName} path='/profile/orders/id' >
+            <Modal headerText={'#656565'} modalStyles={`text text_type_digits-default`} modalHeaderStyles={`${styles.modal__header} mt-10 mr-10 ml-10`} closeModal={() => { history.goBack(); dispatch({ type: CLICK_ON_CLOSE_BUTTON }) }}>  <OrderStuff /></Modal>
+          </ProtectedRoute>}
         </main>
 
       </>)

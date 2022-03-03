@@ -26,16 +26,16 @@ export const AppHeader: FunctionComponent = () => {
             </MenuItem>
           </Link>
           <Link to='/feed' className={headerStyles.link}>
-            <MenuItem text='Лента заказов' textStyles={isActivePage('/feed') ? `${headerStyles.activenavlink} text text_type_main-default ml-2` : `text text_type_main-default ml-2 ${headerStyles.navlink}`} styles={`${headerStyles.header__item} pl-5 pr-5`} >
-              <ListIcon type={isActivePage('/feed') ? 'primary' : 'secondary'} />
+            <MenuItem text='Лента заказов' textStyles={isActivePage('/feed') || isActivePage('/feed/id') ? `${headerStyles.activenavlink} text text_type_main-default ml-2` : `text text_type_main-default ml-2 ${headerStyles.navlink}`} styles={`${headerStyles.header__item} pl-5 pr-5`} >
+              <ListIcon type={isActivePage('/feed') || isActivePage('/feed/id') ? 'primary' : 'secondary'} />
             </MenuItem>
           </Link>
           <MenuItem styles={headerStyles.header__logo}>
             <Logo />
           </MenuItem>
           <Link to='/profile' className={headerStyles.link} >
-            <MenuItem text='Личный кабинет' textStyles={isActivePage('/profile') ? `${headerStyles.activenavlink} text text_type_main-default ml-2` : `text text_type_main-default ml-2 ${headerStyles.navlink}`} styles={`${headerStyles.header__item} pl-5 pr-5`} >
-              <ProfileIcon type={isActivePage('/profile') ? 'primary' : 'secondary'} />
+            <MenuItem text='Личный кабинет' textStyles={isActivePage('/profile') || isActivePage('/profile/orders') ? `${headerStyles.activenavlink} text text_type_main-default ml-2` : `text text_type_main-default ml-2 ${headerStyles.navlink}`} styles={`${headerStyles.header__item} pl-5 pr-5`} >
+              <ProfileIcon type={isActivePage('/profile') || isActivePage('/profile/orders') ? 'primary' : 'secondary'} />
             </MenuItem>
           </Link>
         </ul>

@@ -1,16 +1,3 @@
-.element {
-    width: 584px;
-    height: 214px;
-    display: flex;
-    flex-direction: column;
-    background: #1C1C21;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.04), 0px 0px 2px rgba(0, 0, 0, 0.06), 0px 0px 1px rgba(0, 0, 0, 0.04);
-    border-radius: 40px;
-    padding: 24px;
-    padding-top: 0;
-    box-sizing: border-box;
-}
-
 .conteiner {
     width: 100%;
     display: flex;
@@ -137,4 +124,9 @@
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
+}
+
+.link {
+    color: inherit;
+    text-decoration: none;
 }

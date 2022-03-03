@@ -1,16 +1,23 @@
+import React from "react";
+import { OrderFeed } from "../components/order-feed/order-feed";
+import { ScoreBoard } from "../components/scoreboard/scoreboard";
+import { Modal } from "../components/modal/modal";
+import { OrderStuff } from "../components/order-stuff/order-stuff";
 import styles from './feed-page.module.css'
-import React, { FunctionComponent } from 'react'
-import { skipPartiallyEmittedExpressions } from 'typescript'
 
-export const FeedPage: FunctionComponent = () => {
+
+
+export const FeedPage = () => {
+
+
+
 
   return (
-    <section className={styles.page}>
+    <div className={styles.conteiner}>
+      <OrderFeed />
+      <ScoreBoard />
 
+    </div>
 
-    </section>
   )
-
-
-
 }

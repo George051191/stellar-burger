@@ -1,6 +1,12 @@
-.element {
+.conteiner {
     display: flex;
     flex-direction: row;
-    align-items: start;
-    justify-content: center;
+    justify-content: space-between;
+    gap: 60px;
+}
+
+.modal__header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
 }
