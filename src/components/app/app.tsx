@@ -32,7 +32,8 @@ const App: FunctionComponent = () => {
   const location = useLocation<{ [key in any]: any }>();
   const isPush = history.action === 'PUSH';
 
-  console.log(location)
+
+
 
   const background = isPush && location.state && location.state.background;
 

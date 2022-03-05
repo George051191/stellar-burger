@@ -32,3 +32,13 @@ export type TUser = {
   accessToken: string,
   refreshToken: string
 }
+
+export type TFeedOrder = {
+  ingredients: string[],
+  _id: string,
+  status: string,
+  number: number,
+  createdAt: string,
+  updatedAt: string
+
+}

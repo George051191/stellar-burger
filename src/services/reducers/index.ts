@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux';
-
+import { FeedReducer } from './feed-reducer';
 import { burgerDataReducer } from './burger-ingredients'
 import { ingredientReducer } from './ingredient';
 import { orderReducer } from './order-details';
@@ -11,5 +11,6 @@ export const rootReducer = combineReducers({
   currentSelect: ingredientReducer,
   currentOrder: orderReducer,
   constructorState: constructorReducer,
-  userState: userDataReducer
+  userState: userDataReducer,
+  ordersFeed: FeedReducer
 })
