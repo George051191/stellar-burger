@@ -3,11 +3,10 @@ import styles from './order-feed.module.css';
 import { OrderFeedElement } from "../order-feed-element/order-feed-element";
 import { useSelector } from "../../services/types/hooks";
 
+///компонент для ленты заказов на странице feed-page
 export const OrderFeed: FunctionComponent = () => {
-  const { ingredients } = useSelector(state => state.burgerData)
-  const { ordersData, wsConnected } = useSelector(state => state.ordersFeed)
 
-
+  const { ordersData} = useSelector(state => state.ordersFeed)
 
   return (
 
@@ -17,14 +16,9 @@ export const OrderFeed: FunctionComponent = () => {
         {ordersData && ordersData.orders.map((order, index) => (
           <OrderFeedElement number={order.number} key={index} order={order} styles={styles.element} path={`/feed/${order._id}`} />
         ))}
-
-
-
       </div>
-
     </div>
   )
-
 }
 
 

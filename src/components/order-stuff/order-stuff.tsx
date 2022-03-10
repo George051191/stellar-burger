@@ -4,10 +4,11 @@ import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components
 import { IngredientCard } from "../ingredient-card/ingredient-card";
 import { useParams } from "react-router-dom";
 import { useSelector } from "../../services/types/hooks";
-import { TIngredient, TFeedOrder } from "../../services/types/data";
+import { TIngredient } from "../../services/types/data";
 import { calculateCost } from "../../utils/utils";
 import { formatDate } from '../../utils/utils';
 
+///компонент для отображения состава заказа в модальноим окне
 export const OrderStuff: FunctionComponent = () => {
   const { id } = useParams<{ id: string }>()
   const { ordersData } = useSelector(state => state.ordersFeed);
@@ -37,7 +38,6 @@ export const OrderStuff: FunctionComponent = () => {
       <h3 className="text text_type_main-medium mb-3" >{currentFeedOrder?.name}</h3>
       <p className={style}>{currentFeedOrder?.status === 'done' ? 'Выполнен' : 'Готовиться'}</p>
       <p className="text text_type_main-medium mb-6" >Состав:</p>
-
       <div className={`${styles.ingredients} mb-10`}>
         {currentItems.map((item, index) => (
           <IngredientCard key={index} type={item.type} images={item.image_mobile} name={item.name} price={item.price} />
@@ -50,9 +50,6 @@ export const OrderStuff: FunctionComponent = () => {
           <CurrencyIcon type="primary" />
         </div>
       </div>
-
-
-
     </div>
   )
 

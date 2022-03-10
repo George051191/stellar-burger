@@ -10,7 +10,7 @@ import { rootReducer } from './services/reducers/index';
 import thunk from 'redux-thunk';
 import { BrowserRouter } from 'react-router-dom';
 import { socketMiddleware } from './services/middleware/socketMiddleware';
-import { WS_AUTH_CONNECTION_ERROR, WS_AUTH_CONNECTION_SUCCESS, WS_AUTH_CONNECTION_GET_MESSAGE, WS_AUTH_CONNECTION_START, WS_CONNECTION_CLOSED, WS_CONNECTION_START, WS_CONNECTION_SUCCESS, WS_CONNECTION_ERROR, WS_GET_MESSAGE, WS_SEND_MESSAGE, WS_CLOSE_CONNECTION } from './services/constants'
+import { WS_AUTH_CONNECTION_ERROR, WS_AUTH_CONNECTION_SUCCESS, WS_AUTH_CONNECTION_GET_MESSAGE, WS_AUTH_CONNECTION_START,  WS_CONNECTION_START, WS_CONNECTION_SUCCESS, WS_CONNECTION_ERROR, WS_GET_MESSAGE,  WS_CLOSE_CONNECTION } from './services/constants'
 
 const wsFeedActions = {
   wsStart: WS_CONNECTION_START ,

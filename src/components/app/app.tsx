@@ -14,7 +14,7 @@ import { Preloader } from '../preloader/preloader';
 import { useSelector } from '../../services/types/hooks';
 import { ProtectedRoute } from '../protected-route/protected-route';
 import { getUserData } from '../../services/actions/user-data';
-import {  getCookie, setCookie, refreshMainToken } from '../../utils/utils';
+import { getCookie, setCookie, refreshMainToken } from '../../utils/utils';
 import { IngredientPage } from '../../pages/ingredient-page';
 import { Modal } from '../modal/modal';
 import { IngredientDetails } from '../ingredient-details/ingredient-details';
@@ -32,17 +32,14 @@ const App: FunctionComponent = () => {
   const location = useLocation<{ [key in any]: any }>();
   const isPush = history.action === 'PUSH';
 
-
-
-
   const background = isPush && location.state && location.state.background;
 
   const dispatch = useDispatch();
+
   const { dataRequest } = useSelector(store => store.burgerData)
   const { userName } = useSelector(store => store.userState)
   const { currentItem } = useSelector(state => state.currentSelect)
   const { orderNumber } = useSelector(store => store.ordersFeed)
-
 
   const refresh = getCookie('refreshToken')
   const token = getCookie('token')
@@ -96,19 +93,15 @@ const App: FunctionComponent = () => {
             <ProtectedRoute path='/profile' redirectPath='/login' check={userName} >
               <ProfilePage />
             </ProtectedRoute>
-
             <Route path='/ingredients/:id' exact={true} >
               <IngredientPage />
             </Route>
-
-
             <Route path='/feed' exact={true}>
               <FeedPage />
             </Route>
             <Route path='/feed/:id' exact={true}>
               <OrderStuffPage />
             </Route>
-
             <Route  >
               <div>
                 <h1>Empty Page</h1>
@@ -129,7 +122,6 @@ const App: FunctionComponent = () => {
           {background && <Route path='/ingredients/:id' >
             <Modal headerText={'Детали ингридиента'} modalStyles={`text text_type_main-large`} modalHeaderStyles={`${styles.modal__header} mt-10 mr-10 ml-10`} closeModal={() => { history.goBack(); dispatch({ type: CLICK_ON_CLOSE_BUTTON }) }}><IngredientDetails {...currentItem} /></Modal>
           </Route>}
-
         </main>
 
       </>)

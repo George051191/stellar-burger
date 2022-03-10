@@ -11,18 +11,18 @@ import { formatDate } from '../../utils/utils';
 
 
 
-
+///компонент с данными о заказе
 export const OrderFeedElement: FunctionComponent<IOrderFeedElement> = (props) => {
   const location = useLocation();
   const dispatch = useDispatch();
   const { ingredients } = useSelector(state => state.burgerData)
 
-
+///ищем нужные ингредиенты с помощью айдишников из заказа
   const currentItems:TIngredient[] = ingredients.filter(item => {
     return props.order.ingredients.indexOf(item._id) > -1
   })
 
-
+///вычисляем количество ингредиентов в заказе(6 предел по верстке из макета)
   const numberForOverlayCircle: number = currentItems.length - 6;
 
   const totalPrice: number= currentItems.reduce((acc, item, index) => {
@@ -46,32 +46,32 @@ export const OrderFeedElement: FunctionComponent<IOrderFeedElement> = (props) =>
           <div className={`${styles.imagesbox} mr-6`}>
             <div className={styles.firstimageoverlay} >
               <div className={styles.imagebox} >
-                <img className={styles.image} src={currentItems[0].image_mobile} />
+                <img alt='ингредиент' className={styles.image} src={currentItems[0].image_mobile} />
               </div>
             </div>
             {currentItems[1] && <div className={styles.secondimageoverlay} >
               <div className={styles.imagebox} >
-                <img className={styles.image} src={currentItems[1].image_mobile} />
+                <img alt='ингредиент' className={styles.image} src={currentItems[1].image_mobile} />
               </div>
             </div>}
             {currentItems[2] && <div className={styles.thirdimageoverlay} >
               <div className={styles.imagebox} >
-                <img className={styles.image} src={currentItems[2].image_mobile} />
+                <img alt='ингредиент' className={styles.image} src={currentItems[2].image_mobile} />
               </div>
             </div>}
             {currentItems[3] && <div className={styles.fourthimageoverlay} >
               <div className={styles.imagebox} >
-                <img className={styles.image} src={currentItems[3].image_mobile} />
+                <img alt='ингредиент' className={styles.image} src={currentItems[3].image_mobile} />
               </div>
             </div>}
             {currentItems[4] && <div className={styles.fifthimageoverlay} >
               <div className={styles.imagebox} >
-                <img className={styles.image} src={currentItems[4].image_mobile} />
+                <img alt='ингредиент' className={styles.image} src={currentItems[4].image_mobile} />
               </div>
             </div>}
             {currentItems[5] && <div className={styles.siximageoverlay} >
               <div className={styles.imagebox} >
-                <img className={styles.image} src={currentItems[5].image_mobile} />
+                <img alt='ингредиент' className={styles.image} src={currentItems[5].image_mobile} />
               </div>
             </div>}
             {currentItems.length > 6 && <div className={styles.outherimageoverlay}>

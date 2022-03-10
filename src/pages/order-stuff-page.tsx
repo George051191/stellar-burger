@@ -9,8 +9,11 @@ import { calculateCost } from "../utils/utils";
 import { WS_CONNECTION_START, WS_CLOSE_CONNECTION } from "../services/constants";
 import {formatDate} from '../utils/utils'
 
+
+///компонент для отдельной страницы по каждому заказу
 export const OrderStuffPage: FunctionComponent = () => {
   const dispatch = useDispatch();
+
   React.useEffect(() => {
     dispatch({ type: WS_CONNECTION_START })
 

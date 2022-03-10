@@ -59,7 +59,7 @@ export  function refreshMainToken() {
 
 
 
-
+///меняет строку с датой из сообщеня сервера в человекочитаемую запись
 export const formatDate = (date: string | undefined) => {
   if (date) {
     const relativeDateFormat = formatRelative(new Date(date), new Date(), {
