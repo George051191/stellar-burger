@@ -1,5 +1,6 @@
 import { MouseEventHandler, ReactNode } from "react";
-import { TIngredient } from "../services/types/data";
+import { TIngredient, TFeedOrder } from "../services/types/data";
+
 
 export interface IMenuItem {
   children: ReactNode;
@@ -19,7 +20,7 @@ export interface IConstructorItem {
 export interface IModal {
   closeModal: () => void;
   modalHeaderStyles: string;
-  headerText?: string;
+  headerText?: string | number | null;
   modalStyles?: string;
   children: ReactNode;
 }
@@ -72,5 +73,10 @@ export interface IResetPageProps {
   check?: boolean
 }
 
-
-
+export interface IOrderFeedElement {
+  styles: string,
+  status?: string,
+  path: string,
+  order: TFeedOrder,
+  number: number
+}

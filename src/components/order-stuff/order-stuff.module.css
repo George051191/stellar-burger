@@ -11,6 +11,10 @@
     color: hsla(180, 100%, 40%, 1)
 }
 
+.textwhite {
+    color: rgba(242, 242, 243, 1)
+}
+
 .ingredients {
     display: flex;
     flex-direction: column;

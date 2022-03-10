@@ -1,30 +1,53 @@
-import React from "react";
+import React, { FunctionComponent } from "react";
 import styles from './order-stuff.module.css';
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import { IngredientCard } from "../ingredient-card/ingredient-card";
+import { useParams } from "react-router-dom";
+import { useSelector } from "../../services/types/hooks";
+import { TIngredient, TFeedOrder } from "../../services/types/data";
+import { calculateCost } from "../../utils/utils";
+import { formatDate } from '../../utils/utils';
 
-export const OrderStuff = () => {
+export const OrderStuff: FunctionComponent = () => {
+  const { id } = useParams<{ id: string }>()
+  const { ordersData } = useSelector(state => state.ordersFeed);
+  const { ingredients } = useSelector(state => state.burgerData)
+
+  const currentFeedOrder = ordersData?.orders.find(item => {
+    return item._id === id
+  })
+
+
+
+
+  const currentItems: TIngredient[] = ingredients.filter(item => {
+    return currentFeedOrder && currentFeedOrder.ingredients.indexOf(item._id) > -1
+  })
+
+  const totalCost = calculateCost(currentItems.slice(1), currentItems[0].price)
+
+
+  const style = currentFeedOrder?.status === 'done' ? `text text_type_main-default mb-15 ${styles.textgreen}` : `text text_type_main-default mb-15 ${styles.textwhite}`
+
+
+
 
   return (
     <div className={styles.conteiner}>
-      <h3 className="text text_type_main-medium mb-3" >Black Hole Singularity острый бургер</h3>
-      <p className={`text text_type_main-default mb-15 ${styles.textgreen}`}>Выполнен</p>
+      <h3 className="text text_type_main-medium mb-3" >{currentFeedOrder?.name}</h3>
+      <p className={style}>{currentFeedOrder?.status === 'done' ? 'Выполнен' : 'Готовиться'}</p>
       <p className="text text_type_main-medium mb-6" >Состав:</p>
 
       <div className={`${styles.ingredients} mb-10`}>
-        <IngredientCard />
-        <IngredientCard />
-        <IngredientCard />
-        <IngredientCard />
-        <IngredientCard />
-        <IngredientCard />
-        <IngredientCard/>
+        {currentItems.map((item, index) => (
+          <IngredientCard key={index} type={item.type} images={item.image_mobile} name={item.name} price={item.price} />
+        ))}
       </div>
       <div className={styles.dateandcost}>
-        <p className="text text_type_main-default text_color_inactive" >Вчера, 13:50 i-GMT+3</p>
+        <p className="text text_type_main-default text_color_inactive" >{formatDate(currentFeedOrder?.createdAt)}</p>
         <div className={styles.box}>
-          <p className="text text_type_digits-default mr-2">510</p>
-          <CurrencyIcon type="primary"/>
+          <p className="text text_type_digits-default mr-2">{totalCost}</p>
+          <CurrencyIcon type="primary" />
         </div>
       </div>
 
@@ -34,3 +57,5 @@ export const OrderStuff = () => {
   )
 
 }
+
+

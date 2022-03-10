@@ -3,11 +3,11 @@ import React, { FunctionComponent } from "react";
 import { IResetPageProps } from "../../utils/interfaces";
 
 
+
 export const ProtectedRoute: FunctionComponent<IResetPageProps> = ({ path, children, redirectPath, check }) => {
 
-
   return (
-    <Route exact={true} path={path}  render={({ location }) => check ? (children) : (<Redirect to={{
+    <Route  path={path}  render={({ location }) => check ? (children) : (<Redirect to={{
       pathname: redirectPath, state: { from: location }
     }
     } />)} />

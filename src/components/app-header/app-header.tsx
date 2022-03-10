@@ -7,10 +7,13 @@ import { FunctionComponent } from "react";
 import { Link } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 import { ILocation } from "../../utils/interfaces";
+import { useSelector } from "../../services/types/hooks";
+
 
 export const AppHeader: FunctionComponent = () => {
   const location = useLocation<ILocation>();
 
+const {ordersData} = useSelector(state=> state.ordersFeed)
 
   const isActivePage = (path: string) => {
     return location.pathname === path
@@ -26,8 +29,8 @@ export const AppHeader: FunctionComponent = () => {
             </MenuItem>
           </Link>
           <Link to='/feed' className={headerStyles.link}>
-            <MenuItem text='Лента заказов' textStyles={isActivePage('/feed') || isActivePage('/feed/id') ? `${headerStyles.activenavlink} text text_type_main-default ml-2` : `text text_type_main-default ml-2 ${headerStyles.navlink}`} styles={`${headerStyles.header__item} pl-5 pr-5`} >
-              <ListIcon type={isActivePage('/feed') || isActivePage('/feed/id') ? 'primary' : 'secondary'} />
+            <MenuItem text='Лента заказов' textStyles={isActivePage('/feed') || location.pathname.indexOf('feed')> -1 ? `${headerStyles.activenavlink} text text_type_main-default ml-2` : `text text_type_main-default ml-2 ${headerStyles.navlink}`} styles={`${headerStyles.header__item} pl-5 pr-5`} >
+              <ListIcon type={location.pathname.indexOf('feed')> -1 || isActivePage('/feed') ? 'primary' : 'secondary'} />
             </MenuItem>
           </Link>
           <MenuItem styles={headerStyles.header__logo}>
