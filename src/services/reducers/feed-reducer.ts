@@ -1,23 +1,30 @@
-import { WS_CONNECTION_CLOSED, WS_CONNECTION_SUCCESS, WS_CONNECTION_ERROR, WS_GET_MESSAGE, WS_SEND_MESSAGE } from "../constants";
-import { TFeedOrder } from '../types/data';
+import {CLICK_ON_ORDER, WS_CONNECTION_CLOSED, WS_CONNECTION_SUCCESS, WS_CONNECTION_ERROR, WS_GET_MESSAGE, WS_SEND_MESSAGE } from "../constants";
+import { TFeedOrder, TFeedOrdersResult  } from '../types/data';
 import { WsActionsForReducer } from '../actions/orders-feed';
 
 type TFeedReducerState = {
-  orders: Array<TFeedOrder> | null,
+  ordersData: TFeedOrdersResult  | null,
   wsConnected: boolean,
-  error: boolean
+  error: boolean,
+  orderNumber: number | null;
 }
 
 const FeedReducerState: TFeedReducerState = {
-  orders: null,
+  ordersData: null,
   wsConnected: false,
-  error: false
+  error: false,
+  orderNumber: null
 }
 
 
 
 export const FeedReducer = (state = FeedReducerState, action: WsActionsForReducer): TFeedReducerState => {
   switch (action.type) {
+    case CLICK_ON_ORDER:
+      return {
+        ...state,
+        orderNumber: action.payload
+      }
     case WS_CONNECTION_SUCCESS:
       return {
         ...state,
@@ -26,7 +33,7 @@ export const FeedReducer = (state = FeedReducerState, action: WsActionsForReduce
     case WS_GET_MESSAGE:
       return {
         ...state,
-        orders: action.payload
+        ordersData: action.payload
       }
     case WS_CONNECTION_CLOSED:
       return {
@@ -42,3 +49,6 @@ export const FeedReducer = (state = FeedReducerState, action: WsActionsForReduce
       return state;
   }
 }
+
+
+

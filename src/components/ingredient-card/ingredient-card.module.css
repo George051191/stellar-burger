@@ -32,16 +32,22 @@
     flex-direction: row;
     width: 608px;
     height: 64px;
+    justify-content: flex-start;
+    gap: 10px;
 }
 
 .box {
     display: flex;
     flex-direction: row;
     align-items: center;
-    margin-left: 16px;
+    margin-left: 52px;
 }
 
-.text {
-    width: 414px;
-    width: 100%;
+.textstyle {
+    width: 281px;
+}
+
+.cost {
+    width: 99px;
+    text-align: end;
 }

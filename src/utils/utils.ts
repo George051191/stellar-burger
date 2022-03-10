@@ -1,5 +1,7 @@
-import { TIngredient } from "../services/types/data"
-import Api from "./Api"
+import { TIngredient } from "../services/types/data";
+import Api from "./Api";
+import { formatRelative } from 'date-fns';
+import { ru } from 'date-fns/locale';
 
 export const uid = (): number => { return Date.now() * Math.random() }
 
@@ -56,3 +58,17 @@ export  function refreshMainToken() {
 
 
 
+
+
+export const formatDate = (date: string | undefined) => {
+  if (date) {
+    const relativeDateFormat = formatRelative(new Date(date), new Date(), {
+      locale: ru,
+    });
+
+    const result =relativeDateFormat.split(' в ');
+    return result.join(', ') + ' i-GMT+3';
+  }
+};
+
+export default formatDate;

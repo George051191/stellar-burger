@@ -14,7 +14,7 @@ import { Preloader } from '../preloader/preloader';
 import { useSelector } from '../../services/types/hooks';
 import { ProtectedRoute } from '../protected-route/protected-route';
 import { getUserData } from '../../services/actions/user-data';
-import { deleteCookie, getCookie, setCookie, refreshMainToken } from '../../utils/utils';
+import {  getCookie, setCookie, refreshMainToken } from '../../utils/utils';
 import { IngredientPage } from '../../pages/ingredient-page';
 import { Modal } from '../modal/modal';
 import { IngredientDetails } from '../ingredient-details/ingredient-details';
@@ -41,10 +41,12 @@ const App: FunctionComponent = () => {
   const { dataRequest } = useSelector(store => store.burgerData)
   const { userName } = useSelector(store => store.userState)
   const { currentItem } = useSelector(state => state.currentSelect)
+  const { orderNumber } = useSelector(store => store.ordersFeed)
 
 
   const refresh = getCookie('refreshToken')
   const token = getCookie('token')
+
 
 
 
@@ -54,11 +56,11 @@ const App: FunctionComponent = () => {
       .then(() => {
         dispatch(getUserData(token))
       })
-    const interval = setInterval(refreshMainToken, 100000)
+    const interval = setInterval(refreshMainToken, 1000000)
     return () => {
       clearInterval(interval)
     }
-  }, [])
+  }, [dispatch])
 
 
   return (
@@ -85,7 +87,7 @@ const App: FunctionComponent = () => {
             <Route path='/reset-password' exact={true}>
               <ResetPage />
             </Route>
-            <ProtectedRoute path='/profile/orders/id' redirectPath='/login' check={userName}>
+            <ProtectedRoute path='/profile/orders/:id' redirectPath='/login' check={userName}>
               <OrderStuffPage />
             </ProtectedRoute >
             <ProtectedRoute path='/profile/orders' redirectPath='/login' check={userName}>
@@ -103,7 +105,7 @@ const App: FunctionComponent = () => {
             <Route path='/feed' exact={true}>
               <FeedPage />
             </Route>
-            <Route path='/feed/id' exact={true}>
+            <Route path='/feed/:id' exact={true}>
               <OrderStuffPage />
             </Route>
 
@@ -115,15 +117,19 @@ const App: FunctionComponent = () => {
           </Switch>
 
 
-          {background && <Route path='/feed/id' >
-            <Modal headerText={'#656565'} modalStyles={`text text_type_digits-default`} modalHeaderStyles={`${styles.modal__header} mt-10 mr-10 ml-10`} closeModal={() => { history.goBack(); dispatch({ type: CLICK_ON_CLOSE_BUTTON }) }}>  <OrderStuff /></Modal>
-          </Route>}
+          {background &&
+            <>
+              <Route path='/feed/:id' >
+                <Modal headerText={`#${orderNumber}`} modalStyles={`text text_type_digits-default`} modalHeaderStyles={`${styles.modal__header} mt-10 mr-10 ml-10`} closeModal={() => { history.goBack(); dispatch({ type: CLICK_ON_CLOSE_BUTTON }) }}>  <OrderStuff /></Modal>
+              </Route>
+              <ProtectedRoute redirectPath='/login' check={userName} path='/profile/orders/:id' >
+                <Modal headerText={`#${orderNumber}`} modalStyles={`text text_type_digits-default`} modalHeaderStyles={`${styles.modal__header} mt-10 mr-10 ml-10`} closeModal={() => { history.goBack(); dispatch({ type: CLICK_ON_CLOSE_BUTTON }) }}>  <OrderStuff /></Modal>
+              </ProtectedRoute>
+            </>}
           {background && <Route path='/ingredients/:id' >
             <Modal headerText={'Детали ингридиента'} modalStyles={`text text_type_main-large`} modalHeaderStyles={`${styles.modal__header} mt-10 mr-10 ml-10`} closeModal={() => { history.goBack(); dispatch({ type: CLICK_ON_CLOSE_BUTTON }) }}><IngredientDetails {...currentItem} /></Modal>
           </Route>}
-          {background && <ProtectedRoute redirectPath='/login' check={userName} path='/profile/orders/id' >
-            <Modal headerText={'#656565'} modalStyles={`text text_type_digits-default`} modalHeaderStyles={`${styles.modal__header} mt-10 mr-10 ml-10`} closeModal={() => { history.goBack(); dispatch({ type: CLICK_ON_CLOSE_BUTTON }) }}>  <OrderStuff /></Modal>
-          </ProtectedRoute>}
+
         </main>
 
       </>)

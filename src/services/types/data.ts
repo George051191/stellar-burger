@@ -33,12 +33,20 @@ export type TUser = {
   refreshToken: string
 }
 
-export type TFeedOrder = {
-  ingredients: string[],
-  _id: string,
-  status: string,
-  number: number,
-  createdAt: string,
-  updatedAt: string
 
+export type TFeedOrder = {
+  createdAt: string,
+  ingredients: string[],
+  name: string,
+  number: number,
+  status: string,
+  updatedAt: string,
+  _id: string
+}
+
+export type TFeedOrdersResult = {
+  success: boolean,
+  total: number,
+  totalToday: number,
+  orders: Array<TFeedOrder>
 }
