@@ -3,6 +3,8 @@ import styles from './scoreboard.module.css';
 import { useSelector } from "../../services/types/hooks";
 import { TFeedOrder } from "../../services/types/data";
 
+
+
 export const ScoreBoard: FunctionComponent = () => {
 
   const { ordersData } = useSelector(state => state.ordersFeed)

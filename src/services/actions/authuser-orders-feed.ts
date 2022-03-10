@@ -1,5 +1,5 @@
 import { WS_AUTH_CONNECTION_ERROR, WS_AUTH_CONNECTION_SUCCESS, WS_AUTH_CONNECTION_GET_MESSAGE, WS_AUTH_CONNECTION_START } from "../constants";
-import { TFeedOrder, TFeedOrdersResult } from "../types/data";
+import {  TFeedOrdersResult } from "../types/data";
 
 export interface IAuthConnectionStart {
   readonly type: typeof WS_AUTH_CONNECTION_START

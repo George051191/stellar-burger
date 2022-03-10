@@ -1,5 +1,5 @@
 import { CLICK_ON_ORDER, WS_CONNECTION_CLOSED, WS_CONNECTION_START, WS_CONNECTION_SUCCESS, WS_CONNECTION_ERROR, WS_GET_MESSAGE, WS_SEND_MESSAGE, WS_CLOSE_CONNECTION } from "../constants";
-import { TFeedOrder, TFeedOrdersResult } from "../types/data";
+import {  TFeedOrdersResult } from "../types/data";
 
 export interface IClickOnOrder {
   readonly type: typeof CLICK_ON_ORDER;

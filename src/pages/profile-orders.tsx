@@ -5,7 +5,7 @@ import { OrderFeedElement } from "../components/order-feed-element/order-feed-el
 import { useDispatch, useSelector } from "../services/types/hooks";
 import { WS_AUTH_CONNECTION_START, WS_CLOSE_CONNECTION } from "../services/constants";
 
-import { WS_CONNECTION } from "../services/constants";
+
 import Api from "../utils/Api";
 import { setCookie, getCookie } from "../utils/utils";
 
@@ -32,18 +32,9 @@ export function ProfileOrdersPage() {
       <ProfileNav navconteiner={styles.navconteiner} text='В этом разделе вы можете&nbsp;  просмотреть свою историю заказов' />
       <div className={styles.feed}  >
         {reversedArray && reversedArray.map((item, index) => (
-          <OrderFeedElement number={item.number} key={index} order={item} styles={styles.element} status={item.status} path={`/profile/orders/${item._id}`} />
-        )
-
-
-
+          <OrderFeedElement number={item.number} key={index} order={item} styles={styles.element} status={item.status} path={`/profile/orders/${item._id}`} />)
         )}
-
       </div>
-
-
     </div>
-
   )
-
 }

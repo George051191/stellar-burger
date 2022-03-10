@@ -22,7 +22,6 @@ export const ProfilePage: FunctionComponent = () => {
     <div className={styles.profileconteiner}>
       <ProfileNav navconteiner={styles.navconteiner} text='В этом разделе вы можете&nbsp;  изменить свои персональные данные'/>
       <FormElement />
-
     </div>
 
   )

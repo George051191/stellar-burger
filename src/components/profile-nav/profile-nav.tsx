@@ -1,14 +1,14 @@
 import React, { FunctionComponent } from "react";
 import { Link, useLocation } from "react-router-dom";
 import styles from './profile-nav.module.css';
-import { getCookie, deleteCookie,setCookie} from "../../utils/utils";
+import { getCookie, deleteCookie} from "../../utils/utils";
 import { useDispatch } from "../../services/types/hooks";
 import Api from "../../utils/Api";
 import { USER_LOGOUT } from "../../services/constants";
 
 
 
-
+///компонент меню навигации в личном кабинете
 export const ProfileNav:FunctionComponent<{text:string, navconteiner: string}> = (props) => {
 
   const location = useLocation();

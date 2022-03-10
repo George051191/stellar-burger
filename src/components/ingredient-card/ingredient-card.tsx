@@ -3,7 +3,7 @@ import React, { FunctionComponent } from "react";
 import styles from './ingredient-card.module.css'
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 
-
+///компонент для карточки каждого ингрединта из заказа
 export const IngredientCard: FunctionComponent<{ images: string, name: string, type: string, price: number }> = (props) => {
 
 
@@ -12,7 +12,7 @@ export const IngredientCard: FunctionComponent<{ images: string, name: string, t
 
       <div className={styles.imageoverlay} >
         <div className={styles.imagebox} >
-          <img className={styles.image} src={props.images} />
+          <img alt={props.name} className={styles.image} src={props.images} />
         </div>
       </div>
       <p className={`text text_type_main-default  mr-25 mt-5 mb-5 ${styles.textstyle} `}>{props.name}</p>
