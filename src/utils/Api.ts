@@ -18,7 +18,7 @@ class Api {
 
   private checkResponse(res: Response) {
 
-    if (res.ok) {return res.json() } return res.json().then(res => Promise.reject(res) )
+    if (res.ok) { return res.json() } return res.json().then(res => Promise.reject(res))
 
   }
 
@@ -30,7 +30,7 @@ class Api {
     }).then(this.checkResponse)
   }
 
-  getOrderNumber(arrayOfId: Array<string>, token: string) {
+  getOrderNumber(arrayOfId: Array<string>, token: string, refresh: string, callback: (res: any) => void) {
     return fetch(`${this.url}orders`, {
       method: 'POST',
       headers: {
@@ -38,7 +38,22 @@ class Api {
         'Authorization': 'Bearer ' + token
       },
       body: JSON.stringify({ "ingredients": arrayOfId })
-    }).then(this.checkResponse);
+    }).then(this.checkResponse)
+      .catch(res => {
+        if (!res.success) {
+          this.refreshToken(refresh)
+            .then(res => {
+              callback(res);
+              fetch(`${this.url}orders`, {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                  'Authorization': res.accessToken
+                }
+              }).then(this.checkResponse)
+            })
+        }
+      })
   }
 
   setPasswordReset(email: string, token: string) {
@@ -114,7 +129,7 @@ class Api {
     }).then(this.checkResponse);
   }
 
-  getUser(token: string) {
+  getUser(token: string, refresh: string, callback: (res: any) => void) {
     return fetch(`${this.url}auth/user`, {
       method: 'GET',
       headers: {
@@ -122,7 +137,21 @@ class Api {
         'Authorization': 'Bearer ' + token
       },
     }).then(this.checkResponse)
-
+      .catch(res => {
+        if (!res.success) {
+          this.refreshToken(refresh)
+            .then(res => {
+              callback(res);
+              fetch(`${this.url}auth/user`, {
+                method: 'GET',
+                headers: {
+                  'Content-Type': 'application/json',
+                  'Authorization': res.accessToken
+                },
+              }).then(this.checkResponse)
+            })
+        }
+      })
   }
 
   refreshUser(email: string, password: string, name: string, token: string) {

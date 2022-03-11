@@ -14,12 +14,12 @@ import { Preloader } from '../preloader/preloader';
 import { useSelector } from '../../services/types/hooks';
 import { ProtectedRoute } from '../protected-route/protected-route';
 import { getUserData } from '../../services/actions/user-data';
-import { deleteCookie, getCookie } from '../../utils/utils';
+import { deleteCookie, getCookie,setCookie } from '../../utils/utils';
 import { IngredientPage } from '../../pages/ingredient-page';
 import { Modal } from '../modal/modal';
 import { IngredientDetails } from '../ingredient-details/ingredient-details';
 import { CLICK_ON_CLOSE_BUTTON } from '../../services/constants';
-
+import { refreshMainToken } from '../../utils/utils';
 import { FeedPage } from '../../pages/feed-page';
 import { OrderStuff } from '../order-stuff/order-stuff';
 import { OrderStuffPage } from '../../pages/order-stuff-page';
@@ -44,11 +44,11 @@ const App: FunctionComponent = () => {
   const refresh = getCookie('refreshToken')
   const token = getCookie('token')
 
-console.log(refresh, token)
+
 
   React.useEffect(() => {
     dispatch(getBurgerData());
-    token !== undefined && dispatch(getUserData(token, refresh))
+    token !== undefined && dispatch(getUserData(token, refresh, refreshMainToken))
   }, [dispatch])
 
 

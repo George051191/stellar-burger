@@ -12,7 +12,7 @@ import { useSelector, useDispatch } from '../../services/types/hooks';
 import { OPEN_ORDER_POPUP, CLOSE_ORDER_POPUP } from '../../services/constants/index';
 import { getOrderNumber } from '../../services/actions/order-details';
 import { calculateCost } from '../../utils/utils';
-import { getCookie, setCookie } from '../../utils/utils';
+import { getCookie, refreshMainToken } from '../../utils/utils';
 import Api from '../../utils/Api';
 import { useHistory } from 'react-router-dom';
 
@@ -63,7 +63,7 @@ export const BurgerConstructor: FunctionComponent = () => {
 
     const idArray = elements.map(item => { return item._id })
     dispatch({ type: OPEN_ORDER_POPUP });
-    dispatch(getOrderNumber([...idArray, bun._id], token, refresh));
+    dispatch(getOrderNumber([...idArray, bun._id], token, refresh, refreshMainToken));
 
 
   }

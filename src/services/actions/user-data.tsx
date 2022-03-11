@@ -105,27 +105,12 @@ export const refreshUser: AppThunk = (email: string, password: string, name: str
   }
 }
 
-export const getUserData: AppThunk = (token: string, refresh: string) => {
+export const getUserData: AppThunk = (token: string, refresh: string, callback: () => void) => {
   return function (dispatch: TAppDispatch) {
     dispatch({ type: USER_DATA_REQUEST });
-    Api.getUser(token)
-      .then(res => dispatch({ type: USER_DATA_SUCCESS, email: res.user.email, name: res.user.name }))
-      .catch(res => {
-        if (!res.success) {
-          Api.refreshToken(refresh)
-            .then(res => { setCookie('token', res.accessToken.split('Bearer ')[1]); setCookie('refreshToken', res.refreshToken) })
-            .then(() => {
-              fetch(`https://norma.nomoreparties.space/api/auth/user`, {
-                method: 'GET',
-                headers: {
-                  'Content-Type': 'application/json',
-                  'Authorization': 'Bearer ' + getCookie('token')
-                },
-              }).then(res=> res.json())
-                .then((res: any) => dispatch({ type: USER_DATA_SUCCESS, email: res?.user.email, name: res?.user.name }))
-            })
-        }
-      })
+    Api.getUser(token, refresh, callback)
+      .then(res => { dispatch({ type: USER_DATA_SUCCESS, email: res?.user.email, name: res?.user.name }); } )
+
   }
 }
 
@@ -174,3 +159,6 @@ export const loginUser: AppThunk = (email: string, password: string, token: stri
       .catch(err => dispatch({ type: LOGIN_ERROR }))
   }
 }
+
+
+
