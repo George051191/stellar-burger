@@ -14,11 +14,12 @@ export function ProfileOrdersPage() {
   const dispatch = useDispatch();
   const refresh = getCookie('refreshToken');
   const { order } = useSelector(state => state.userFeed)
+  console.log(order)
 
 
   React.useEffect(() => {
 
-    refresh && Api.refreshToken(refresh).then((res) => { setCookie('token', res.accessToken.split('Bearer ')[1]); setCookie('refreshToken', res.refreshToken) }).then(() => dispatch({ type: WS_AUTH_CONNECTION_START }))
+     dispatch({ type: WS_AUTH_CONNECTION_START })
 
     return () => {
       dispatch({ type: WS_CLOSE_CONNECTION })

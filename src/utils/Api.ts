@@ -1,4 +1,4 @@
-import { getCookie } from "./utils";
+
 
 
 const BASEURL = 'https://norma.nomoreparties.space/api/';
@@ -18,7 +18,7 @@ class Api {
 
   private checkResponse(res: Response) {
 
-    if (res.ok) { return res.json() } res.json().then(res => Promise.reject(res))
+    if (res.ok) {return res.json() } return res.json().then(res => Promise.reject(res) )
 
   }
 
@@ -122,6 +122,7 @@ class Api {
         'Authorization': 'Bearer ' + token
       },
     }).then(this.checkResponse)
+
   }
 
   refreshUser(email: string, password: string, name: string, token: string) {

@@ -25,7 +25,7 @@ export const BurgerConstructor: FunctionComponent = () => {
   const { elements, bun } = useSelector(state => state.constructorState);
 
   const token = getCookie('token')
-
+  const refresh = getCookie('refreshToken')
   ///вычисляем значения для ключей
   function uid(): number {
     return Date.now() * Math.random()
@@ -60,13 +60,11 @@ export const BurgerConstructor: FunctionComponent = () => {
   ///логика открытия попапа с номером заказа
   const orderDetailsRequestSending = () => {
 
-    const match = getCookie('refreshToken');
-    match && Api.refreshToken(match).then(res => { setCookie('token', res.accessToken.split('Bearer ')[1]); setCookie('refreshToken', res.refreshToken) })
-      .then(() => {
-        const idArray = elements.map(item => { return item._id })
-        dispatch({ type: OPEN_ORDER_POPUP });
-        dispatch(getOrderNumber([...idArray, bun._id], token));
-      })
+
+    const idArray = elements.map(item => { return item._id })
+    dispatch({ type: OPEN_ORDER_POPUP });
+    dispatch(getOrderNumber([...idArray, bun._id], token, refresh));
+
 
   }
 

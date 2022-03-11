@@ -14,7 +14,7 @@ export const OrderStuff: FunctionComponent = () => {
   const { ordersData } = useSelector(state => state.ordersFeed);
   const { ingredients } = useSelector(state => state.burgerData)
 
-  const currentFeedOrder = ordersData?.orders.find(item => {
+  const currentFeedOrder = ordersData && ordersData?.orders.find(item => {
     return item._id === id
   })
 
@@ -22,10 +22,10 @@ export const OrderStuff: FunctionComponent = () => {
 
 
   const currentItems: TIngredient[] = ingredients.filter(item => {
-    return currentFeedOrder && currentFeedOrder.ingredients.indexOf(item._id) > -1
+    return currentFeedOrder !== undefined && currentFeedOrder !== null && currentFeedOrder.ingredients.indexOf(item._id) > -1
   })
 
-  const totalCost = calculateCost(currentItems.slice(1), currentItems[0].price)
+  const totalCost = currentItems !== undefined && calculateCost(currentItems.slice(1), currentItems[0].price)
 
 
   const style = currentFeedOrder?.status === 'done' ? `text text_type_main-default mb-15 ${styles.textgreen}` : `text text_type_main-default mb-15 ${styles.textwhite}`

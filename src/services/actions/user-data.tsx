@@ -3,7 +3,7 @@ import { AppThunk, TAppDispatch } from "../types";
 import Api from "../../utils/Api";
 import { TUser } from "../types/data";
 import { getCookie, setCookie } from "../../utils/utils";
-import { Token } from "typescript";
+
 
 export interface ILogout {
   readonly type: typeof USER_LOGOUT;
@@ -105,22 +105,38 @@ export const refreshUser: AppThunk = (email: string, password: string, name: str
   }
 }
 
-export const getUserData: AppThunk = (token: string, refresh: string, getCookie: ()=> void ) => {
+export const getUserData: AppThunk = (token: string, refresh: string) => {
   return function (dispatch: TAppDispatch) {
     dispatch({ type: USER_DATA_REQUEST });
     Api.getUser(token)
       .then(res => dispatch({ type: USER_DATA_SUCCESS, email: res.user.email, name: res.user.name }))
-      .catch(err =>  dispatch({ type: USER_DATA_ERROR }) )
+      .catch(res => {
+        if (!res.success) {
+          Api.refreshToken(refresh)
+            .then(res => { setCookie('token', res.accessToken.split('Bearer ')[1]); setCookie('refreshToken', res.refreshToken) })
+            .then(() => {
+              fetch(`https://norma.nomoreparties.space/api/auth/user`, {
+                method: 'GET',
+                headers: {
+                  'Content-Type': 'application/json',
+                  'Authorization': 'Bearer ' + getCookie('token')
+                },
+              }).then(res=> res.json())
+                .then((res: any) => dispatch({ type: USER_DATA_SUCCESS, email: res?.user.email, name: res?.user.name }))
+            })
+        }
+      })
   }
 }
 
 
-export const getPasswordReset: AppThunk = (email: string, token:string) => {
+
+export const getPasswordReset: AppThunk = (email: string, token: string) => {
   return function (dispatch: TAppDispatch) {
     dispatch({ type: RESET_REQUEST });
     Api.setPasswordReset(email, token)
       .then(res => dispatch({ type: RESET_SUCCESS, success: res.success }))
-      .catch(err =>  dispatch({ type: RESET_ERROR }) )
+      .catch(err => dispatch({ type: RESET_ERROR }))
   }
 }
 
@@ -133,12 +149,12 @@ export const setNewPassword: AppThunk = (password: string, token: string) => {
   }
 }
 
-export const createUser: AppThunk = (email: string, password: string, name: string,token:string) => {
+export const createUser: AppThunk = (email: string, password: string, name: string, token: string) => {
   return function (dispatch: TAppDispatch) {
     dispatch({ type: CREATE_USER_REQUEST })
     Api.createNewUser(email, password, name, token)
       .then(res => {
-        setCookie('token', res.accessToken.split('Bearer ')[1], { expires: 1200000 });
+        setCookie('token', res.accessToken.split('Bearer ')[1]);
         setCookie('refreshToken', res.refreshToken);
         dispatch({ type: CREATE_USER_SUCCESS, payload: res })
       })
@@ -146,12 +162,12 @@ export const createUser: AppThunk = (email: string, password: string, name: stri
   }
 }
 
-export const loginUser: AppThunk = (email: string, password: string, token:string) => {
+export const loginUser: AppThunk = (email: string, password: string, token: string) => {
   return function (dispatch: TAppDispatch) {
     dispatch({ type: LOGIN_REQUEST });
     Api.loginRequest(email, password, token)
       .then(res => {
-        setCookie('token', res.accessToken.split('Bearer ')[1], { expires: 1200000 });
+        setCookie('token', res.accessToken.split('Bearer ')[1]);
         setCookie('refreshToken', res.refreshToken);
         dispatch({ type: LOGIN_SUCCESS, email: res.user.email, name: res.user.name, status: res.success })
       })

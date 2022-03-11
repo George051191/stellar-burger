@@ -38,7 +38,7 @@ export const OrderStuffPage: FunctionComponent = () => {
     return currentFeedOrder && currentFeedOrder.ingredients.indexOf(item._id) > -1
   })
 
-  const totalCost = calculateCost(currentItems.slice(1), currentItems[0]?.price)
+  const totalCost = currentItems &&  calculateCost(currentItems.slice(1), currentItems[0]?.price)
 
 
   const style = currentFeedOrder?.status === 'done' ? `text text_type_main-default mb-15 ${styles.textgreen}` : `text text_type_main-default mb-15 ${styles.textwhite}`
