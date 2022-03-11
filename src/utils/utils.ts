@@ -50,10 +50,10 @@ export function deleteCookie(name: string) {
 }
 
 
-export  function refreshMainToken() {
+export  function refreshMainToken(res: any) {
 
-  const match = getCookie('refreshToken');
-  match !== undefined &&  Api.refreshToken(match).then(res => { setCookie('token', res.accessToken.split('Bearer ')[1]); setCookie('refreshToken', res.refreshToken) })
+
+   setCookie('token', res.accessToken.split('Bearer ')[1]); setCookie('refreshToken', res.refreshToken)
 }
 
 

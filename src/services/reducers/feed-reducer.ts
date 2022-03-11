@@ -1,5 +1,5 @@
-import {CLICK_ON_ORDER, WS_CONNECTION_CLOSED, WS_CONNECTION_SUCCESS, WS_CONNECTION_ERROR, WS_GET_MESSAGE, WS_SEND_MESSAGE } from "../constants";
-import { TFeedOrder, TFeedOrdersResult  } from '../types/data';
+import {CLICK_ON_ORDER, WS_CONNECTION_CLOSED, WS_CONNECTION_SUCCESS, WS_CONNECTION_ERROR, WS_GET_MESSAGE } from "../constants";
+import {  TFeedOrdersResult  } from '../types/data';
 import { WsActionsForReducer } from '../actions/orders-feed';
 
 type TFeedReducerState = {
