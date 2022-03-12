@@ -14,12 +14,16 @@ import { Preloader } from '../preloader/preloader';
 import { useSelector } from '../../services/types/hooks';
 import { ProtectedRoute } from '../protected-route/protected-route';
 import { getUserData } from '../../services/actions/user-data';
-import { deleteCookie, getCookie, setCookie, refreshMainToken } from '../../utils/utils';
+import { deleteCookie, getCookie,setCookie } from '../../utils/utils';
 import { IngredientPage } from '../../pages/ingredient-page';
 import { Modal } from '../modal/modal';
 import { IngredientDetails } from '../ingredient-details/ingredient-details';
 import { CLICK_ON_CLOSE_BUTTON } from '../../services/constants';
-import Api from '../../utils/Api';
+import { refreshMainToken } from '../../utils/utils';
+import { FeedPage } from '../../pages/feed-page';
+import { OrderStuff } from '../order-stuff/order-stuff';
+import { OrderStuffPage } from '../../pages/order-stuff-page';
+import { ProfileOrdersPage } from '../../pages/profile-orders';
 
 
 
@@ -28,15 +32,14 @@ const App: FunctionComponent = () => {
   const location = useLocation<{ [key in any]: any }>();
   const isPush = history.action === 'PUSH';
 
-
   const background = isPush && location.state && location.state.background;
 
   const dispatch = useDispatch();
+
   const { dataRequest } = useSelector(store => store.burgerData)
   const { userName } = useSelector(store => store.userState)
   const { currentItem } = useSelector(state => state.currentSelect)
-
-
+  const { orderNumber } = useSelector(store => store.ordersFeed)
 
   const refresh = getCookie('refreshToken')
   const token = getCookie('token')
@@ -45,15 +48,8 @@ const App: FunctionComponent = () => {
 
   React.useEffect(() => {
     dispatch(getBurgerData());
-    refresh && Api.refreshToken(refresh).then(res => { setCookie('token', res.accessToken.split('Bearer ')[1]); setCookie('refreshToken', res.refreshToken) })
-      .then(() => {
-        dispatch(getUserData(token))
-      })
-      const interval = setInterval(refreshMainToken, 100000)
-      return () => {
-        clearInterval(interval)
-      }
-  }, [])
+    token !== undefined && dispatch(getUserData(token, refresh, refreshMainToken))
+  }, [dispatch])
 
 
   return (
@@ -80,11 +76,23 @@ const App: FunctionComponent = () => {
             <Route path='/reset-password' exact={true}>
               <ResetPage />
             </Route>
-            <ProtectedRoute path='/profile' redirectPath='/login' check={userName}>
+            <ProtectedRoute path='/profile/orders/:id' redirectPath='/login' check={userName}>
+              <OrderStuffPage />
+            </ProtectedRoute >
+            <ProtectedRoute path='/profile/orders' redirectPath='/login' check={userName}>
+              <ProfileOrdersPage />
+            </ProtectedRoute >
+            <ProtectedRoute path='/profile' redirectPath='/login' check={userName} >
               <ProfilePage />
             </ProtectedRoute>
             <Route path='/ingredients/:id' exact={true} >
               <IngredientPage />
+            </Route>
+            <Route path='/feed' exact={true}>
+              <FeedPage />
+            </Route>
+            <Route path='/feed/:id' exact={true}>
+              <OrderStuffPage />
             </Route>
             <Route  >
               <div>
@@ -93,6 +101,16 @@ const App: FunctionComponent = () => {
             </Route>
           </Switch>
 
+
+          {background &&
+            <>
+              <Route path='/feed/:id' >
+                <Modal headerText={`#${orderNumber}`} modalStyles={`text text_type_digits-default`} modalHeaderStyles={`${styles.modal__header} mt-10 mr-10 ml-10`} closeModal={() => { history.goBack(); dispatch({ type: CLICK_ON_CLOSE_BUTTON }) }}>  <OrderStuff /></Modal>
+              </Route>
+              <ProtectedRoute redirectPath='/login' check={userName} path='/profile/orders/:id' >
+                <Modal headerText={`#${orderNumber}`} modalStyles={`text text_type_digits-default`} modalHeaderStyles={`${styles.modal__header} mt-10 mr-10 ml-10`} closeModal={() => { history.goBack(); dispatch({ type: CLICK_ON_CLOSE_BUTTON }) }}>  <OrderStuff /></Modal>
+              </ProtectedRoute>
+            </>}
           {background && <Route path='/ingredients/:id' >
             <Modal headerText={'Детали ингридиента'} modalStyles={`text text_type_main-large`} modalHeaderStyles={`${styles.modal__header} mt-10 mr-10 ml-10`} closeModal={() => { history.goBack(); dispatch({ type: CLICK_ON_CLOSE_BUTTON }) }}><IngredientDetails {...currentItem} /></Modal>
           </Route>}

@@ -3,7 +3,7 @@ import { AppThunk, TAppDispatch } from "../types";
 import Api from "../../utils/Api";
 import { TUser } from "../types/data";
 import { getCookie, setCookie } from "../../utils/utils";
-import { Token } from "typescript";
+
 
 export interface ILogout {
   readonly type: typeof USER_LOGOUT;
@@ -102,25 +102,27 @@ export const refreshUser: AppThunk = (email: string, password: string, name: str
   return function (dispatch: TAppDispatch) {
     Api.refreshUser(email, password, name, token)
       .then(res => dispatch({ type: CREATE_USER_SUCCESS, payload: res }))
+      .catch(err => { console.log(err.message); dispatch({ type: CREATE_USER_ERROR }) })
   }
 }
 
-export const getUserData: AppThunk = (token: string, refresh: string, getCookie: ()=> void ) => {
+export const getUserData: AppThunk = (token: string, refresh: string, callback: () => void) => {
   return function (dispatch: TAppDispatch) {
     dispatch({ type: USER_DATA_REQUEST });
-    Api.getUser(token)
-      .then(res => dispatch({ type: USER_DATA_SUCCESS, email: res.user.email, name: res.user.name }))
-      .catch(err =>  dispatch({ type: USER_DATA_ERROR }) )
+    Api.getUser(token, refresh, callback)
+      .then(res => { dispatch({ type: USER_DATA_SUCCESS, email: res?.user.email, name: res?.user.name }); })
+      .catch(err => { console.log(err.message); dispatch({ type: USER_DATA_ERROR }) })
   }
 }
 
 
-export const getPasswordReset: AppThunk = (email: string, token:string) => {
+
+export const getPasswordReset: AppThunk = (email: string, token: string) => {
   return function (dispatch: TAppDispatch) {
     dispatch({ type: RESET_REQUEST });
     Api.setPasswordReset(email, token)
       .then(res => dispatch({ type: RESET_SUCCESS, success: res.success }))
-      .catch(err =>  dispatch({ type: RESET_ERROR }) )
+      .catch(err => { console.log(err.message); dispatch({ type: RESET_ERROR }) })
   }
 }
 
@@ -129,32 +131,35 @@ export const setNewPassword: AppThunk = (password: string, token: string) => {
     dispatch({ type: SET_PASSWORD_REQUEST })
     Api.setNewPassword(password, token)
       .then(res => dispatch({ type: SET_PASSWORD_SUCCESS, success: res.success }))
-      .catch(err => dispatch({ type: SET_PASSWORD_ERROR }))
+      .catch(err => { console.log(err.message); dispatch({ type: SET_PASSWORD_ERROR }) })
   }
 }
 
-export const createUser: AppThunk = (email: string, password: string, name: string,token:string) => {
+export const createUser: AppThunk = (email: string, password: string, name: string, token: string) => {
   return function (dispatch: TAppDispatch) {
     dispatch({ type: CREATE_USER_REQUEST })
     Api.createNewUser(email, password, name, token)
       .then(res => {
-        setCookie('token', res.accessToken.split('Bearer ')[1], { expires: 1200000 });
+        setCookie('token', res.accessToken.split('Bearer ')[1]);
         setCookie('refreshToken', res.refreshToken);
         dispatch({ type: CREATE_USER_SUCCESS, payload: res })
       })
-      .catch(err => dispatch({ type: CREATE_USER_ERROR }))
+      .catch(err => { console.log(err.message); dispatch({ type: CREATE_USER_ERROR }) })
   }
 }
 
-export const loginUser: AppThunk = (email: string, password: string, token:string) => {
+export const loginUser: AppThunk = (email: string, password: string, token: string) => {
   return function (dispatch: TAppDispatch) {
     dispatch({ type: LOGIN_REQUEST });
     Api.loginRequest(email, password, token)
       .then(res => {
-        setCookie('token', res.accessToken.split('Bearer ')[1], { expires: 1200000 });
+        setCookie('token', res.accessToken.split('Bearer ')[1]);
         setCookie('refreshToken', res.refreshToken);
         dispatch({ type: LOGIN_SUCCESS, email: res.user.email, name: res.user.name, status: res.success })
       })
-      .catch(err => dispatch({ type: LOGIN_ERROR }))
+      .catch(err => { console.log(err.message); dispatch({ type: LOGIN_ERROR }) })
   }
 }
+
+
+

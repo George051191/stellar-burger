@@ -1,5 +1,7 @@
-import { TIngredient } from "../services/types/data"
-import Api from "./Api"
+import { TIngredient } from "../services/types/data";
+import Api from "./Api";
+import { formatRelative } from 'date-fns';
+import { ru } from 'date-fns/locale';
 
 export const uid = (): number => { return Date.now() * Math.random() }
 
@@ -48,11 +50,25 @@ export function deleteCookie(name: string) {
 }
 
 
-export  function refreshMainToken() {
+export  function refreshMainToken(res: any) {
 
-  const match = getCookie('refreshToken');
-  match !== undefined &&  Api.refreshToken(match).then(res => { setCookie('token', res.accessToken.split('Bearer ')[1]); setCookie('refreshToken', res.refreshToken) })
+
+   setCookie('token', res.accessToken.split('Bearer ')[1]); setCookie('refreshToken', res.refreshToken)
 }
 
 
 
+
+///меняет строку с датой из сообщеня сервера в человекочитаемую запись
+export const formatDate = (date: string | undefined) => {
+  if (date) {
+    const relativeDateFormat = formatRelative(new Date(date), new Date(), {
+      locale: ru,
+    });
+
+    const result =relativeDateFormat.split(' в ');
+    return result.join(', ') + ' i-GMT+3';
+  }
+};
+
+export default formatDate;

@@ -41,12 +41,13 @@
     color: rgba(242, 242, 243, 1)
 }
 
+.navconteiner {
+    margin-top: 40px;
+    display: flex;
+    flex-direction: column;
+}
+
 .blockquote {
     margin-bottom: 0;
     width: 320px;
-}
-
-.navconteiner {
-    display: flex;
-    flex-direction: column;
 }

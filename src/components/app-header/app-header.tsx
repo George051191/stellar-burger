@@ -8,6 +8,8 @@ import { Link } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 import { ILocation } from "../../utils/interfaces";
 
+
+
 export const AppHeader: FunctionComponent = () => {
   const location = useLocation<ILocation>();
 
@@ -25,17 +27,17 @@ export const AppHeader: FunctionComponent = () => {
               <BurgerIcon type={isActivePage('/') ? 'primary' : 'secondary'} />
             </MenuItem>
           </Link>
-          <Link to='' className={headerStyles.link}>
-            <MenuItem text='Лента заказов' textStyles={isActivePage('') ? `${headerStyles.activenavlink} text text_type_main-default ml-2` : `text text_type_main-default ml-2 ${headerStyles.navlink}`} styles={`${headerStyles.header__item} pl-5 pr-5`} >
-              <ListIcon type={isActivePage('') ? 'primary' : 'secondary'} />
+          <Link to='/feed' className={headerStyles.link}>
+            <MenuItem text='Лента заказов' textStyles={isActivePage('/feed') || location.pathname.indexOf('feed')> -1 ? `${headerStyles.activenavlink} text text_type_main-default ml-2` : `text text_type_main-default ml-2 ${headerStyles.navlink}`} styles={`${headerStyles.header__item} pl-5 pr-5`} >
+              <ListIcon type={location.pathname.indexOf('feed')> -1 || isActivePage('/feed') ? 'primary' : 'secondary'} />
             </MenuItem>
           </Link>
           <MenuItem styles={headerStyles.header__logo}>
             <Logo />
           </MenuItem>
           <Link to='/profile' className={headerStyles.link} >
-            <MenuItem text='Личный кабинет' textStyles={isActivePage('/profile') ? `${headerStyles.activenavlink} text text_type_main-default ml-2` : `text text_type_main-default ml-2 ${headerStyles.navlink}`} styles={`${headerStyles.header__item} pl-5 pr-5`} >
-              <ProfileIcon type={isActivePage('/profile') ? 'primary' : 'secondary'} />
+            <MenuItem text='Личный кабинет' textStyles={isActivePage('/profile') || location.pathname.indexOf('profile')> -1  ? `${headerStyles.activenavlink} text text_type_main-default ml-2` : `text text_type_main-default ml-2 ${headerStyles.navlink}`} styles={`${headerStyles.header__item} pl-5 pr-5`} >
+              <ProfileIcon type={isActivePage('/profile') || location.pathname.indexOf('profile')> -1 ? 'primary' : 'secondary'} />
             </MenuItem>
           </Link>
         </ul>
