@@ -97,7 +97,7 @@
     justify-content: center;
     z-index: 1;
     position: absolute;
-    left: 248px;
+    left: 260px;
     border: 2px solid transparent;
     width: 64px;
     height: 64px;
@@ -125,6 +125,10 @@
     justify-content: flex-start;
     width: 436px;
     height: 68px;
+}
+
+.imagesbox :first-child {
+    margin-left: 0;
 }
 
 .cost {
