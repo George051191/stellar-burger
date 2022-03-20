@@ -25,7 +25,12 @@ export const OrderStuff: FunctionComponent = () => {
     return currentFeedOrder !== undefined && currentFeedOrder !== null && currentFeedOrder.ingredients.indexOf(item._id) > -1
   })
 
-  const totalCost = currentItems !== undefined && calculateCost(currentItems.slice(1), currentItems[0].price)
+  //const totalCost = currentItems !== undefined &&  calculateCost(currentItems.slice(1), currentItems[0].price)
+
+  const totalPrice: number= currentItems.reduce((acc, item) => {
+    acc = item.price + acc;
+   return acc
+ }, 0)
 
 
   const style = currentFeedOrder?.status === 'done' ? `text text_type_main-default mb-15 ${styles.textgreen}` : `text text_type_main-default mb-15 ${styles.textwhite}`
@@ -46,7 +51,7 @@ export const OrderStuff: FunctionComponent = () => {
       <div className={styles.dateandcost}>
         <p className="text text_type_main-default text_color_inactive" >{formatDate(currentFeedOrder?.createdAt)}</p>
         <div className={styles.box}>
-          <p className="text text_type_digits-default mr-2">{totalCost}</p>
+          <p className="text text_type_digits-default mr-2">{totalPrice}</p>
           <CurrencyIcon type="primary" />
         </div>
       </div>
