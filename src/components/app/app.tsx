@@ -24,6 +24,7 @@ import { FeedPage } from '../../pages/feed-page';
 import { OrderStuff } from '../order-stuff/order-stuff';
 import { OrderStuffPage } from '../../pages/order-stuff-page';
 import { ProfileOrdersPage } from '../../pages/profile-orders';
+import { EmptyBurger } from '../empty-burger/empty-burger';
 
 
 
@@ -96,7 +97,7 @@ const App: FunctionComponent = () => {
             </Route>
             <Route  >
               <div>
-                <h1>Empty Page</h1>
+               <EmptyBurger />
               </div>
             </Route>
           </Switch>
