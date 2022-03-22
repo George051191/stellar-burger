@@ -97,7 +97,7 @@ const App: FunctionComponent = () => {
             </Route>
             <Route  >
               <div>
-               <EmptyBurger />
+
               </div>
             </Route>
           </Switch>

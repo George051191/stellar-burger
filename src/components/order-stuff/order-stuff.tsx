@@ -14,18 +14,18 @@ export const OrderStuff: FunctionComponent = () => {
   const { ordersData } = useSelector(state => state.ordersFeed);
   const { ingredients } = useSelector(state => state.burgerData)
 
-  const currentFeedOrder = ordersData && ordersData?.orders.find(item => {
+  const currentFeedOrder = ordersData && ordersData.orders.find(item => {
     return item._id === id
   })
 
-
-
+  console.log(ingredients)
+  console.log(ordersData)
 
   const currentItems: TIngredient[] = ingredients.filter(item => {
     return currentFeedOrder !== undefined && currentFeedOrder !== null && currentFeedOrder.ingredients.indexOf(item._id) > -1
   })
 
-  //const totalCost = currentItems !== undefined &&  calculateCost(currentItems.slice(1), currentItems[0].price)
+
 
   const totalPrice: number= currentItems.reduce((acc, item) => {
     acc = item.price + acc;
