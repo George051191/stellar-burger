@@ -1,10 +1,10 @@
 import React, { FunctionComponent } from "react";
 import styles from './empty-burger.module.css';
 
-export const EmptyBurger:FunctionComponent = () => {
+export const EmptyBurger: FunctionComponent<{ burgerStyle: string }> = (props) => {
 
   return (
-    <div className={styles.burgerbox}  >
+    <div className={props.burgerStyle}  >
       <div className={styles.element}>
         <h2 className={`${styles.textalign} text text_type_main-large`} >Собери</h2>
       </div>

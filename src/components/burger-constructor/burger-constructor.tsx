@@ -16,7 +16,7 @@ import { getCookie, refreshMainToken } from '../../utils/utils';
 import Api from '../../utils/Api';
 import { useHistory } from 'react-router-dom';
 import { EmptyBurger } from '../empty-burger/empty-burger';
-import { notDeepStrictEqual } from 'assert';
+
 
 
 export const BurgerConstructor: FunctionComponent = () => {
@@ -25,7 +25,7 @@ export const BurgerConstructor: FunctionComponent = () => {
   const { orderButtonIsClicked, requestIsSuccessed, orderNumber } = useSelector(state => state.currentOrder);
   const { ingredients } = useSelector(state => state.burgerData);
   const { elements, bun } = useSelector(state => state.constructorState);
-  console.log(elements)
+
   const token = getCookie('token')
   const refresh = getCookie('refreshToken')
   ///вычисляем значения для ключей
@@ -79,12 +79,12 @@ export const BurgerConstructor: FunctionComponent = () => {
 
   const style = isDrag ? consructorStyles.burgerconstructor__dropconteiner : consructorStyles.burgerconstructor__conteiner
   const cartStyle = elements.length >= 6 ? consructorStyles.burgerconstructor__elementswithscroll : consructorStyles.burgerconstructor__elements
-
+  const emptyBurgerStyles = !calculateCost(elements, bun.price) ? consructorStyles.burgerbox    : consructorStyles.burgerboxinvisible  ;
 
 
   return (
       <div ref={dropTarget} className={`pl-4   ml-10 pt-25 ${style}`}>
-
+        <EmptyBurger burgerStyle={emptyBurgerStyles} />
           { bun && bun._id && Array.of(bun).map((item, index) => (
           <ConstructorElement key={index} type="top" isLocked={true} text={`${item.name} (верх)`} price={item.price} thumbnail={item.image_mobile} />
         ))
