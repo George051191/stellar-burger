@@ -2,7 +2,7 @@ import React, { FunctionComponent } from "react";
 import styles from './order-stuff.module.css';
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import { IngredientCard } from "../ingredient-card/ingredient-card";
-import { useParams } from "react-router-dom";
+import { useParams, useLocation } from "react-router-dom";
 import { useSelector } from "../../services/types/hooks";
 import { TIngredient } from "../../services/types/data";
 import { calculateCost } from "../../utils/utils";
@@ -12,14 +12,17 @@ import { formatDate } from '../../utils/utils';
 export const OrderStuff: FunctionComponent = () => {
   const { id } = useParams<{ id: string }>()
   const { ordersData } = useSelector(state => state.ordersFeed);
-  const { ingredients } = useSelector(state => state.burgerData)
+  const { ingredients } = useSelector(state => state.burgerData);
+  const { order } = useSelector(state => state.userFeed);
+  const location = useLocation();
 
-  const currentFeedOrder = ordersData && ordersData.orders.find(item => {
+  const currentFeedElements = location.pathname.includes('profile') ? order : ordersData;
+
+  const currentFeedOrder = currentFeedElements && currentFeedElements.orders.find(item => {
     return item._id === id
   })
 
-  console.log(ingredients)
-  console.log(ordersData)
+
 
   const currentItems: TIngredient[] = ingredients.filter(item => {
     return currentFeedOrder !== undefined && currentFeedOrder !== null && currentFeedOrder.ingredients.indexOf(item._id) > -1
