@@ -3,6 +3,16 @@
     display: flex;
     flex-direction: row;
     width: 1260px;
+    animation: preload .5s ease;
+}
+
+@keyframes preload {
+    0% {
+        transform: scale(0.2);
+    }
+    100% {
+        transform: scale(1);
+    }
 }
 
 .navmenu {

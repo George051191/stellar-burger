@@ -3,4 +3,14 @@
     flex-direction: row;
     align-items: start;
     justify-content: center;
+    animation: preload .5s ease;
+}
+
+@keyframes preload {
+    0% {
+        transform: scale(0.2);
+    }
+    100% {
+        transform: scale(1);
+    }
 }
