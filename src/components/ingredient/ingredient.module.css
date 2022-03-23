@@ -25,4 +25,9 @@
 .link {
     color: inherit;
     text-decoration: none;
+    transition: .6s;
+}
+
+.link:hover {
+    transform: scale(1.1);
 }

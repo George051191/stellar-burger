@@ -54,6 +54,8 @@
         ]
     },
     "devDependencies": {
+        "@types/react-transition-group": "^4.4.4",
+        "react-transition-group": "^4.4.2",
         "redux-devtools-extension": "^2.13.9"
     }
 }
