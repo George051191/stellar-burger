@@ -1,10 +1,12 @@
-import {  WS_CONNECTION_CLOSED,  WS_SEND_MESSAGE } from "../constants";
+import { WS_CONNECTION_CLOSED, WS_SEND_MESSAGE } from "../constants";
 import { AnyAction, MiddlewareAPI } from "redux";
 import { getCookie } from "../../utils/utils";
 
-
-
-export const socketMiddleware = (wsUrl: string, wsActions: { [key in any]: any }, isAuth?: boolean) => {
+export const socketMiddleware = (
+  wsUrl: string,
+  wsActions: { [key in any]: any },
+  isAuth?: boolean
+) => {
   return (store: MiddlewareAPI) => {
     let socket: WebSocket | null = null;
 
@@ -12,33 +14,32 @@ export const socketMiddleware = (wsUrl: string, wsActions: { [key in any]: any }
       const { dispatch } = store;
       const { type, payload } = action;
       const { wsStart, wsSuccess, wsError, wsMessage, wsClose } = wsActions;
-      const accessToken = isAuth && getCookie('token')
+      const accessToken = isAuth && getCookie("token");
       if (type === wsStart) {
-        socket = isAuth ? new WebSocket(`${wsUrl}?token=${accessToken}`) : new WebSocket(`${wsUrl}/all`);
+        socket = isAuth
+          ? new WebSocket(`${wsUrl}?token=${accessToken}`)
+          : new WebSocket(`${wsUrl}/all`);
       }
 
-
       if (socket) {
-
         // функция, которая вызывается при открытии сокета
-        socket.onopen = event => {
-          dispatch({ type:wsSuccess, payload: event });
-
+        socket.onopen = (event) => {
+          dispatch({ type: wsSuccess, payload: event });
         };
 
         // функция, которая вызывается при ошибке соединения
-        socket.onerror = event => {
+        socket.onerror = (event) => {
           dispatch({ type: wsError, payload: event });
         };
 
         // функция, которая вызывается при получении события от сервера
-        socket.onmessage = event => {
-          const data = JSON.parse(event.data)
+        socket.onmessage = (event) => {
+          const data = JSON.parse(event.data);
 
           dispatch({ type: wsMessage, payload: data });
         };
         // функция, которая вызывается при закрытии соединения
-        socket.onclose = event => {
+        socket.onclose = (event) => {
           dispatch({ type: WS_CONNECTION_CLOSED, payload: event });
         };
 
@@ -49,7 +50,7 @@ export const socketMiddleware = (wsUrl: string, wsActions: { [key in any]: any }
         }
 
         if (type === wsClose) {
-          socket.close()
+          socket.close();
         }
       }
 

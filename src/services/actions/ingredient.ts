@@ -10,6 +10,6 @@ export interface IClickOnCloseButtonAction {
   readonly type: typeof CLICK_ON_CLOSE_BUTTON;
 }
 
-export type TIngredientActions = IClickOnIngredientAction | IClickOnCloseButtonAction;
-
-
+export type TIngredientActions =
+  | IClickOnIngredientAction
+  | IClickOnCloseButtonAction;

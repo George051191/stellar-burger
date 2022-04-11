@@ -1,6 +1,11 @@
-import { ADD_ITEM, ADD_BUN, DELETE_INGREDIENT, REORDER_INGREDIENTS, CLEAN_STATE } from "../constants";
+import {
+  ADD_ITEM,
+  ADD_BUN,
+  DELETE_INGREDIENT,
+  REORDER_INGREDIENTS,
+  CLEAN_STATE,
+} from "../constants";
 import { TIngredient } from "../types/data";
-
 
 export interface IAddItemAction {
   readonly type: typeof ADD_ITEM;
@@ -26,5 +31,9 @@ export interface ICleanStateAction {
   readonly type: typeof CLEAN_STATE;
 }
 
-export type TBurgerConstructorActions = IAddItemAction | IAddBunAction | IDeleteIngredientAction | IReorderIngredientsAction | ICleanStateAction;
-
+export type TBurgerConstructorActions =
+  | IAddItemAction
+  | IAddBunAction
+  | IDeleteIngredientAction
+  | IReorderIngredientsAction
+  | ICleanStateAction;

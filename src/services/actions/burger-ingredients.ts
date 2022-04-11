@@ -1,7 +1,16 @@
 import Api from "../../utils/Api";
-import { BURGER_DATA_REQUEST, BURGER_DATA_SUCCESS, BURGER_DATA_ERROR, ADD_AMMOUNT, DECREASE_AMOUNT, CLEAN_INGREDIENTS_AMOUNTS } from "../constants";
+import {
+  BURGER_DATA_REQUEST,
+  BURGER_DATA_SUCCESS,
+  BURGER_DATA_ERROR,
+  ADD_AMMOUNT,
+  DECREASE_AMOUNT,
+  CLEAN_INGREDIENTS_AMOUNTS,
+} from "../constants";
 import { TIngredient } from "../types/data";
 import { AppThunk, TAppDispatch } from "../types";
+import { BASEURL } from "../../utils/utils";
+import axios from "axios";
 
 export interface IBurgerDataRequest {
   readonly type: typeof BURGER_DATA_REQUEST;
@@ -30,25 +39,28 @@ export interface ICleanIngredientsAmount {
   readonly type: typeof CLEAN_INGREDIENTS_AMOUNTS;
 }
 
-export type TBurgerIngredientsActions = IBurgerDataRequest | IBurgerDataSuccessAction | IBurgerDataErrorAction | IAddAmountAction | IDecreaseAmountAction | ICleanIngredientsAmount;
-
-
-
-
+export type TBurgerIngredientsActions =
+  | IBurgerDataRequest
+  | IBurgerDataSuccessAction
+  | IBurgerDataErrorAction
+  | IAddAmountAction
+  | IDecreaseAmountAction
+  | ICleanIngredientsAmount;
 
 
 
 export const getBurgerData: AppThunk = () => {
   return function (dispatch: TAppDispatch) {
-    dispatch({ type: BURGER_DATA_REQUEST })
-    Api.getBurgerIngredientsData()
-      .then(res => {
+    dispatch({ type: BURGER_DATA_REQUEST });
+      axios.get(`${BASEURL}ingredients`)
+        .then((res) => {
         dispatch({
           type: BURGER_DATA_SUCCESS,
-          data: res.data,
-        })
+          data: res.data.data,
+        });
       })
-      .catch(err => { dispatch({ type: BURGER_DATA_ERROR }) })
-  }
-}
-
+      .catch((err) => {
+        dispatch({ type: BURGER_DATA_ERROR });
+      });
+  };
+};

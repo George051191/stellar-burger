@@ -1,4 +1,8 @@
-import { TypedUseSelectorHook, useSelector as selectorHook, useDispatch as dispatchHook } from "react-redux";
+import {
+  TypedUseSelectorHook,
+  useSelector as selectorHook,
+  useDispatch as dispatchHook,
+} from "react-redux";
 import { TRootState } from ".";
 import { TAppDispatch, AppThunk } from ".";
 

@@ -1,13 +1,13 @@
-import React, { FunctionComponent } from 'react';
-import { DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
-import itemStyles from './constructor-item.module.css';
-import { useDrag, useDrop } from 'react-dnd';
-import { REORDER_INGREDIENTS } from '../../services/constants/index'
-import { useDispatch, useSelector } from '../../services/types/hooks';
-import { IConstructorItem } from '../../utils/interfaces';
+import React, { FunctionComponent } from "react";
+import { DragIcon } from "@ya.praktikum/react-developer-burger-ui-components";
+import itemStyles from "./constructor-item.module.css";
+import { useDrag, useDrop } from "react-dnd";
+import { REORDER_INGREDIENTS } from "../../services/constants/index";
+import { useDispatch, useSelector } from "../../services/types/hooks";
+import { IConstructorItem } from "../../utils/interfaces";
 
 export const ConstructorItem: FunctionComponent<IConstructorItem> = (props) => {
-  const { elements } = useSelector(state => state.constructorState);
+  const { elements } = useSelector((state) => state.constructorState);
   const ref = React.useRef<HTMLLIElement>(null);
   const dispatch = useDispatch();
   const { id, index } = props;
@@ -21,19 +21,18 @@ export const ConstructorItem: FunctionComponent<IConstructorItem> = (props) => {
     dispatch({ type: REORDER_INGREDIENTS, data: newCards });
   }
 
-
   const [{ opacity }, drag] = useDrag({
-    type: 'element',
+    type: "element",
     item: { id, index },
-    collect: monitor => ({
-      opacity: monitor.isDragging() ? 0.5 : 1
-    })
-  })
+    collect: (monitor) => ({
+      opacity: monitor.isDragging() ? 0.5 : 1,
+    }),
+  });
 
   const [{ isHover }, drop] = useDrop({
-    accept: 'element',
-    collect: monitor => ({ isHover: monitor.isOver() }),
-    hover(item: { id: number, index: number }) {
+    accept: "element",
+    collect: (monitor) => ({ isHover: monitor.isOver() }),
+    hover(item: { id: number; index: number }) {
       if (item.index === index) {
         return;
       }
@@ -41,20 +40,20 @@ export const ConstructorItem: FunctionComponent<IConstructorItem> = (props) => {
         return;
       }
       moveCard(item.index, index);
-      item.index = index
-    }
-  })
+      item.index = index;
+    },
+  });
 
-  const itemStyle = isHover ? itemStyles.constructoritem__hoverelement : itemStyles.constructoritem__element
+  const itemStyle = isHover
+    ? itemStyles.constructoritem__hoverelement
+    : itemStyles.constructoritem__element;
 
-
-  drag(drop(ref))
+  drag(drop(ref));
 
   return (
     <li ref={ref} className={`mt-4 ${itemStyle}`} style={{ opacity }}>
-      <DragIcon type='primary' />
+      <DragIcon type="primary" />
       {props.children}
     </li>
-  )
-}
-
+  );
+};

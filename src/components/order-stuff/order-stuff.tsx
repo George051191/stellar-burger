@@ -1,66 +1,78 @@
 import React, { FunctionComponent } from "react";
-import styles from './order-stuff.module.css';
+import styles from "./order-stuff.module.css";
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import { IngredientCard } from "../ingredient-card/ingredient-card";
 import { useParams, useLocation } from "react-router-dom";
 import { useSelector } from "../../services/types/hooks";
 import { TIngredient } from "../../services/types/data";
 import { calculateCost } from "../../utils/utils";
-import { formatDate } from '../../utils/utils';
+import { formatDate } from "../../utils/utils";
 
 ///компонент для отображения состава заказа в модальноим окне
 export const OrderStuff: FunctionComponent = () => {
-  const { id } = useParams<{ id: string }>()
-  const { ordersData } = useSelector(state => state.ordersFeed);
-  const { ingredients } = useSelector(state => state.burgerData);
-  const { order } = useSelector(state => state.userFeed);
+  const { id } = useParams<{ id: string }>();
+  const { ordersData } = useSelector((state) => state.ordersFeed);
+  const { ingredients } = useSelector((state) => state.burgerData);
+  const { order } = useSelector((state) => state.userFeed);
   const location = useLocation();
 
-  const currentFeedElements = location.pathname.includes('profile') ? order : ordersData;
+  const currentFeedElements = location.pathname.includes("profile")
+    ? order
+    : ordersData;
 
-  const currentFeedOrder = currentFeedElements && currentFeedElements.orders.find(item => {
-    return item._id === id
-  })
+  const currentFeedOrder =
+    currentFeedElements &&
+    currentFeedElements.orders.find((item) => {
+      return item._id === id;
+    });
 
+  const currentItems: TIngredient[] = ingredients.filter((item) => {
+    return (
+      currentFeedOrder !== undefined &&
+      currentFeedOrder !== null &&
+      currentFeedOrder.ingredients.indexOf(item._id) > -1
+    );
+  });
 
-
-  const currentItems: TIngredient[] = ingredients.filter(item => {
-    return currentFeedOrder !== undefined && currentFeedOrder !== null && currentFeedOrder.ingredients.indexOf(item._id) > -1
-  })
-
-
-
-  const totalPrice: number= currentItems.reduce((acc, item) => {
+  const totalPrice: number = currentItems.reduce((acc, item) => {
     acc = item.price + acc;
-   return acc
- }, 0)
+    return acc;
+  }, 0);
 
-
-  const style = currentFeedOrder?.status === 'done' ? `text text_type_main-default mb-15 ${styles.textgreen}` : `text text_type_main-default mb-15 ${styles.textwhite}`
-
-
-
+  const style =
+    currentFeedOrder?.status === "done"
+      ? `text text_type_main-default mb-15 ${styles.textgreen}`
+      : `text text_type_main-default mb-15 ${styles.textwhite}`;
 
   return (
     <div className={styles.conteiner}>
-      <h3 className="text text_type_main-medium mb-3" >{currentFeedOrder?.name}</h3>
-      <p className={style}>{currentFeedOrder?.status === 'done' ? 'Выполнен' : 'Готовиться'}</p>
-      <p className="text text_type_main-medium mb-6" >Состав:</p>
+      <h3 className="text text_type_main-medium mb-3">
+        {currentFeedOrder?.name}
+      </h3>
+      <p className={style}>
+        {currentFeedOrder?.status === "done" ? "Выполнен" : "Готовиться"}
+      </p>
+      <p className="text text_type_main-medium mb-6">Состав:</p>
       <div className={`${styles.ingredients} mb-10`}>
         {currentItems.map((item, index) => (
-          <IngredientCard key={index} type={item.type} images={item.image_mobile} name={item.name} price={item.price} />
+          <IngredientCard
+            key={index}
+            type={item.type}
+            images={item.image_mobile}
+            name={item.name}
+            price={item.price}
+          />
         ))}
       </div>
       <div className={styles.dateandcost}>
-        <p className="text text_type_main-default text_color_inactive" >{formatDate(currentFeedOrder?.createdAt)}</p>
+        <p className="text text_type_main-default text_color_inactive">
+          {formatDate(currentFeedOrder?.createdAt)}
+        </p>
         <div className={styles.box}>
           <p className="text text_type_digits-default mr-2">{totalPrice}</p>
           <CurrencyIcon type="primary" />
         </div>
       </div>
     </div>
-  )
-
-}
-
-
+  );
+};

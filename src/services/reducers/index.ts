@@ -1,11 +1,11 @@
-import { combineReducers } from 'redux';
-import { FeedReducer } from './feed-reducer';
-import { burgerDataReducer } from './burger-ingredients'
-import { ingredientReducer } from './ingredient';
-import { orderReducer } from './order-details';
-import { constructorReducer } from './burger-constructor';
-import { userDataReducer } from './user';
-import { userOrdersFeedReducer } from './authuser-orders-feed';
+import { combineReducers } from "redux";
+import { FeedReducer } from "./feed-reducer";
+import { burgerDataReducer } from "./burger-ingredients";
+import { ingredientReducer } from "./ingredient";
+import { orderReducer } from "./order-details";
+import { constructorReducer } from "./burger-constructor";
+import { userDataReducer } from "./user";
+import { userOrdersFeedReducer } from "./authuser-orders-feed";
 
 export const rootReducer = combineReducers({
   burgerData: burgerDataReducer,
@@ -14,5 +14,5 @@ export const rootReducer = combineReducers({
   constructorState: constructorReducer,
   userState: userDataReducer,
   ordersFeed: FeedReducer,
-  userFeed: userOrdersFeedReducer
-})
+  userFeed: userOrdersFeedReducer,
+});

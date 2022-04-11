@@ -1,14 +1,12 @@
 import { MouseEventHandler, ReactNode } from "react";
 import { TIngredient, TFeedOrder } from "../services/types/data";
 
-
 export interface IMenuItem {
   children: ReactNode;
   styles: string;
   text?: string;
   textStyles?: string;
 }
-
 
 export interface IConstructorItem {
   id: number;
@@ -29,9 +27,8 @@ export interface IModalOverlay {
   closeFunction: (evt: React.MouseEvent<HTMLDivElement>) => void;
 }
 
-
 export interface IOrderDetails {
-  number: number | null
+  number: number | null;
 }
 
 export interface IIngredientType {
@@ -53,30 +50,27 @@ export interface IIngredient {
 export interface IOrderRegistration {
   styles: string;
   cost: number;
-  clickHandler: () => void
+  clickHandler: () => void;
 }
-
 
 export interface ILocation {
   hash: string;
   pathname: string;
   search: string;
-  state: object | null
+  state: object | null;
 }
 
-
-
 export interface IResetPageProps {
-  children: ReactNode,
-  path: string,
-  redirectPath: string
-  check?: boolean
+  children: ReactNode;
+  path: string;
+  redirectPath: string;
+  check?: boolean;
 }
 
 export interface IOrderFeedElement {
-  styles: string,
-  status?: string,
-  path: string,
-  order: TFeedOrder,
-  number: number
+  styles: string;
+  status?: string;
+  path: string;
+  order: TFeedOrder;
+  number: number;
 }

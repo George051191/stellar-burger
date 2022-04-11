@@ -1,20 +1,34 @@
 import { TIngredient } from "../services/types/data";
 import Api from "./Api";
-import { formatRelative } from 'date-fns';
-import { ru } from 'date-fns/locale';
+import { formatRelative } from "date-fns";
+import { ru } from "date-fns/locale";
 
-export const uid = (): number => { return Date.now() * Math.random() }
+export const BASEURL = "https://norma.nomoreparties.space/api/";
 
-export const calculateCost = (elements: Array<TIngredient>, bunPrice: number = 0): number => {
-  return (2 * bunPrice) + elements.reduce((res, item) => {
-    return res + item.price
-  }, 0)
-}
+export const uid = (): number => {
+  return Date.now() * Math.random();
+};
 
-export function setCookie(name: string, value: string, props?: { [key in any]: any } | { [key in any]: never }) {
+export const calculateCost = (
+  elements: Array<TIngredient>,
+  bunPrice: number = 0
+): number => {
+  return (
+    2 * bunPrice +
+    elements.reduce((res, item) => {
+      return res + item.price;
+    }, 0)
+  );
+};
+
+export function setCookie(
+  name: string,
+  value: string,
+  props?: { [key in any]: any } | { [key in any]: never }
+) {
   props = props || {};
   let exp = props.expires;
-  if (typeof exp == 'number' && exp) {
+  if (typeof exp == "number" && exp) {
     const d = new Date();
     d.setTime(d.getTime() + exp * 1000);
     exp = props.expires = d;
@@ -23,12 +37,12 @@ export function setCookie(name: string, value: string, props?: { [key in any]: a
     props.expires = exp.toUTCString();
   }
   value = encodeURIComponent(value);
-  let updatedCookie = name + '=' + value;
+  let updatedCookie = name + "=" + value;
   for (const propName in props) {
-    updatedCookie += '; ' + propName;
+    updatedCookie += "; " + propName;
     const propValue = props[propName];
     if (propValue !== true) {
-      updatedCookie += '=' + propValue;
+      updatedCookie += "=" + propValue;
     }
   }
   document.cookie = updatedCookie;
@@ -36,8 +50,11 @@ export function setCookie(name: string, value: string, props?: { [key in any]: a
 
 export function getCookie(name: string) {
   const matches = document.cookie.match(
-    new RegExp('(?:^|; )' + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + '=([^;]*)')
-
+    new RegExp(
+      "(?:^|; )" +
+        name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, "\\$1") +
+        "=([^;]*)"
+    )
   );
 
   return matches ? decodeURIComponent(matches[1]) : undefined;
@@ -45,19 +62,14 @@ export function getCookie(name: string) {
 
 export function deleteCookie(name: string) {
   setCookie(name, "", {
-    'max-age': -1
-  })
+    "max-age": -1,
+  });
 }
 
-
-export  function refreshMainToken(res: any) {
-
-
-   setCookie('token', res.accessToken.split('Bearer ')[1]); setCookie('refreshToken', res.refreshToken)
+export function refreshMainToken(res: any) {
+  setCookie("token", res.accessToken.split("Bearer ")[1]);
+  setCookie("refreshToken", res.refreshToken);
 }
-
-
-
 
 ///меняет строку с датой из сообщеня сервера в человекочитаемую запись
 export const formatDate = (date: string | undefined) => {
@@ -66,8 +78,8 @@ export const formatDate = (date: string | undefined) => {
       locale: ru,
     });
 
-    const result =relativeDateFormat.split(' в ');
-    return result.join(', ') + ' i-GMT+3';
+    const result = relativeDateFormat.split(" в ");
+    return result.join(", ") + " i-GMT+3";
   }
 };
 

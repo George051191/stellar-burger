@@ -1,5 +1,14 @@
-import { CLICK_ON_ORDER, WS_CONNECTION_CLOSED, WS_CONNECTION_START, WS_CONNECTION_SUCCESS, WS_CONNECTION_ERROR, WS_GET_MESSAGE, WS_SEND_MESSAGE, WS_CLOSE_CONNECTION } from "../constants";
-import {  TFeedOrdersResult } from "../types/data";
+import {
+  CLICK_ON_ORDER,
+  WS_CONNECTION_CLOSED,
+  WS_CONNECTION_START,
+  WS_CONNECTION_SUCCESS,
+  WS_CONNECTION_ERROR,
+  WS_GET_MESSAGE,
+  WS_SEND_MESSAGE,
+  WS_CLOSE_CONNECTION,
+} from "../constants";
+import { TFeedOrdersResult } from "../types/data";
 
 export interface IClickOnOrder {
   readonly type: typeof CLICK_ON_ORDER;
@@ -18,7 +27,6 @@ export interface IWsConnectionSuccessAction {
   readonly type: typeof WS_CONNECTION_SUCCESS;
   payload: Event;
 }
-
 
 export interface IWsConnectionErrorAction {
   readonly type: typeof WS_CONNECTION_ERROR;
@@ -40,6 +48,9 @@ export interface IWsConnectionCloseAction {
   payload: Event;
 }
 
-export type WsActionsForReducer = IWsConnectionSuccessAction | IClickOnOrder | IWsConnectionErrorAction | IWsConnectionGetMessageAction | IWsConnectionCloseAction;
-
-
+export type WsActionsForReducer =
+  | IWsConnectionSuccessAction
+  | IClickOnOrder
+  | IWsConnectionErrorAction
+  | IWsConnectionGetMessageAction
+  | IWsConnectionCloseAction;
