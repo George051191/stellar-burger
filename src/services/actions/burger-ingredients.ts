@@ -47,20 +47,17 @@ export type TBurgerIngredientsActions =
   | IDecreaseAmountAction
   | ICleanIngredientsAmount;
 
-
-
 export const getBurgerData: AppThunk = () => {
-  return function (dispatch: TAppDispatch) {
+  return async function (dispatch: TAppDispatch) {
     dispatch({ type: BURGER_DATA_REQUEST });
-      axios.get(`${BASEURL}ingredients`)
-        .then((res) => {
-        dispatch({
-          type: BURGER_DATA_SUCCESS,
-          data: res.data.data,
-        });
-      })
-      .catch((err) => {
-        dispatch({ type: BURGER_DATA_ERROR });
+    try {
+      const data = await axios.get(`${BASEURL}ingredients`);
+      dispatch({
+        type: BURGER_DATA_SUCCESS,
+        data: data.data.data,
       });
+    } catch (error) {
+      dispatch({ type: BURGER_DATA_ERROR });
+    }
   };
 };

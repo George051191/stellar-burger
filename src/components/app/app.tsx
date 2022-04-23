@@ -48,11 +48,12 @@ const App: FunctionComponent = () => {
 
   const refresh = getCookie("refreshToken");
   const token = getCookie("token");
-
+  console.log(refresh);
   React.useEffect(() => {
     dispatch(getBurgerData());
     token !== undefined &&
       dispatch(getUserData(token, refresh, refreshMainToken));
+    console.log("fff");
   }, [dispatch]);
 
   return dataRequest ? (

@@ -13,7 +13,6 @@ import { refreshMainToken } from "../../utils/utils";
 import axios from "axios";
 import { BASEURL } from "../../utils/utils";
 
-
 export interface IOpenOrderPopupAction {
   readonly type: typeof OPEN_ORDER_POPUP;
 }
@@ -52,24 +51,27 @@ export const getOrderNumber: AppThunk = (
 ) => {
   return function (dispatch: TAppDispatch) {
     dispatch({ type: GET_ORDER_REQUEST });
-    axios.post<TOrder>(`${BASEURL}orders`,{ ingredients: idData },{  headers: {
-      "Content-Type": "application/json",
-      Authorization: "Bearer " + 'token',
-    },
-    })
+    axios
+      .post<TOrder>(
+        `${BASEURL}orders`,
+        { ingredients: idData },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + "token",
+          },
+        }
+      )
       .then((res) => {
+        dispatch({
+          type: GET_ORDER_SUCCESS,
+          data: res.data.order.number,
+          orderData: res.data,
+          result: res.data.success,
+        });
+      })
 
-      dispatch({
-        type: GET_ORDER_SUCCESS,
-        data: res.data.order.number,
-        orderData: res.data,
-        result: res.data.success,
-      });
-    })
-
-
-
-    //Api.getOrderNumber(idData, token, refresh, callback)
+      //Api.getOrderNumber(idData, token, refresh, callback)
 
       .catch((err) => {
         console.log(err);
@@ -78,16 +80,44 @@ export const getOrderNumber: AppThunk = (
   };
 };
 
+/* const refreshAuthToken = () => {
+  const token = getCookie('refreshToken')
+  axios.post(`${BASEURL}auth/token`, { token: token }, { headers: { "Content-Type": "application/json" } })
+}
+
 axios.interceptors.response.use(function (response) {
 
   return response;
-}, function (error) {
+}, async function (error) {
+  const data = await refreshAuthToken()
+  console.log(data)
 
-  console.log(error.response.status)
+
+  // axios.post(`${BASEURL}auth/token`, {token : getCookie('refreshToken') }, {  headers: { "Content-Type": "application/json" }} )
+
+
+
+
+
+
   return Promise.reject(error);
 
 
 });
+ */
+axios.post(
+  `${BASEURL}auth/token`,
+  { token: getCookie("refreshToken") },
+  { headers: { "Content-Type": "application/json" } }
+);
+
+/* refreshToken(token: string) {
+  return fetch(`${this.url}auth/token`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ token: token }),
+  }).then(this.checkResponse);
+} */
 
 /* getOrderNumber(
   arrayOfId: Array < string >,
@@ -119,5 +149,3 @@ axios.interceptors.response.use(function (response) {
       }
     });
 } */
-
-

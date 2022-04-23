@@ -7,7 +7,8 @@ import {
 } from "../constants";
 import { TBurgerConstructorActions } from "../actions/burger-consructor";
 import { TIngredient } from "../types/data";
-
+import { rootReducer } from "./index";
+import { TRootState } from "../types/index";
 type TBurgerConstructorState = {
   elements: Array<TIngredient>;
   bun: TIngredient | { [key in any]: never };

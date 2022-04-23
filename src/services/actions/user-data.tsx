@@ -155,6 +155,7 @@ export const getUserData: AppThunk = (
 ) => {
   return function (dispatch: TAppDispatch) {
     dispatch({ type: USER_DATA_REQUEST });
+
     Api.getUser(token, refresh, callback)
       .then((res) => {
         dispatch({
