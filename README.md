@@ -1,5 +1,8 @@
 # Проект Stellar-Burger
 
+![](https://github.com/George051191/stellar-burger/blob/master/src/images/Stellar-Burger_-_Google_Chrome_2022-07-05_17-26-33.gif
+)
+
 **Приложение для заказа еды в космическом ресторане**
 
 *Проект полностью выполнен с помощью фреймворка React*
